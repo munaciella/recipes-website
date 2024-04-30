@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ReactNode } from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -9,14 +10,14 @@ export const metadata: Metadata = {
   description: "Cruelty free recipes",
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
+  children: ReactNode;
+}>) => (
     <html lang="en">
       <body className={inter.className}>{children}</body>
     </html>
   );
-}
+
+  export default RootLayout;
