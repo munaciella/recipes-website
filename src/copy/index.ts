@@ -3,7 +3,7 @@ export const copy = {
       nav: {
         logo: {
           alt: "velovegans logo",
-          src: "/assets/small-original.jpg",
+          src: "/assets/logo_size-removebg-preview.png",
         },
         home: "Home",
         about: "About",
