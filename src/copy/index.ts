@@ -14,8 +14,8 @@ export const copy = {
         companyName: "VeloVegans.",
         msg: "All rights reserved.",
         socials: [
-          { href: "https://www.facebook.com", name: "Facebook" },
-          { href: "https://www.instagram.com", name: "Instagram" },
+            { href: "https://www.instagram.com", name: "Instagram" },
+          { href: "https://www.threads.com", name: "Threads" },
           { href: "https://www.x.com", name: "X" },
         ],
       },
