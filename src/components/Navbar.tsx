@@ -31,12 +31,15 @@ export const Navbar: FC = () => {
             />
           </Link>
         </li>
+        </ol>
+        <div className="flex justify-end items-center">
+        <ol className="flex justify-center items-center">
         <li className="ml-4">
           <Link href="/about" className={tabs.about ? selected : nonSelected}>
             {nav.about}
           </Link>
         </li>
-        <li className="mx-4">
+        <li className="ml-4">
           <Link
             href="/recipes"
             className={tabs.recipes ? selected : nonSelected}
@@ -44,13 +47,16 @@ export const Navbar: FC = () => {
             {nav.recipes}
           </Link>
         </li>
+        <li className="ml-4">
+          <Link
+            href="/contact"
+            className={tabs.contact ? selected : nonSelected}
+          >
+            {nav.contact}
+          </Link>
+        </li>
       </ol>
-      <button
-        onClick={() => console.log("Sign In clicked")}
-        className="bg-primary-500 px-5 py-3 mb-4 rounded-full text-lg font-normal text-gray-800 hover:text-gray-900 hover:ring-2 hover:ring-primary-500"
-      >
-        {nav.contact}
-      </button>
+      </div>
     </nav>
   );
 };

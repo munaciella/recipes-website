@@ -12,7 +12,7 @@ export const MobileNavbar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   return (
-    <nav className="w-full mb-0 mt-0 pt-4 pl-4 grid grid-col-2 sm:hidden grid-flow-col justify-between items-center">
+    <nav className="w-full mb-0 mt-0 pt-0 pl-2 grid grid-col-2 sm:hidden grid-flow-col justify-between items-center">
       {isMenuOpen && (
         <ol className="row-start-2 flex flex-col items-start text-primary-700 text-xl">
           <li className="px-2 pb-2 w-full  hover:underline">
@@ -56,7 +56,7 @@ export const MobileNavbar: FC = () => {
           </>
         )}
       </button>
-      <Link href="/" className="pt-2 row-start-1">
+      <Link href="/" className="pt-0 row-start-1">
         <img
           className="scale-110 rounded-2xl w-[30%] mb-0 mt-0 mr-4"
           src={nav.logo.src}
