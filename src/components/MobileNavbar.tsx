@@ -29,13 +29,13 @@ export const MobileNavbar: FC = () => {
             </div>
           </li>
           <li className="px-2 pb-2 w-full  hover:underline">
-            <Link href="/explore">{nav.recipes}</Link>
+            <Link href="/recipes">{nav.recipes}</Link>
             <div className="pt-2">
               <hr className="bg-gray-800 w-full" />
             </div>
           </li>
           <li className="px-2 pb-2 w-full  hover:underline">
-            <Link href="/signin">{nav.contact}</Link>
+            <Link href="/contact">{nav.contact}</Link>
             <div className="pt-2">
               <hr className="bg-gray-800 w-full" />
             </div>

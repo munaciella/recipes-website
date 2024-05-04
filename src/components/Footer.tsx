@@ -30,7 +30,17 @@ export const Footer: FC<{
   companyName: string;
 }> = ({ companyName }) => {
   return (
-    <footer className="w-full bg-primary-300 flex flex-col md:flex-row justify-between items-center py-4 px-4">
+    <footer className="w-full bg-primary-300 flex flex-col md:flex-row justify-between items-center py-2 px-4">
+        <div className="relative bottom-0 left-0 ml-2 flex items-center py-2">
+      <span className="text-secondary-900">
+        Made with <span className="text-red-500">♡</span> by
+      </span>
+      <img
+        className="w-7 ml-2"
+        src="/assets/FranIcon.png"
+        alt="Francesco's Image"
+      />
+    </div>
       <h4 className="text-secondary-900">
         &copy; {new Date().getFullYear()} {companyName} {footer.msg}
       </h4>
