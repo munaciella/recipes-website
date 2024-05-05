@@ -31,6 +31,13 @@ export const Footer: FC<{
 }> = ({ companyName }) => {
   return (
     <footer className="w-full bg-primary-300 flex flex-col md:flex-row justify-between items-center py-2 px-4">
+        <div className="relative bottom-0 mb-4 md:mb-0 md:order-first flex flex-col md:flex-row items-center">
+        <img
+          className="w-28 mb-0 mx-auto"
+          src="/assets/logo_size-removebg-preview.png"
+          alt="Company Logo"
+        />
+      </div>
         <div className="relative bottom-0 left-0 ml-2 flex items-center py-2">
       <span className="text-secondary-900">
         Made with <span className="text-red-500">♡</span> by
