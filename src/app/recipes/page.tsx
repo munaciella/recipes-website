@@ -1,10 +1,14 @@
 import React from "react";
 import { NextPage } from "next/types";
+import { copy } from "@/copy";
+
+const { description } = copy.recipesPage;
 
 const Recipespage: NextPage = () => {
   return (
     <section className="flex flex-col items-center">
-      <span className="text-2xl mt-12">Recipes</span>
+      <span className="text-2xl mt-12 text-primary-400">{description.heading.top}</span>
+      <span className="text-center text-xl mt-4">{description.heading.bottom}</span>
 
       <div className="grid grid-cols-1 justify-items-center m-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-10">
         <div className="w-full">
