@@ -4,11 +4,9 @@ import { NextPage } from "next/types";
 const Recipespage: NextPage = () => {
   return (
     <section className="flex flex-col items-center">
-      <span className="text-md mt-10">Country</span>
-      <span className="text-2xl mt-4">City Name</span>
-      <span className="text-md mt-5">Description</span>
+      <span className="text-2xl mt-12">Recipes</span>
 
-      <div className="grid grid-cols-1 justify-items-center m-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-6">
+      <div className="grid grid-cols-1 justify-items-center m-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-10">
         <div className="w-full">
           <div className="w-full rounded-lg overflow-hidden shadow-lg">
             <img src="/assets/image copy 6.png" alt="City Image 1" />
