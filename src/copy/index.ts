@@ -44,7 +44,7 @@ export const copy = {
         {
           title: 'Vegan Pasta Primavera',
           image: {
-            src: '/assets/pasta_primavera.jpg',
+            src: '/assets/vg-pasta-primavera.png',
             alt: 'Pasta Primavera',
           },
           ingredients: [
@@ -73,7 +73,7 @@ export const copy = {
         {
           title: 'Vegan Chickpea Curry',
           image: {
-            src: '/assets/chickpea_curry.jpg',
+            src: '/assets/vg-pasta-primavera.png',
             alt: 'Chickpea Curry',
           },
           ingredients: [
