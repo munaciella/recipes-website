@@ -103,7 +103,7 @@ export const copy = {
         {
           title: 'Vegan Lentil Soup',
           image: {
-            src: '/assets/lentil_soup.jpg',
+            src: '/assets/lentil-soup.png',
             alt: 'Lentil Soup',
           },
           ingredients: [
