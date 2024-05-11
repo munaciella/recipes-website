@@ -34,9 +34,11 @@ export const copy = {
     },
   },
   contact: {
+    description: {
     heading: 'Get in Touch',
     button: 'Work with me',
   },
+},
   recipesPage: {
     description: {
       heading: {

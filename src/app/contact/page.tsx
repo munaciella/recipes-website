@@ -1,5 +1,8 @@
 import React from "react";
 import { NextPage } from "next/types";
+import { copy } from "@/copy";
+
+const { description } = copy.contact;
 
 const Contactpage: NextPage = () => {
     const rowsValue: string = '6'
@@ -12,7 +15,7 @@ const Contactpage: NextPage = () => {
         method="POST"
         className='flex flex-col w-full md:w-7/12'
         >
-            <h1>Contact</h1>
+            <span>{description.heading}</span>
             <input 
             type="text" 
             name='name'
@@ -34,7 +37,7 @@ const Contactpage: NextPage = () => {
             <button 
             type='submit' 
             className='cursor-pointer text-center inline-block px-8 py-3 w-max text-base font-medium rounded-md text-white bg-gradient-to-r from-yellow-300 to-orange-600 drop-shadow-md hover:from-yellow-600 hover:to-orange-600'>
-                Work With Me
+                {description.button}
             </button>
         </form>
       </div>
