@@ -33,6 +33,10 @@ export const copy = {
       },
     },
   },
+  contact: {
+    heading: 'Get in Touch',
+    button: 'Work with me',
+  },
   recipesPage: {
     description: {
       heading: {
