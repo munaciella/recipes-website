@@ -7,8 +7,8 @@ const { description } = copy.recipesPage;
 const RecipesPage: NextPage = () => {
     return (
       <section className="flex flex-col items-center">
-        <span className="text-2xl mt-20 text-primary-400">{description.heading.top}</span>
-        <span className="text-center text-xl mt-8 ">{description.heading.bottom}</span>
+        <span className="text-2xl mt-20 text-primary-400 font-semibold">{description.heading.top}</span>
+        <span className="text-center text-xl mt-8 text-primary-400">{description.heading.bottom}</span>
   
         <div className="grid grid-cols-1 justify-items-center m-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-20 mt-10">
           {description.recipes.map(({ image, title }, idx) => (
