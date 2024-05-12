@@ -8,7 +8,7 @@ const Contactpage: NextPage = () => {
     const rowsValue: string = '6'
     const rows: number = parseInt(rowsValue)
   return (
-    <div className="flex flex-col mb-20 mx-auto p-5">
+    <div className="flex flex-col mt-4 mb-20 mx-auto p-6">
       <div className="flex justify-center items-center">
         <form 
         action="https://getform.io/f/lejxRBbj"
@@ -20,7 +20,7 @@ const Contactpage: NextPage = () => {
             type="text" 
             name='name'
             placeholder='Name'
-            className='p-2 bg-transparent border-2 rounded-md focus:outline-none'
+            className='p-2 bg-transparent border-2 rounded-md focus:outline-none text-secondary-400'
             />
             <input 
             type="email" 
@@ -36,7 +36,7 @@ const Contactpage: NextPage = () => {
             />
             <button 
             type='submit' 
-            className='cursor-pointer text-center inline-block px-8 py-3 w-max text-base font-medium rounded-md text-white bg-gradient-to-r from-yellow-300 to-orange-600 drop-shadow-md hover:from-yellow-600 hover:to-orange-600'>
+            className='cursor-pointer text-center inline-block px-8 py-3 w-max text-base font-medium rounded-md text-white bg-gradient-to-r from-secondary-300 to-secondary-600 drop-shadow-md hover:from-primary-300 hover:to-primary-600'>
                 {description.button}
             </button>
         </form>
