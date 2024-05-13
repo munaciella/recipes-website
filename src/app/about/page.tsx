@@ -8,7 +8,7 @@ const AboutPage: NextPage = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-semibold mb-4 text-center text-primary-500 mt-12">{description.heading}</h1>
-      <p className="text-lg mb-6 text-primary-400 text-center">
+      {/* <p className="text-lg mb-6 text-primary-400 text-center">
         Welcome to our vegan recipes website, where we celebrate compassion,
         health, and sustainability. We believe that every meal is an
         opportunity to make a positive impact on the world.
@@ -32,7 +32,8 @@ const AboutPage: NextPage = () => {
         Thank you for joining us on this journey towards a healthier, more
         compassionate world. Together, we can make a difference, one delicious
         vegan meal at a time.
-      </p>
+      </p> */}
+      <p className="text-lg mb-6 text-primary-400 text-center">{description.paragraph}</p>
     </div>
   );
 };
