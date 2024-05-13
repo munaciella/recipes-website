@@ -35,10 +35,17 @@ export const copy = {
   },
   contact: {
     description: {
-    heading: 'Get in Touch',
-    button: 'Work with me',
+      heading: 'Get in Touch',
+      button: 'Work with me',
+    },
   },
-},
+  about: {
+    description: {
+      heading: 'About Us',
+      paragraph:
+        'We are a group of cyclists who love exploring new places on our bikes while eating plant-based meals. Our goal is to provide easy and delicious recipes to nourish both, body and soul.',
+    },
+  },
   recipesPage: {
     description: {
       heading: {

@@ -8,11 +8,11 @@ const ContactPage: NextPage = () => {
     const rowsValue: string = '6'
     const rows: number = parseInt(rowsValue)
     return (
-        <div className="flex flex-col items-center mt-10 mb-20 mx-auto p-6 w-full">
+        <div className="flex flex-col items-center mt-12 mb-20 mx-auto p-6 w-full">
           <form 
             action="https://getform.io/f/lejxRBbj"
             method="POST"
-            className='flex flex-col w-full max-w-md text-primary-400 font-semibold rounded-md p-2'>
+            className='flex flex-col w-full max-w-md text-primary-400 text-2xl font-semibold rounded-md p-2'>
             <div className="flex justify-center">
               <span>{description.heading}</span>
             </div>
