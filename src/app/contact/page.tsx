@@ -10,7 +10,7 @@ const ContactPage: NextPage = () => {
     return (
         <div className="flex flex-col items-center mt-12 mb-20 mx-auto p-6 w-full">
           <form 
-            action="https://getform.io/f/lejxRBbj"
+            action="https://formspree.io/f/xwkgzngb"
             method="POST"
             className='flex flex-col w-full max-w-md text-primary-400 text-2xl font-semibold rounded-md p-2'>
             <div className="flex justify-center">
