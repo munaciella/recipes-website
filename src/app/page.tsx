@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
-import type { NextPage } from 'next/types';
-import { copy } from '@/copy';
+import React from "react";
+import type { NextPage } from "next/types";
+import { copy } from "@/copy";
 
 const { description } = copy.home;
 

@@ -1,21 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
-'use client';
-import { FC, ReactElement } from 'react';
-import Link from 'next/link';
-import { FaInstagram } from 'react-icons/fa';
-import { FaXTwitter, FaThreads } from 'react-icons/fa6';
-import { copy } from '@/copy';
+"use client";
+import { FC, ReactElement } from "react";
+import Link from "next/link";
+import { FaInstagram } from "react-icons/fa";
+import { FaXTwitter, FaThreads } from "react-icons/fa6";
+import { copy } from "@/copy";
 
 const { footer } = copy.common;
 
 const getIcon = (name: string): ReactElement => {
   switch (name) {
-    case 'Instagram':
+    case "Instagram":
     default:
       return <FaInstagram />;
-    case 'Threads':
+    case "Threads":
       return <FaThreads />;
-    case 'X':
+    case "X":
       return <FaXTwitter />;
   }
 };

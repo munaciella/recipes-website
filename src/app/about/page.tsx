@@ -1,6 +1,6 @@
-import React from 'react';
-import { NextPage } from 'next/types';
-import { copy } from '@/copy';
+import React from "react";
+import { NextPage } from "next/types";
+import { copy } from "@/copy";
 
 const { description } = copy.about;
 

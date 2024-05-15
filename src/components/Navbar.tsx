@@ -31,31 +31,31 @@ export const Navbar: FC = () => {
             />
           </Link>
         </li>
-        </ol>
-        <div className="flex justify-end items-center">
-        <ol className="flex justify-center items-center">
-        <li className="ml-4">
-          <Link href="/about" className={tabs.about ? selected : nonSelected}>
-            {nav.about}
-          </Link>
-        </li>
-        <li className="ml-4">
-          <Link
-            href="/recipes"
-            className={tabs.recipes ? selected : nonSelected}
-          >
-            {nav.recipes}
-          </Link>
-        </li>
-        <li className="ml-4">
-          <Link
-            href="/contact"
-            className={tabs.contact ? selected : nonSelected}
-          >
-            {nav.contact}
-          </Link>
-        </li>
       </ol>
+      <div className="flex justify-end items-center">
+        <ol className="flex justify-center items-center">
+          <li className="ml-4">
+            <Link href="/about" className={tabs.about ? selected : nonSelected}>
+              {nav.about}
+            </Link>
+          </li>
+          <li className="ml-4">
+            <Link
+              href="/recipes"
+              className={tabs.recipes ? selected : nonSelected}
+            >
+              {nav.recipes}
+            </Link>
+          </li>
+          <li className="ml-4">
+            <Link
+              href="/contact"
+              className={tabs.contact ? selected : nonSelected}
+            >
+              {nav.contact}
+            </Link>
+          </li>
+        </ol>
       </div>
     </nav>
   );

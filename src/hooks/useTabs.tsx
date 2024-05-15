@@ -13,7 +13,7 @@ export const useTabs = (): Tabs => {
     home: true,
     about: false,
     recipes: false,
-    contact: false
+    contact: false,
   });
   const pathname = usePathname();
 
@@ -24,7 +24,7 @@ export const useTabs = (): Tabs => {
           home: true,
           about: false,
           recipes: false,
-          contact: false
+          contact: false,
         });
         break;
       case "/about":
@@ -32,7 +32,7 @@ export const useTabs = (): Tabs => {
           home: false,
           about: true,
           recipes: false,
-          contact: false
+          contact: false,
         });
         break;
       case "/recipes":
@@ -40,7 +40,7 @@ export const useTabs = (): Tabs => {
           home: false,
           about: false,
           recipes: true,
-          contact: false
+          contact: false,
         });
         break;
       case "/contact":
@@ -48,7 +48,7 @@ export const useTabs = (): Tabs => {
           home: false,
           about: false,
           recipes: false,
-          contact: true
+          contact: true,
         });
         break;
       default:
@@ -56,7 +56,7 @@ export const useTabs = (): Tabs => {
           home: false,
           about: false,
           recipes: false,
-          contact: false
+          contact: false,
         });
         break;
     }
