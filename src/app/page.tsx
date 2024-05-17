@@ -6,6 +6,7 @@ import { copy } from "@/copy";
 const { description } = copy.home;
 
 const Homepage: NextPage = () => (
+  <>
   <main className="w-full lg:mx-6 m-4 max-w-6xl px-6 sm:px-4">
     <div className="flex flex-col md:flex-row items-center md:justify-between md:gap-x-8">
       <div className="max-w-3xl w-full">
@@ -31,6 +32,7 @@ const Homepage: NextPage = () => (
       </div>
     </div>
   </main>
+  </>
 );
 
 export default Homepage;

@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
-import { ReactNode } from "react";
-import { Footer, Header } from "@/components";
-import { copy } from "@/copy";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { ReactNode } from 'react';
+import { Footer, Header } from '@/components';
+import { copy } from '@/copy';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: "VeloVegans",
-  description: "Cruelty free recipes",
+  title: 'VeloVegans',
+  description: 'Cruelty free recipes',
 };
 
 const { footer } = copy.common;
