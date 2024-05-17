@@ -18,3 +18,11 @@ test("renders headings", () => {
   });
   expect(veloVegansHeading).toBeVisible();
 });
+
+test("renders paragraphs", () => {
+  renderPage(<Homepage />);
+  const veloVegansParagraph: HTMLElement = screen.getByText(
+    description.paragraph,
+  );
+  expect(veloVegansParagraph).toBeVisible();
+});
