@@ -2,7 +2,7 @@ export const copy = {
   common: {
     nav: {
       logo: {
-        alt: "velovegans logo",
+        alt: "velovegans img",
         src: "/assets/logo_size-removebg-preview.png",
       },
       home: "Home",

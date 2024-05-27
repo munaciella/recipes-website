@@ -26,3 +26,12 @@ test("renders paragraphs", () => {
   );
   expect(veloVegansParagraph).toBeVisible();
 });
+
+test("renders image", () => {
+  renderPage(<Homepage />);
+  const image: HTMLElement = screen.getByRole("img", {
+    name: description.img.alt,
+  });
+  expect(image).toHaveAttribute("alt", description.img.alt);
+  expect(image).toBeVisible();
+});
