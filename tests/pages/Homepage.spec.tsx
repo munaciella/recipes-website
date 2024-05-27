@@ -5,7 +5,7 @@ import { copy } from "@/copy";
 import { useScreenMatcher } from "@/hooks";
 
 const { description } = copy.home;
-//const { nav, footer } = copy.common;
+const { nav, footer } = copy.common;
 
 jest.mock("../../src/hooks/useScreenMatcher");
 const mockUseScreenMatcher = jest.mocked(useScreenMatcher);
@@ -34,4 +34,28 @@ test("renders image", () => {
   });
   expect(image).toHaveAttribute("alt", description.img.alt);
   expect(image).toBeVisible();
+});
+
+test("renders desktop navbar", () => {
+  renderPage(<Homepage />);
+  const navbar: HTMLElement = screen.getByRole("navigation");
+  const about: HTMLElement = screen.getByRole("link", {
+    name: /About/i,
+  });
+  const recipes: HTMLElement = screen.getByRole("link", {
+    name: /Recipes/i,
+  });
+  const contact: HTMLElement = screen.getByRole("link", {
+    name: /Contact/i,
+  });
+  const logo: HTMLElement = screen.getByRole("img", {
+    name: nav.logo.alt,
+  });
+
+  expect(navbar).toBeVisible();
+  expect(about).toBeVisible();
+  expect(recipes).toBeVisible();
+  expect(contact).toBeVisible();
+  expect(logo).toHaveAttribute("alt", nav.logo.alt);
+  expect(logo).toBeVisible();
 });
