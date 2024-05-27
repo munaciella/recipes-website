@@ -57,7 +57,7 @@ export const copy = {
         {
           title: "Vegan Pasta Primavera",
           image: {
-            src: "/assets/vg-pasta-primavera.png",
+            src: "/assets/IMG_2338 Large.png",
             alt: "Pasta Primavera",
           },
           ingredients: [
@@ -86,7 +86,7 @@ export const copy = {
         {
           title: "Vegan Chickpea Curry",
           image: {
-            src: "/assets/vg-pasta-primavera.png",
+            src: "/assets/IMG_2338 Large.png",
             alt: "Chickpea Curry",
           },
           ingredients: [
@@ -146,7 +146,7 @@ export const copy = {
         {
           title: "Vegan Spaghetti Bolognese",
           image: {
-            src: "/assets/spaghetti_bolognese.jpg",
+            src: "/assets/IMG_2338 Large.png",
             alt: "Spaghetti Bolognese",
           },
           ingredients: [
@@ -176,7 +176,7 @@ export const copy = {
         {
           title: "Vegan Thai Green Curry",
           image: {
-            src: "/assets/thai_green_curry.jpg",
+            src: "/assets/IMG_2338 Large.png",
             alt: "Thai Green Curry",
           },
           ingredients: [
@@ -204,7 +204,7 @@ export const copy = {
         {
           title: "Vegan Mushroom Risotto",
           image: {
-            src: "/assets/mushroom_risotto.jpg",
+            src: "/assets/IMG_2338 Large.png",
             alt: "Mushroom Risotto",
           },
           ingredients: [
@@ -234,7 +234,7 @@ export const copy = {
         {
           title: "Vegan Lentil Shepherd's Pie",
           image: {
-            src: "/assets/shepherds_pie.jpg",
+            src: "/assets/IMG_2338 Large.png",
             alt: "Shepherd's Pie",
           },
           ingredients: [
@@ -268,7 +268,7 @@ export const copy = {
         {
           title: "Vegan Stuffed Bell Peppers",
           image: {
-            src: "/assets/stuffed_peppers.jpg",
+            src: "/assets/IMG_2338 Large.png",
             alt: "Stuffed Bell Peppers",
           },
           ingredients: [
@@ -304,7 +304,7 @@ export const copy = {
         {
           title: "Vegan Cauliflower Wings",
           image: {
-            src: "/assets/cauliflower_wings.jpg",
+            src: "/assets/IMG_2338 Large.png",
             alt: "Cauliflower Wings",
           },
           ingredients: [
@@ -337,7 +337,7 @@ export const copy = {
         {
           title: "Vegan Chocolate Avocado Mousse",
           image: {
-            src: "/assets/chocolate_mousse.jpg",
+            src: "/assets/IMG_2338 Large.png",
             alt: "Chocolate Avocado Mousse",
           },
           ingredients: [
@@ -363,7 +363,7 @@ export const copy = {
         {
           title: "Vegan Banana Bread",
           image: {
-            src: "/assets/banana_bread.jpg",
+            src: "/assets/IMG_2338 Large.png",
             alt: "Banana Bread",
           },
           ingredients: [
@@ -398,7 +398,7 @@ export const copy = {
         {
           title: "Vegan Tofu Scramble",
           image: {
-            src: "/assets/tofu_scramble.jpg",
+            src: "/assets/IMG_2338 Large.png",
             alt: "Tofu Scramble",
           },
           ingredients: [
