@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
-import { useState, FC } from "react";
-import Link from "next/link";
-import { HiX } from "react-icons/hi";
-import { HiBars4 } from "react-icons/hi2";
-import { copy } from "@/copy";
+'use client';
+import { useState, FC } from 'react';
+import Link from 'next/link';
+import { HiX } from 'react-icons/hi';
+import { HiBars4 } from 'react-icons/hi2';
+import { copy } from '@/copy';
 
 const { nav } = copy.common;
 
@@ -12,7 +12,7 @@ export const MobileNavbar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   return (
-    <nav className="w-full mb-0 mt-0 pt-0 pl-2 grid grid-col-2 sm:hidden grid-flow-col justify-between items-center">
+    <nav className="w-full mb-0 mt-0 pt-0 pl-2 grid grid-col-2 sm:hidden grid-flow-col items-center justify-end">
       {isMenuOpen && (
         <ol className="row-start-2 flex flex-col items-start text-primary-700 text-xl">
           <li className="px-2 pb-2 w-full  hover:underline">
@@ -22,13 +22,13 @@ export const MobileNavbar: FC = () => {
             </div>
           </li>
 
-          <li className="px-2 pb-2 w-full  hover:underline">
+          <li className="px-2 pb-2 w-full hover:underline">
             <Link href="/about">{nav.about}</Link>
             <div className="pt-2">
               <hr className="bg-gray-800 w-full" />
             </div>
           </li>
-          <li className="px-2 pb-2 w-full  hover:underline">
+          <li className="px-2 pb-2 w-full hover:underline">
             <Link href="/recipes">{nav.recipes}</Link>
             <div className="pt-2">
               <hr className="bg-gray-800 w-full" />
@@ -56,9 +56,9 @@ export const MobileNavbar: FC = () => {
           </>
         )}
       </button>
-      <Link href="/" className="pt-0 row-start-1">
+      <Link href="/" className="pt-0 row-start-1 col-start-2 items-end justify-end">
         <img
-          className="scale-110 rounded-2xl w-[30%] mb-0 mt-0 mr-4"
+          className="scale-110 rounded-2xl w-[30%] mb-0 mt-0 mr-4 justify-end"
           src={nav.logo.src}
           alt={nav.logo.alt}
         />

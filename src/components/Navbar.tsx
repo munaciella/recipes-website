@@ -10,7 +10,7 @@ const { nav } = copy.common;
 export const Navbar: FC = () => {
   const tabs = useTabs();
   const classname: string =
-    "inline-flex items-center border-b-2 text-gray-900 text-lg font-medium p-4";
+    "inline-flex items-center border-b-2 text-gray-900 text-lg font-medium p-4 sm:justify-between";
   ("border-primary-500");
   const selected: string = `${classname} border-primary-500`;
   const nonSelected: string = `${classname} border-transparent hover:border-secondary-700 hover:text-secondary-800`;
