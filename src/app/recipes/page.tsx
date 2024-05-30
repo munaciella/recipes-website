@@ -1,10 +1,37 @@
-import React from "react";
+/* eslint-disable @next/next/no-img-element */
+"use client"
+import React, { useEffect, useState } from "react";
 import { NextPage } from "next/types";
 import { copy } from "@/copy";
+import { fetchRecipes } from "../../../mongodb/api"; 
 
 const { description } = copy.recipesPage;
 
+interface Recipe {
+  title: string;
+  image: { src: string; alt: string };  
+  ingredients: string[];
+  instructions: string[];
+  cookingTime: string;
+}
+
 const RecipesPage: NextPage = () => {
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+
+  useEffect(() => {
+    
+    fetchRecipes()
+    .then((data) => {
+      setRecipes(data)
+      console.log(data)
+    })
+    .catch((error) => {
+      console.error('Error fetching recipes:', error);
+    })
+  }, []);
+
+  
+
   return (
     <section className="flex flex-col items-center">
       <span className="text-2xl mt-20 text-primary-400 font-semibold">
