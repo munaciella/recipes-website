@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next/types";
 import { copy } from "@/copy";
-import { fetchRecipes } from "../../../mongodb/api"; 
+import dbConnect from "../../../lib/mongo/connection";
 
 const { description } = copy.recipesPage;
 
@@ -18,17 +18,18 @@ interface Recipe {
 const RecipesPage: NextPage = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
-  useEffect(() => {
+
+  // useEffect(() => {
     
-    fetchRecipes()
-    .then((data) => {
-      setRecipes(data)
-      console.log(data)
-    })
-    .catch((error) => {
-      console.error('Error fetching recipes:', error);
-    })
-  }, []);
+  //   GET()
+  //   .then((data) => {
+  //     setRecipes(data)
+  //     console.log(data)
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error fetching recipes:', error);
+  //   })
+  // }, []);
 
   
 
@@ -41,20 +42,20 @@ const RecipesPage: NextPage = () => {
         {description.heading.bottom}
       </span>
 
-      <div className="grid grid-cols-1 justify-items-center m-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-20 mt-10">
-        {description.recipes.map(({ image, title }, idx) => (
-          <div key={idx} className="w-full">
+       <div className="grid grid-cols-1 justify-items-center m-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-20 mt-10">
+         {description.recipes.map(({ image, title }, idx) => (
+           <div key={idx} className="w-full">
             <div className="w-full rounded-lg overflow-hidden shadow-lg">
-              <img
-                src={image.src}
-                alt={image.alt}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <span className="block text-primary-500 mt-4">{title}</span>
-          </div>
-        ))}
-      </div>
+               <img
+                 src={image.src}
+                 alt={image.alt}
+                 className="w-full h-full object-cover"
+               />
+             </div>
+             <span className="block text-primary-500 mt-4">{title}</span>
+           </div>
+         ))}
+       </div>
     </section>
   );
 };
