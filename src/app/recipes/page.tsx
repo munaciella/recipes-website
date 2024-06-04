@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next/types";
 import { copy } from "@/copy";
-import dbConnect from "../../../lib/mongo/connection";
 
 const { description } = copy.recipesPage;
 
