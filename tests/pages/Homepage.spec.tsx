@@ -59,3 +59,38 @@ test("renders desktop navbar", () => {
   expect(logo).toHaveAttribute("alt", nav.logo.alt);
   expect(logo).toBeVisible();
 });
+
+test("renders mobile navbar", () => {
+  mockUseScreenMatcher.mockReturnValue({ screenMatches: false });
+  renderPage(<Homepage />);
+  const navbar: HTMLElement = screen.getByRole("navigation");
+  const about: HTMLElement = screen.getByRole("link", {
+    name: /About/i,
+  });
+  const recipes: HTMLElement = screen.getByRole("link", {
+    name: /Recipes/i,
+  });
+  const contact: HTMLElement = screen.getByRole("link", {
+    name: /Contact/i,
+  });
+  const logo: HTMLElement = screen.getByRole("img", {
+    name: nav.logo.alt,
+  });
+
+  expect(navbar).toBeVisible();
+  expect(about).toBeVisible();
+  expect(recipes).toBeVisible();
+  expect(contact).toBeVisible();
+  expect(logo).toHaveAttribute("alt", nav.logo.alt);
+  expect(logo).toBeVisible();
+  fireEvent.click(about);
+  fireEvent.click(recipes);
+  fireEvent.click(contact);
+  fireEvent.click(logo);
+  mockUseScreenMatcher.mockRestore();
+  expect(navbar).not.toBeVisible();
+  expect(about).not.toBeVisible();
+  expect(recipes).not.toBeVisible();
+  expect(contact).not.toBeVisible();
+  expect(logo).not.toBeVisible();
+});
