@@ -92,3 +92,28 @@ test("renders mobile navbar", () => {
   expect(logo).toHaveAttribute("alt", nav.logo.alt);
   expect(logo).toBeVisible();
 });
+
+test("renders footer", () => {
+  renderPage(<Homepage />);
+  const footerElement: HTMLElement = screen.getByRole("contentinfo");
+  const copyrightElement: HTMLElement = screen.getByRole("heading", {
+    name: "© 2024 VeloVegans. All rights reserved.",
+  });
+  
+  const socialInstagram = screen.getByRole("link", {
+    name: "Instagram"
+  });
+  const socialThreads = screen.getByRole("link", {
+    name: "Threads"
+    });
+
+    const socialX = screen.getByRole("link", {
+    name: "X"
+    })
+
+    expect(footerElement).toBeVisible();
+    expect(copyrightElement).toBeVisible(); 
+    expect(socialInstagram).toBeVisible();
+    expect(socialThreads).toBeVisible();
+    expect(socialX).toBeVisible();
+  })
