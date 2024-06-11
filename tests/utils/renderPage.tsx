@@ -16,7 +16,7 @@ type Overrides = {};
 export const renderPage = (
   children: ReactNode,
   overrides?: Overrides,
-  options?: Omit<RenderOptions, "queries">
+  options?: Omit<RenderOptions, "queries">,
 ) => {
   return render(<RootLayout>{children}</RootLayout>, options);
 };

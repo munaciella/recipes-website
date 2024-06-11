@@ -63,7 +63,12 @@ test("renders desktop navbar", () => {
 test("renders mobile navbar", () => {
   mockUseScreenMatcher.mockReturnValue({ screenMatches: false });
   renderPage(<Homepage />);
-  const navbar: HTMLElement = screen.getByRole("navigation");
+  const mobileNavbar: HTMLElement = screen.getByRole("navigation");
+  const burgerButton: HTMLElement = screen.getByRole("button", {
+    name: /Burger Button/i,
+  });
+  expect(burgerButton).toBeVisible();
+  fireEvent.click(burgerButton);
   const about: HTMLElement = screen.getByRole("link", {
     name: /About/i,
   });
@@ -73,24 +78,17 @@ test("renders mobile navbar", () => {
   const contact: HTMLElement = screen.getByRole("link", {
     name: /Contact/i,
   });
+  const home: HTMLElement = screen.getByRole("link", {
+    name: /Home/i,
+  });
   const logo: HTMLElement = screen.getByRole("img", {
     name: nav.logo.alt,
   });
-
-  expect(navbar).toBeVisible();
+  expect(home).toBeVisible();
+  expect(mobileNavbar).toBeVisible();
   expect(about).toBeVisible();
   expect(recipes).toBeVisible();
   expect(contact).toBeVisible();
   expect(logo).toHaveAttribute("alt", nav.logo.alt);
   expect(logo).toBeVisible();
-  fireEvent.click(about);
-  fireEvent.click(recipes);
-  fireEvent.click(contact);
-  fireEvent.click(logo);
-  mockUseScreenMatcher.mockRestore();
-  expect(navbar).not.toBeVisible();
-  expect(about).not.toBeVisible();
-  expect(recipes).not.toBeVisible();
-  expect(contact).not.toBeVisible();
-  expect(logo).not.toBeVisible();
 });

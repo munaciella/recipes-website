@@ -1,7 +1,6 @@
 // import clientPromise from './connection';
 // import { NextApiRequest, NextApiResponse } from 'next';
 
-
 // export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 //   try {
 //     const client = await clientPromise;
