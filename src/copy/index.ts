@@ -54,11 +54,11 @@ export const copy = {
           }
         },
         {
-          name: "Threads",
-          href: "https://www.threads.com",
+          name: "What The Health",
+          href: "https://www.whatthehealthfilm.com/",
           img: {
-            src: "/assets/threads.png",
-            alt: "Threads",
+            src: "/assets/what_the_health.png",
+            alt: "What The Health",
           }
         },
         {
