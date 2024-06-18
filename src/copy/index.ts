@@ -49,7 +49,7 @@ export const copy = {
           name: "Cowspiracy",
           href: "https://www.cowspiracy.com/",
           img: {
-            src: "/assets/image.png",
+            src: "/assets/cowspiracy.png",
             alt: "Cowspiracy",
           }
         },
