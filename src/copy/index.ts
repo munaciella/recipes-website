@@ -62,19 +62,19 @@ export const copy = {
           }
         },
         {
-          name: "X",
-          href: "https://www.x.com",
+          name: "This Is Vegan Propaganda",
+          href: "https://earthlinged.org/",
           img: {
-            src: "/assets/x.png",
-            alt: "X",
+            src: "/assets/image.png",
+            alt: "This Is Vegan Propaganda",
           }
         },
         {
-          name: "X",
-          href: "https://www.x.com",
+          name: "Forks Over Knives",
+          href: "https://www.forksoverknives.com/",
           img: {
-            src: "/assets/x.png",
-            alt: "X",
+            src: "/assets/forks-over-knives.png",
+            alt: "Forks Over Knives",
           }
         },
       ]
