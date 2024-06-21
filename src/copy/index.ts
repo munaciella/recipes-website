@@ -65,7 +65,7 @@ export const copy = {
           name: "This Is Vegan Propaganda",
           href: "https://earthlinged.org/",
           img: {
-            src: "/assets/image.png",
+            src: "/assets/vegan-propaganda.png",
             alt: "This Is Vegan Propaganda",
           }
         },
