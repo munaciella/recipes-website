@@ -17,18 +17,6 @@ interface Recipe {
 const RecipesPage: NextPage = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
-  // useEffect(() => {
-
-  //   GET()
-  //   .then((data) => {
-  //     setRecipes(data)
-  //     console.log(data)
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error fetching recipes:', error);
-  //   })
-  // }, []);
-
   return (
     <section className="flex flex-col items-center">
       <span className="text-2xl mt-20 text-primary-400 font-semibold">
@@ -38,7 +26,7 @@ const RecipesPage: NextPage = () => {
         {description.heading.bottom}
       </span>
 
-      <div className="grid grid-cols-1 justify-items-center m-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-20 mt-10">
+      <div className="grid grid-cols-1 justify-items-center m-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-20 mt-20">
         {description.recipes.map(({ image, title }, idx) => (
           <div key={idx} className="w-full">
             <div className="w-full rounded-lg overflow-hidden shadow-lg">
@@ -48,7 +36,7 @@ const RecipesPage: NextPage = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <span className="block text-primary-500 mt-4">{title}</span>
+            <span className="block text-primary-500 mt-4 mb-2">{title}</span>
           </div>
         ))}
       </div>
