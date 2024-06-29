@@ -2,7 +2,7 @@ import React from "react";
 import { NextPage } from "next/types";
 import { copy } from "@/copy";
 
-const { description } = copy.contact;
+const { contactDescription } = copy.contact;
 
 const ContactPage: NextPage = () => {
   const rowsValue: string = "6";
@@ -14,14 +14,14 @@ const ContactPage: NextPage = () => {
         method="POST"
         className="flex flex-col w-full max-w-md text-primary-400 text-2xl font-semibold rounded-md p-2"
       >
-        <div className="flex justify-center">
-          <span>{description.heading}</span>
+        <div className="flex justify-center mt-4">
+          <h1>{contactDescription.heading}</h1>
         </div>
         <input
           type="text"
           name="name"
           placeholder="Name"
-          className="p-2 bg-transparent border-2 rounded-md focus:outline-none mt-2"
+          className="p-2 bg-transparent border-2 rounded-md focus:outline-none mt-6"
         />
         <input
           type="email"
@@ -40,7 +40,7 @@ const ContactPage: NextPage = () => {
             type="submit"
             className="cursor-pointer inline-block px-8 py-3 text-base font-medium rounded-md text-white bg-gradient-to-r from-secondary-300 to-secondary-600 shadow-md hover:from-primary-300 hover:to-primary-600"
           >
-            {description.button}
+            {contactDescription.button}
           </button>
         </div>
       </form>

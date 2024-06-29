@@ -34,7 +34,7 @@ export const copy = {
     },
   },
   contact: {
-    description: {
+    contactDescription: {
       heading: "Get in Touch",
       button: "Work with me",
     },
