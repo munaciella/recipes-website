@@ -81,7 +81,7 @@ export const copy = {
     },
   },
   recipesPage: {
-    description: {
+    recipesDescription: {
       heading: {
         top: "Recipes",
         bottom:

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { NextPage } from "next/types";
 import { copy } from "@/copy";
 
-const { description } = copy.recipesPage;
+const { recipesDescription } = copy.recipesPage;
 
 interface Recipe {
   title: string;
@@ -19,15 +19,15 @@ const RecipesPage: NextPage = () => {
 
   return (
     <section className="flex flex-col items-center">
-      <span className="text-2xl mt-20 text-primary-400 font-semibold">
-        {description.heading.top}
-      </span>
+      <h1 className="text-2xl mt-20 text-primary-400 font-semibold">
+        {recipesDescription.heading.top}
+      </h1>
       <span className="text-center text-xl mt-8 text-primary-400">
-        {description.heading.bottom}
+        {recipesDescription.heading.bottom}
       </span>
 
       <div className="grid grid-cols-1 justify-items-center m-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-20 mt-20">
-        {description.recipes.map(({ image, title }, idx) => (
+        {recipesDescription.recipes.map(({ image, title }, idx) => (
           <div key={idx} className="w-full">
             <div className="w-full rounded-lg overflow-hidden shadow-lg">
               <img

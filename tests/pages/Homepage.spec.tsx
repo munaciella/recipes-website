@@ -5,11 +5,14 @@ import { copy } from '@/copy';
 import { useScreenMatcher } from '@/hooks';
 import AboutPage from '@/app/about/page';
 import ContactPage from '@/app/contact/page';
+import RecipesPage from '@/app/recipes/page';
 
 const { description } = copy.home;
 const { nav } = copy.common;
 const { details } = copy.about;
 const { contactDescription } = copy.contact;
+const { recipesDescription } = copy.recipesPage;
+const { recipes } = copy.recipesPage.recipesDescription;
 
 jest.mock('../../src/hooks/useScreenMatcher');
 const mockUseScreenMatcher = jest.mocked(useScreenMatcher);
@@ -156,7 +159,7 @@ test('renders contact page', () => {
   //const contactForm: HTMLElement = screen.getByRole('form');
   const contactNameInput: HTMLElement = screen.getByRole('input', {
     name: 'name',
-});
+  });
   // const contactEmailInput: HTMLElement = screen.getByLabelText(
   //   'email',
   // );
@@ -175,4 +178,16 @@ test('renders contact page', () => {
   // expect(contactSubmitButton).toBeEnabled();
   // expect(contactSubmitButton).not.toBeDisabled();
   // expect(contactSubmitButton).not.toBeRequired();
+});
+
+test('renders recipes page', () => {
+  renderPage(<RecipesPage />);
+  const recipesHeading: HTMLElement = screen.getByRole('heading', {
+    name: recipesDescription.heading.top,
+  });
+  const recipesParagraph: HTMLElement = screen.getByText(
+    recipesDescription.heading.bottom
+  );
+  expect(recipesHeading).toBeVisible();
+  expect(recipesParagraph).toBeVisible();
 });
