@@ -191,3 +191,17 @@ test('renders recipes page', () => {
   expect(recipesHeading).toBeVisible();
   expect(recipesParagraph).toBeVisible();
 });
+
+// test('renders recipe page', () => {
+//   renderPage(<RecipesPage />);
+//   const recipeHeading: HTMLElement = screen.getByRole('heading', {
+//     name: recipeDescription.heading,
+//   });
+//   const recipeImage: HTMLElement = screen.getByRole('img');
+//   const recipeIngredients: HTMLElement = screen.getByRole('list');
+//   const recipeInstructions: HTMLElement = screen.getByRole('list');
+//   expect(recipeHeading).toBeVisible();
+//   expect(recipeImage).toBeVisible();
+//   expect(recipeIngredients).toBeVisible();
+//   expect(recipeInstructions).toBeVisible();
+// });
