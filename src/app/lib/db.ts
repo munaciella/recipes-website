@@ -26,50 +26,52 @@
 //     }
 // }
 
-import mongoose, { Mongoose } from "mongoose";
 
-declare global {
-  var mongoose: {
-    conn: Mongoose | null;
-    promise: Promise<Mongoose> | null;
-  };
-}
 
-global.mongoose = global.mongoose || {
-  conn: null,
-  promise: null,
-};
+// import mongoose, { Mongoose } from "mongoose";
 
-export async function dbConnect(): Promise<typeof mongoose> {
-  if (global.mongoose && global.mongoose.conn) {
-    console.log("Connected from previous");
-    return global.mongoose.conn;
-  } else {
-    try {
-      const conString = process.env.MONGO_URL as string;
+// declare global {
+//   var mongoose: {
+//     conn: Mongoose | null;
+//     promise: Promise<Mongoose> | null;
+//   };
+// }
 
-      const promise = mongoose.connect(conString, {
-        autoIndex: true,
-      });
+// global.mongoose = global.mongoose || {
+//   conn: null,
+//   promise: null,
+// };
 
-      global.mongoose = {
-        conn: await promise,
-        promise,
-      };
-      console.log("Newly connected");
+// export async function dbConnect(): Promise<typeof mongoose> {
+//   if (global.mongoose && global.mongoose.conn) {
+//     console.log("Connected from previous");
+//     return global.mongoose.conn;
+//   } else {
+//     try {
+//       const conString = process.env.MONGO_URL as string;
 
-      return await promise;
-    } catch (error: unknown) {
-      console.error("Error connecting to the database:", error);
-      throw new Error("Database connection failed");
-    }
-  }
-}
+//       const promise = mongoose.connect(conString, {
+//         autoIndex: true,
+//       });
 
-export const disconnect = () => {
-  if (!global.mongoose.conn) {
-    return;
-  }
-  global.mongoose.conn = null;
-  mongoose.disconnect();
-};
+//       global.mongoose = {
+//         conn: await promise,
+//         promise,
+//       };
+//       console.log("Newly connected");
+
+//       return await promise;
+//     } catch (error: unknown) {
+//       console.error("Error connecting to the database:", error);
+//       throw new Error("Database connection failed");
+//     }
+//   }
+// }
+
+// export const disconnect = () => {
+//   if (!global.mongoose.conn) {
+//     return;
+//   }
+//   global.mongoose.conn = null;
+//   mongoose.disconnect();
+// };

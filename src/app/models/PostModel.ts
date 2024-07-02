@@ -1,30 +1,30 @@
-import { Document, Model } from "mongoose";
-import * as Mongoose from "mongoose";
+// import { Document, Model } from "mongoose";
+// import * as Mongoose from "mongoose";
 
-const postSchema = new Mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  type: {
-    type: String,
-    required: false,
-  },
-});
-//how our post looks like
-interface IPost {
-  name: string;
-  type: string;
-}
+// const postSchema = new Mongoose.Schema({
+//   name: {
+//     type: String,
+//     required: true,
+//   },
+//   type: {
+//     type: String,
+//     required: false,
+//   },
+// });
+// //how our post looks like
+// interface IPost {
+//   name: string;
+//   type: string;
+// }
 
-interface IPostDocument extends IPost, Document {}
-interface IPostModel extends Model<IPostDocument> {}
+// interface IPostDocument extends IPost, Document {}
+// interface IPostModel extends Model<IPostDocument> {}
 
-//postSchema->Document->Model
+// //postSchema->Document->Model
 
-// const PostModel: IPostModel = Mongoose.model<IPostDocument>("post", postSchema);
+// // const PostModel: IPostModel = Mongoose.model<IPostDocument>("post", postSchema);
 
-const PostModel: IPostModel =
-  Mongoose.models.post || Mongoose.model<IPostDocument>("post", postSchema);
+// const PostModel: IPostModel =
+//   Mongoose.models.post || Mongoose.model<IPostDocument>("post", postSchema);
 
-export default PostModel;
+// export default PostModel;
