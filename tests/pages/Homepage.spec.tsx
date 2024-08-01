@@ -134,21 +134,9 @@ test('renders about page', () => {
   const cowspiracyLink = screen.getByRole('link', {
     name: 'Cowspiracy',
   });
-  // const whatTheHealthLink = screen.getByRole('link', {
-  //   name: 'What the Health',
-  // });
-  // const thisIsVeganPropagandaLink = screen.getByRole('link', {
-  //   name: 'This is Vegan Propaganda',
-  // });
-  // const forksOverKnivesLink = screen.getByRole('link', {
-  //   name: 'Forks Over Knives',
-  // });
   expect(aboutHeading).toBeVisible();
   expect(aboutParagraph).toBeVisible();
   expect(cowspiracyLink).toBeVisible();
-  //expect(whatTheHealthLink).toBeVisible();
-  //expect(thisIsVeganPropagandaLink).toBeVisible();
-  //expect(forksOverKnivesLink).toBeVisible();
 });
 
 test('renders contact page', () => {
@@ -156,28 +144,12 @@ test('renders contact page', () => {
   const contactHeading: HTMLElement = screen.getByRole('heading', {
     name: contactDescription.heading,
   });
-  //const contactForm: HTMLElement = screen.getByRole('form');
   const contactNameInput: HTMLElement = screen.getByRole('input', {
     name: 'name',
   });
-  // const contactEmailInput: HTMLElement = screen.getByLabelText(
-  //   'email',
-  // );
-  // const contactMessageInput: HTMLElement = screen.getByLabelText(
-  //   'message',
-  // );
-  // const contactSubmitButton: HTMLElement = screen.getByRole('button', {
-  //   name: contactDescription.button,
-  // });
+  
   expect(contactHeading).toBeVisible();
-  //expect(contactForm).toBeVisible();
   expect(contactNameInput).toBeVisible();
-  // expect(contactEmailInput).toBeVisible();
-  // expect(contactMessageInput).toBeVisible();
-  // expect(contactSubmitButton).toBeVisible();
-  // expect(contactSubmitButton).toBeEnabled();
-  // expect(contactSubmitButton).not.toBeDisabled();
-  // expect(contactSubmitButton).not.toBeRequired();
 });
 
 test('renders recipes page', () => {
