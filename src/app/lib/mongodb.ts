@@ -11,12 +11,14 @@ if (!process.env.MONGODB_URI) {
 }
 
 if (process.env.NODE_ENV === 'development') {
-  const globalAny: any = global;
-  if (!globalAny._mongoClientPromise) {
+  const globalWithMongoClient = global as typeof globalThis & {
+    _mongoClientPromise?: Promise<MongoClient>;
+  };
+  if (!globalWithMongoClient._mongoClientPromise) {
     client = new MongoClient(uri, options);
-    globalAny._mongoClientPromise = client.connect();
+    globalWithMongoClient._mongoClientPromise = client.connect();
   }
-  clientPromise = globalAny._mongoClientPromise;
+  clientPromise = globalWithMongoClient._mongoClientPromise;
 } else {
   client = new MongoClient(uri, options);
   clientPromise = client.connect();

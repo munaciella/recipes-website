@@ -1,4 +1,11 @@
+import { MongoClient } from 'mongodb';
+
 declare global {
-    var _mongoClientPromise: Promise<import('mongodb').MongoClient>;
+  namespace NodeJS {
+    interface Global {
+      _mongoClientPromise: Promise<MongoClient>;
+    }
   }
-  
+}
+
+export {};
