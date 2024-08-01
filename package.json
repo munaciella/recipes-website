@@ -3,15 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint:fix": "prettier --write \"./**/*.{ts,tsx}\"",
-    "test:type": "tsc --noEmit",
-    "test:unit": "jest",
-    "test:coverage": "jest --collectCoverage --",
-    "test:unit:watch": "jest --watch"
-  },
+  "dev": "next dev",
+  "build": "npm run clean && next build",
+  "start": "next start",
+  "clean": "rimraf .next",
+  "lint:fix": "prettier --write \"./**/*.{ts,tsx}\"",
+  "test:type": "tsc --noEmit",
+  "test:unit": "jest",
+  "test:coverage": "jest --collectCoverage --",
+  "test:unit:watch": "jest --watch"
+},
   "dependencies": {
     "@formspree/react": "^2.5.1",
     "dotenv": "^16.4.5",
