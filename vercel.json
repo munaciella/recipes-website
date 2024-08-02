@@ -1,7 +1,7 @@
 {
     "functions": {
-      "api/recipes": {
-        "maxDuration": 10
+      "api/recipes/route.ts": {
+        "maxDuration": 30
       }
     }
   }
