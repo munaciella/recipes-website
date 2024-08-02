@@ -1,18 +1,12 @@
-import { MongoClient, MongoClientOptions } from 'mongodb';
-
-if (process.env.NODE_ENV !== 'production') {
-  console.log('MONGODB_URI:', process.env.MONGODB_URI);
-}
+import { MongoClient } from 'mongodb';
 
 const uri = process.env.MONGODB_URI;
 if (!uri) {
   throw new Error('Please add your Mongo URI to .env.local');
 }
 
-const options: MongoClientOptions = {
-  ssl: true,
-  tlsAllowInvalidCertificates: true,
-};
+const options = {};
+
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
@@ -27,7 +21,6 @@ if (process.env.NODE_ENV === 'development') {
   } else {
     console.log('Reusing existing MongoDB connection in development mode...');
   }
-
   clientPromise = globalWithMongoClient._mongoClientPromise;
 } else {
   client = new MongoClient(uri, options);
