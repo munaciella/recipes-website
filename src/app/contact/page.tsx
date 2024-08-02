@@ -1,6 +1,7 @@
 import React from "react";
 import { NextPage } from "next/types";
 import { copy } from "@/copy";
+import { Button } from "@/components/ui/button";
 
 const { contactDescription } = copy.contact;
 
@@ -36,12 +37,12 @@ const ContactPage: NextPage = () => {
           className="p-2 mb-4 bg-transparent border-2 rounded-md focus:outline-none"
         />
         <div className="flex justify-center">
-          <button
+          <Button
             type="submit"
             className="cursor-pointer inline-block px-8 py-3 text-base font-medium rounded-md text-white bg-gradient-to-r from-secondary-300 to-secondary-600 shadow-md hover:from-primary-300 hover:to-primary-600"
           >
             {contactDescription.button}
-          </button>
+          </Button>
         </div>
       </form>
     </div>
