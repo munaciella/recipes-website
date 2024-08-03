@@ -4,6 +4,7 @@ import { FC } from "react";
 import Link from "next/link";
 import { copy } from "@/copy";
 import { useTabs } from "@/hooks";
+import { ModeToggle } from "./ModeToggle";
 
 const { nav } = copy.common;
 
@@ -56,6 +57,7 @@ export const Navbar: FC = () => {
             </Link>
           </li>
         </ol>
+        <ModeToggle />
       </div>
     </nav>
   );
