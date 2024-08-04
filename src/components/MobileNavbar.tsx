@@ -5,6 +5,7 @@ import Link from "next/link";
 import { HiX } from "react-icons/hi";
 import { HiBars4 } from "react-icons/hi2";
 import { copy } from "@/copy";
+import { ModeToggle } from "./ModeToggle";
 
 const { nav } = copy.common;
 
@@ -12,16 +13,15 @@ export const MobileNavbar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   return (
-    <nav className="w-full pl-2 grid grid-col-2 sm:hidden grid-flow-col justify-between items-center">
+    <nav className="w-full pl-2 grid grid-cols-2 md:hidden grid-flow-col justify-between items-center">
       {isMenuOpen && (
         <ol className="row-start-2 flex flex-col items-start text-primary-700 text-xl">
-          <li className="px-2 pb-2 w-full  hover:underline">
+          <li className="px-2 pb-2 w-full hover:underline">
             <Link href="/">{nav.home}</Link>
             <div className="pt-2">
               <hr className="bg-gray-800 w-full" />
             </div>
           </li>
-
           <li className="px-2 pb-2 w-full hover:underline">
             <Link href="/about">{nav.about}</Link>
             <div className="pt-2">
@@ -34,7 +34,7 @@ export const MobileNavbar: FC = () => {
               <hr className="bg-gray-800 w-full" />
             </div>
           </li>
-          <li className="px-2 pb-2 w-full  hover:underline">
+          <li className="px-2 pb-2 w-full hover:underline">
             <Link href="/contact">{nav.contact}</Link>
             <div className="pt-2">
               <hr className="bg-gray-800 w-full" />
@@ -48,11 +48,11 @@ export const MobileNavbar: FC = () => {
       >
         {isMenuOpen ? (
           <>
-            <HiX size={28} /> <span className="sr-only">X button</span>
+            <HiX size={28} /> <span className="sr-only">Close menu</span>
           </>
         ) : (
           <>
-            <HiBars4 size={28} /> <span className="sr-only">Burger button</span>
+            <HiBars4 size={28} /> <span className="sr-only">Open menu</span>
           </>
         )}
       </button>
@@ -63,6 +63,7 @@ export const MobileNavbar: FC = () => {
           alt={nav.logo.alt}
         />
       </Link>
+      <ModeToggle />
     </nav>
   );
 };

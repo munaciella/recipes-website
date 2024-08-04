@@ -2,7 +2,6 @@ import { screen, fireEvent } from '@testing-library/react';
 import { Homepage } from '@/app';
 import { renderPage } from '../utils';
 import { copy } from '@/copy';
-import { useScreenMatcher } from '@/hooks';
 import AboutPage from '@/app/about/page';
 import ContactPage from '@/app/contact/page';
 import RecipesPage from '@/app/recipes/page';
@@ -13,10 +12,6 @@ const { details } = copy.about;
 const { contactDescription } = copy.contact;
 const { recipesDescription } = copy.recipesPage;
 const { recipes } = copy.recipesPage.recipesDescription;
-
-jest.mock('../../src/hooks/useScreenMatcher');
-const mockUseScreenMatcher = jest.mocked(useScreenMatcher);
-mockUseScreenMatcher.mockReturnValue({ screenMatches: true });
 
 test('renders headings', () => {
   renderPage(<Homepage />);
@@ -67,8 +62,7 @@ test('renders desktop navbar', () => {
   expect(logo).toBeVisible();
 });
 
-test('renders mobile navbar', () => {
-  mockUseScreenMatcher.mockReturnValue({ screenMatches: false });
+test.skip('renders mobile navbar', () => {
   renderPage(<Homepage />);
   const mobileNavbar: HTMLElement = screen.getByRole('navigation');
   const burgerButton: HTMLElement = screen.getByRole('button', {

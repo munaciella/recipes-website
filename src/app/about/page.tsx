@@ -8,11 +8,11 @@ const { details } = copy.about;
 
 const AboutPage: NextPage = () => {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-semibold mb-4 text-center text-primary-500 mt-12">
+    <div className="container mx-auto px-4 py-8 mt-20">
+      <h1 className="text-2xl font-semibold mb-4 text-center text-primary-500 mt-20">
         {details.heading}
       </h1>
-      <p className="text-lg mb-6 text-primary-500 text-center mt-6 leading-relaxed">
+      <p className="text-lg mb-6 text-primary-500 text-center mt-20 leading-relaxed">
         {details.paragraph.split('\n').map((line, idx) => (
           <React.Fragment key={idx}>
             {line}

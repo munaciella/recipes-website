@@ -6,6 +6,8 @@ type Tabs = {
   about: boolean;
   recipes: boolean;
   contact: boolean;
+  signup: boolean;
+  login: boolean;
 };
 
 export const useTabs = (): Tabs => {
@@ -14,6 +16,8 @@ export const useTabs = (): Tabs => {
     about: false,
     recipes: false,
     contact: false,
+    signup: false,
+    login: false,
   });
   const pathname = usePathname();
 
@@ -25,6 +29,8 @@ export const useTabs = (): Tabs => {
           about: false,
           recipes: false,
           contact: false,
+          signup: false,
+          login: false,
         });
         break;
       case "/about":
@@ -33,6 +39,8 @@ export const useTabs = (): Tabs => {
           about: true,
           recipes: false,
           contact: false,
+          signup: false,
+          login: false,
         });
         break;
       case "/recipes":
@@ -41,6 +49,8 @@ export const useTabs = (): Tabs => {
           about: false,
           recipes: true,
           contact: false,
+          signup: false,
+          login: false,
         });
         break;
       case "/contact":
@@ -49,14 +59,37 @@ export const useTabs = (): Tabs => {
           about: false,
           recipes: false,
           contact: true,
+          signup: false,
+          login: false,
         });
         break;
+        case "/signup":
+          setTabs({
+            home: false,
+            about: false,
+            recipes: false,
+            contact: false,
+            signup: true,
+            login: false,
+          });
+          break;
+          case "/login":
+            setTabs({
+              home: false,
+              about: false,
+              recipes: false,
+              contact: false,
+              signup: false,
+              login: true,
+            });
       default:
         setTabs({
           home: false,
           about: false,
           recipes: false,
           contact: false,
+          signup: false,
+          login: false,
         });
         break;
     }
