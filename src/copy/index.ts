@@ -9,6 +9,8 @@ export const copy = {
       about: "About",
       recipes: "Recipes",
       contact: "Contact",
+      signup: "Sign Up",
+      login: "Login",
     },
     footer: {
       companyName: "VeloVegans.",

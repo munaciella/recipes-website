@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
-import { Footer, Header } from '@/components';
+import { Footer, Navbar, MobileNavbar } from '@/components';
 import { copy } from '@/copy';
 import './globals.css';
 //import "@/styles/globals.css"
@@ -32,23 +32,28 @@ const RootLayout = ({
         fontSans.variable
       )}
     >
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <link rel="icon" href="/assets/favicon.ico" />
-        <div className="h-full max-w-9xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto w-full h-full max-w-8xl flex flex-col items-center justify-between px-2 sm:px-6 lg:px-8">
-            <div className="w-full mx-auto flex flex-col items-center justify-between">
-              <Header />
-              {children}
+      <div className="flex flex-col min-h-screen">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          <MobileNavbar />
+          <main className="flex-grow mt-20">
+            <link rel="icon" href="/assets/favicon.ico" />
+            <div className="h-full max-w-9xl px-4 sm:px-6 lg:px-4 py-8 md:py-16">
+              <div className="mx-auto w-full h-full max-w-8xl flex flex-col items-center justify-between px-2 sm:px-6 lg:px-8">
+                <div className="w-full mx-auto flex flex-col items-center justify-between">
+                  {children}
+                </div>
+              </div>
             </div>
-            <Footer companyName={footer.companyName} />
-          </div>
-        </div>
-      </ThemeProvider>
+          </main>
+        </ThemeProvider>
+        <Footer companyName={footer.companyName} />
+      </div>
     </body>
   </html>
 );
