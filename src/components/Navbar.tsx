@@ -8,19 +8,21 @@ import { ModeToggle } from './ModeToggle';
 import { FaSearch } from 'react-icons/fa';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
+import { useTheme } from 'next-themes';
 
 const { nav } = copy.common;
 
 export const Navbar: FC = () => {
   const tabs = useTabs();
+  const { theme } = useTheme();
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 shadow-sm py-2 px-4 items-center justify-between flex-wrap bg-slate-50 dark:bg-slate-900 hidden md:flex">
+    <nav className="fixed top-0 left-0 w-full z-50 shadow-sm py-2 px-4 items-center justify-between flex-wrap border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-secondary hidden md:flex">
       <div className="flex items-center">
         <Link href="/" className="text-2xl font-bold flex-shrink-0">
           <img
-            className="w-[30%] scale-110"
-            src={nav.logo.src}
+            className="w-[22%] scale-150"
+            src={theme === 'dark' ? nav.logo.darkSrc : nav.logo.src}
             alt={nav.logo.alt}
           />
         </Link>
@@ -28,9 +30,9 @@ export const Navbar: FC = () => {
           <Input
             type="text"
             placeholder="Search..."
-            className="border border-gray-300 rounded-lg py-1 px-2 shadow-md dark:bg-slate-800 dark:text-white"
+            className="bg-slate-100 border-2 border-gray-300 rounded-lg py-1 px-1 shadow-md dark:bg-slate-700 dark:text-white"
           />
-          <Button className="primary ml-0.5 shadow-md text-slate-900 dark:text-white">
+          <Button className="primary ml-0.5 shadow-md text-slate-900 dark:text-white px-3">
             <FaSearch />
           </Button>
         </div>
