@@ -17,7 +17,7 @@ export const Navbar: FC = () => {
   const { theme } = useTheme();
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 shadow-sm py-2 px-4 items-center justify-between flex-wrap border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-secondary hidden md:flex">
+    <nav className="fixed top-0 left-0 w-full z-50 shadow-sm py-2 px-4 items-center justify-between flex-wrap border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-black hidden md:flex">
       <div className="flex items-center">
         <Link href="/" className="text-2xl font-bold flex-shrink-0">
           <img
@@ -30,7 +30,7 @@ export const Navbar: FC = () => {
           <Input
             type="text"
             placeholder="Search..."
-            className="bg-slate-100 border-2 border-gray-300 rounded-lg py-1 px-1 shadow-md dark:bg-slate-700 dark:text-white"
+            className="bg-slate-100 border-2 border-gray-300 rounded-lg py-1 px-1 shadow-md dark:bg-slate-800 dark:text-white"
           />
           <Button className="primary ml-0.5 shadow-md text-slate-900 dark:text-white px-3">
             <FaSearch />
@@ -40,27 +40,27 @@ export const Navbar: FC = () => {
       <div className="flex justify-end items-center space-x-4">
         <ol className="flex justify-center items-center space-x-2">
           <li>
-            <Link href="/about" className={`${tabs.about ? 'border-slate-800 dark:border-white text-gray-900 dark:text-white' : 'border-transparent hover:border-black hover:text-black dark:hover:border-white dark:hover:text-white'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
+            <Link href="/about" className={`${tabs.about ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
               {nav.about}
             </Link>
           </li>
           <li>
-            <Link href="/recipes" className={`${tabs.recipes ? 'border-slate-800 dark:border-white text-gray-900 dark:text-white' : 'border-transparent hover:border-black hover:text-black dark:hover:border-white dark:hover:text-white'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
+            <Link href="/recipes" className={`${tabs.recipes ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
               {nav.recipes}
             </Link>
           </li>
           <li>
-            <Link href="/contact" className={`${tabs.contact ? 'border-slate-800 dark:border-white text-gray-900 dark:text-white' : 'border-transparent hover:border-black hover:text-black dark:hover:border-white dark:hover:text-white'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
+            <Link href="/contact" className={`${tabs.contact ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
               {nav.contact}
             </Link>
           </li>
           <li>
-            <Link href="/signup" className={`${tabs.signup ? 'border-slate-800 dark:border-white text-gray-900 dark:text-white' : 'border-transparent hover:border-black hover:text-black dark:hover:border-white dark:hover:text-white'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
+            <Link href="/signup" className={`${tabs.signup ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
               {nav.signup}
             </Link>
           </li>
           <li>
-            <Link href="/login" className={`${tabs.login ? 'border-slate-800 dark:border-white text-gray-900 dark:text-white' : 'border-transparent hover:border-black hover:text-black dark:hover:border-white dark:hover:text-white'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
+            <Link href="/login" className={`${tabs.login ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
               {nav.login}
             </Link>
           </li>

@@ -142,7 +142,7 @@ export const MobileNavbar: FC = () => {
   };
 
   return (
-    <nav className="fixed w-full top-0 z-50 shadow-sm py-2 px-4 grid grid-cols-3 items-center bg-slate-50 dark:bg-secondary border-b border-slate-100 dark:border-slate-700 md:hidden transition-all">
+    <nav className="fixed w-full top-0 z-50 shadow-sm py-2 px-4 grid grid-cols-3 items-center bg-slate-50 dark:bg-black border-b border-slate-100 dark:border-slate-700 md:hidden transition-all">
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         className="text-primary-background px-2 mr-3"
@@ -168,12 +168,12 @@ export const MobileNavbar: FC = () => {
         <ModeToggle />
       </div>
       {isMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-slate-50 dark:bg-secondary border-t border-slate-100 dark:border-slate-700 flex flex-col items-start text-primary-700 text-xl transition-transform duration-300 transform">
+        <div className="absolute top-full left-0 w-full bg-slate-50 dark:bg-black border-t border-slate-100 dark:border-slate-800 flex flex-col items-start text-primary-700 text-xl transition-transform duration-300 transform">
           <div className="flex items-center p-4 w-full">
             <Input
               type="text"
               placeholder="Search..."
-              className="border border-slate-300 rounded-lg py-1 px-2 shadow-md dark:bg-slate-700 dark:text-white w-full"
+              className="border border-slate-300 rounded-lg py-1 px-2 shadow-md dark:bg-slate-800 dark:text-white w-full"
             />
             <Button className="primary ml-0.5 shadow-md text-slate-900 dark:text-white">
               <FaSearch />
