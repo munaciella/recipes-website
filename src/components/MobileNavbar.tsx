@@ -1,107 +1,3 @@
-// /* eslint-disable @next/next/no-img-element */
-// "use client";
-// import { useState, FC, useEffect } from "react";
-// import Link from "next/link";
-// import { HiX } from "react-icons/hi";
-// import { HiBars4 } from "react-icons/hi2";
-// import { copy } from "@/copy";
-// import { ModeToggle } from "./ModeToggle";
-// import { useTheme } from "next-themes";
-
-// const { nav } = copy.common;
-
-// export const MobileNavbar: FC = () => {
-//   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-//   const { theme } = useTheme();
-
-//   // Close menu on scroll up
-//   useEffect(() => {
-//     let lastScrollTop = 0;
-//     const handleScroll = () => {
-//       const currentScrollTop = window.scrollY;
-//       if (currentScrollTop < lastScrollTop) {
-//         setIsMenuOpen(false);
-//       }
-//       lastScrollTop = currentScrollTop;
-//     };
-
-//     window.addEventListener("scroll", handleScroll);
-//     return () => {
-//       window.removeEventListener("scroll", handleScroll);
-//     };
-//   }, []);
-
-//   return (
-//     <nav className="fixed w-full top-0 z-50 shadow-sm py-2 px-4 grid grid-cols-3 items-center bg-slate-50 dark:bg-slate-900 border-b border-gray-200 dark:border-gray-700 md:hidden">
-//       <button
-//         onClick={() => setIsMenuOpen(!isMenuOpen)}
-//         className="text-primary-500"
-//       >
-//         {isMenuOpen ? (
-//           <>
-//             <HiX size={28} /> <span className="sr-only">Close menu</span>
-//           </>
-//         ) : (
-//           <>
-//             <HiBars4 size={28} /> <span className="sr-only">Open menu</span>
-//           </>
-//         )}
-//       </button>
-//       <Link href="/" className="flex justify-center">
-//         <img
-//           className="scale-150 rounded-2xl w-[45%]"
-//           src={theme === 'dark' ? nav.logo.darkSrc : nav.logo.src}
-//           alt={nav.logo.alt}
-//         />
-//       </Link>
-//       <div className="flex justify-end">
-//         <ModeToggle />
-//       </div>
-//       {isMenuOpen && (
-//         <ol className="absolute top-full left-0 w-full bg-slate-50 dark:bg-slate-900 border-t border-gray-200 dark:border-gray-700 flex flex-col items-start text-primary-700 text-xl">
-//           <li className="px-4 py-2 w-full hover:underline">
-//             <Link href="/">{nav.home}</Link>
-//             <div className="pt-2">
-//               <hr className="bg-gray-800 w-full" />
-//             </div>
-//           </li>
-//           <li className="px-4 py-2 w-full hover:underline">
-//             <Link href="/about">{nav.about}</Link>
-//             <div className="pt-2">
-//               <hr className="bg-gray-800 w-full" />
-//             </div>
-//           </li>
-//           <li className="px-4 py-2 w-full hover:underline">
-//             <Link href="/recipes">{nav.recipes}</Link>
-//             <div className="pt-2">
-//               <hr className="bg-gray-800 w-full" />
-//             </div>
-//           </li>
-//           <li className="px-4 py-2 w-full hover:underline">
-//             <Link href="/contact">{nav.contact}</Link>
-//             <div className="pt-2">
-//               <hr className="bg-gray-800 w-full" />
-//             </div>
-//           </li>
-//           <li className="px-4 py-2 w-full hover:underline">
-//             <Link href="/signup">{nav.signup}</Link>
-//             <div className="pt-2">
-//               <hr className="bg-gray-800 w-full" />
-//             </div>
-//           </li>
-//           <li className="px-4 py-2 w-full hover:underline">
-//             <Link href="/login">{nav.login}</Link>
-//             <div className="pt-2">
-//               <hr className="bg-gray-800 w-full" />
-//             </div>
-//           </li>
-//         </ol>
-//       )}
-//     </nav>
-//   );
-// };
-
-
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { useState, FC, useEffect } from "react";
@@ -119,7 +15,16 @@ const { nav } = copy.common;
 
 export const MobileNavbar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const { theme } = useTheme();
+  const { theme, resolvedTheme } = useTheme();
+  const [logoSrc, setLogoSrc] = useState(nav.logo.src);
+
+  useEffect(() => {
+    if (theme === 'dark' || resolvedTheme === 'dark') {
+      setLogoSrc(nav.logo.darkSrc as typeof nav.logo.src);
+    } else {
+      setLogoSrc(nav.logo.src);
+    }
+  }, [theme, resolvedTheme]);
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -160,7 +65,7 @@ export const MobileNavbar: FC = () => {
       <Link href="/" className="flex justify-center" onClick={handleMenuClick}>
         <img
           className="scale-150 rounded-2xl w-[60%]"
-          src={theme === 'dark' ? nav.logo.darkSrc : nav.logo.src}
+          src={logoSrc}
           alt={nav.logo.alt}
         />
       </Link>
