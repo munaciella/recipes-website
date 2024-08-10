@@ -64,13 +64,13 @@ export const Navbar: FC = () => {
             </Link>
           </li>
           <li>
-            <Link href="/signup" className={`${tabs.signup ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
-              {nav.signup}
+            <Link href="/login" className={`${tabs.login ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
+              {nav.login}
             </Link>
           </li>
           <li>
-            <Link href="/login" className={`${tabs.login ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
-              {nav.login}
+            <Link href="/signup" className={`${tabs.signup ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
+              {nav.signup}
             </Link>
           </li>
         </ol>
