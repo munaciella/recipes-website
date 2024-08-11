@@ -9,6 +9,9 @@ import { FaSearch } from 'react-icons/fa';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { useTheme } from 'next-themes';
+import { useSupabaseAuth } from '@/context/AuthContext';
+import { supabase } from '@/lib/supabaseClient';
+import { toast } from './ui/use-toast';
 
 const { nav } = copy.common;
 
@@ -16,6 +19,24 @@ export const Navbar: FC = () => {
   const tabs = useTabs();
   const { theme, resolvedTheme } = useTheme();
   const [logoSrc, setLogoSrc] = useState(nav.logo.src);
+  const { session, setSession } = useSupabaseAuth();
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      setSession(null);
+      toast({
+        title: 'Logged out',
+        description: 'You have successfully logged out.',
+      });
+    } else {
+      toast({
+        title: 'Error',
+        description: 'There was an error logging out. Please try again.',
+        variant: 'destructive',
+      });
+    }
+  };
 
   useEffect(() => {
     if (theme === 'dark' || resolvedTheme === 'dark') {
@@ -29,11 +50,7 @@ export const Navbar: FC = () => {
     <nav className="fixed top-0 left-0 w-full z-50 shadow-sm py-2 px-4 items-center justify-between flex-wrap border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-black hidden md:flex">
       <div className="flex items-center">
         <Link href="/" className="text-2xl font-bold flex-shrink-0">
-          <img
-            className="w-[22%] scale-150"
-            src={logoSrc}
-            alt={nav.logo.alt}
-          />
+          <img className="w-[22%] scale-150" src={logoSrc} alt={nav.logo.alt} />
         </Link>
         <div className="relative flex items-center -ml-96">
           <Input
@@ -49,30 +66,58 @@ export const Navbar: FC = () => {
       <div className="flex justify-end items-center space-x-4">
         <ol className="flex justify-center items-center space-x-2 list-none">
           <li>
-            <Link href="/about" className={`${tabs.about ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
+            <Link
+              href="/about"
+              className={`${tabs.about ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}
+            >
               {nav.about}
             </Link>
           </li>
           <li>
-            <Link href="/recipes" className={`${tabs.recipes ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
+            <Link
+              href="/recipes"
+              className={`${tabs.recipes ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}
+            >
               {nav.recipes}
             </Link>
           </li>
           <li>
-            <Link href="/contact" className={`${tabs.contact ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
+            <Link
+              href="/contact"
+              className={`${tabs.contact ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}
+            >
               {nav.contact}
             </Link>
           </li>
-          <li>
-            <Link href="/login" className={`${tabs.login ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
-              {nav.login}
-            </Link>
-          </li>
-          <li>
-            <Link href="/signup" className={`${tabs.signup ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}>
-              {nav.signup}
-            </Link>
-          </li>
+          {!session ? (
+            <>
+              <li>
+                <Link
+                  href="/login"
+                  className={`${tabs.login ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}
+                >
+                  {nav.login}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/signup"
+                  className={`${tabs.signup ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}
+                >
+                  {nav.signup}
+                </Link>
+              </li>
+            </>
+          ) : (
+            <li>
+              <button
+                onClick={handleLogout}
+                className="inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary"
+              >
+                Log Out
+              </button>
+            </li>
+          )}
         </ol>
         <div className="mr-4">
           <ModeToggle />
