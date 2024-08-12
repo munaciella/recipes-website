@@ -25,16 +25,9 @@ export const Navbar: FC = () => {
     const { error } = await supabase.auth.signOut();
     if (!error) {
       setSession(null);
-      toast({
-        title: 'Logged out',
-        description: 'You have successfully logged out.',
-      });
+      toast.success('Successfully logged out');
     } else {
-      toast({
-        title: 'Error',
-        description: 'There was an error logging out. Please try again.',
-        variant: 'destructive',
-      });
+      toast.error(`Error: ${error.message}`);
     }
   };
 
