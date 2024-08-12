@@ -12,6 +12,7 @@ import { useTheme } from 'next-themes';
 import { useSupabaseAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabaseClient';
 import { toast } from './ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 const { nav } = copy.common;
 
@@ -20,12 +21,14 @@ export const Navbar: FC = () => {
   const { theme, resolvedTheme } = useTheme();
   const [logoSrc, setLogoSrc] = useState(nav.logo.src);
   const { session, setSession } = useSupabaseAuth();
+  const router = useRouter();
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
     if (!error) {
       setSession(null);
       toast.success('Successfully logged out');
+      router.push('/');
     } else {
       toast.error(`Error: ${error.message}`);
     }
@@ -92,14 +95,7 @@ export const Navbar: FC = () => {
                   {nav.login}
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/signup"
-                  className={`${tabs.signup ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}
-                >
-                  {nav.signup}
-                </Link>
-              </li>
+              
             </>
           ) : (
             <li>

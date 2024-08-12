@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
@@ -141,6 +142,10 @@ const LoginPage: NextPage = () => {
     }
   };
 
+  const handleSignUpRedirect = () => {
+    router.push('/signup'); // Adjust this path according to your routing setup
+  };
+
   return (
     <section className="flex flex-col items-center p-4 max-w-4xl mx-auto bg-background mt-20 dark:bg-background">
       <h1 className="text-4xl font-bold mb-8 mt-14 text-center">
@@ -177,6 +182,17 @@ const LoginPage: NextPage = () => {
                 Login
               </Button>
             </form>
+            <div className="mt-4 text-center">
+              <p className="text-card-foreground dark:text-card-foreground">
+                Don't have an account?{" "}
+                <button
+                  onClick={handleSignUpRedirect}
+                  className="text-primary dark:text-primary underline hover:text-primary/90 dark:hover:text-primary"
+                >
+                  Sign Up
+                </button>
+              </p>
+            </div>
           </div>
 
           {isBusinessUser && requiresBusinessCode && (
