@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { ToastProvider } from '@/components/ui/toast';
 import { Toaster } from '@/components/ui/toaster';
+import { SupabaseAuthProvider } from '@/context/AuthContext';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -22,10 +23,13 @@ export const metadata: Metadata = {
 const { footer } = copy.common;
 
 const RootLayout = ({
-  children,
-}: Readonly<{
+  children
+}: {
   children: ReactNode;
-}>) => (
+}) => {
+
+  return (
+
   <html lang="en" suppressHydrationWarning>
     <head>
       <link
@@ -73,6 +77,7 @@ const RootLayout = ({
           enableSystem
           disableTransitionOnChange
         >
+              <SupabaseAuthProvider>
             <div className="flex flex-col min-h-screen">
               <Navbar />
               <MobileNavbar />
@@ -87,11 +92,13 @@ const RootLayout = ({
               </main>
               <Footer companyName={footer.companyName} />
             </div>
+        </SupabaseAuthProvider>
         </ThemeProvider>
         <Toaster />
       </ToastProvider>
     </body>
   </html>
 );
+}
 
 export default RootLayout;
