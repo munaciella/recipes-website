@@ -30,8 +30,8 @@ export const Footer: FC<{
   companyName: string;
 }> = ({ companyName }) => {
   return (
-    <footer className="w-full bg-primary-300 flex flex-col md:flex-row justify-between items-center py-3 md:py-6 px-4 mt-20">
-      <div className="relative bottom-0 left-0 ml-2 flex items-center py-2">
+    <footer className="w-full flex flex-col md:flex-row justify-between items-center py-3 md:py-6 px-4 mt-20 md:mb-0 bg-white shadow-md border-t border-gray-200 dark:border-gray-800 dark:bg-background">
+      <div className="relative bottom-0 left-0 ml-2 flex items-center py-0">
         <span className="text-secondary-900">
           Made with <span className="text-red-500">♡</span> by
         </span>
@@ -51,7 +51,7 @@ export const Footer: FC<{
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block mr-3 text-2xl text-secondary-800 hover:text-secondary-900"
+              className="inline-block text-2xl mr-2 text-secondary-800 hover:text-secondary-900"
             >
               {icon}
               <span className="sr-only">{name}</span>

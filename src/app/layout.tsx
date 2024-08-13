@@ -81,7 +81,7 @@ const RootLayout = ({
             <div className="flex flex-col min-h-screen">
               <Navbar />
               <MobileNavbar />
-              <main className="flex-grow mt-20">
+              <main className="flex-grow mt-10">
                 <div className="h-full max-w-9xl px-4 sm:px-6 lg:px-4 py-8 md:py-16">
                   <div className="mx-auto w-full h-full max-w-8xl flex flex-col items-center justify-between px-2 sm:px-6 lg:px-8">
                     <div className="w-full mx-auto flex flex-col items-center justify-between">

@@ -43,7 +43,7 @@ export const Navbar: FC = () => {
   }, [theme, resolvedTheme]);
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 shadow-sm py-2 px-4 items-center justify-between flex-wrap border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-black hidden md:flex">
+    <nav className="fixed top-0 left-0 w-full z-50 shadow-sm py-2 px-4 items-center justify-between flex-wrap border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-background hidden md:flex">
       <div className="flex items-center">
         <Link href="/" className="text-2xl font-bold flex-shrink-0">
           <img className="w-[22%] scale-150" src={logoSrc} alt={nav.logo.alt} />
@@ -54,7 +54,7 @@ export const Navbar: FC = () => {
             placeholder="Search..."
             className="bg-slate-100 border-2 border-gray-300 rounded-lg py-1 px-1 shadow-md dark:bg-slate-800 dark:text-white"
           />
-          <Button className="primary ml-0.5 shadow-md text-slate-900 dark:text-white px-3">
+          <Button className="primary ml-0.5 shadow-md text-primary-foreground dark:text-primary-foreground px-3">
             <FaSearch />
           </Button>
         </div>

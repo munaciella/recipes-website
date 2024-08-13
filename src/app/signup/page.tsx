@@ -87,13 +87,13 @@ const SignupPage: NextPage = () => {
   };
 
   return (
-    <section className="flex flex-col items-center p-4 max-w-4xl mx-auto bg-background mt-20 dark:bg-background">
+    <section className="flex flex-col items-center p-4 max-w-4xl mx-auto bg-background mt-4 dark:bg-background">
       <h1 className="text-4xl font-bold mb-8 mt-14 text-center">Sign Up for VeloVegans</h1>
 
       {loading ? (
         <SkeletonCard />
       ) : (
-        <div className="bg-card dark:bg-card rounded-lg shadow-lg p-10 mt-8 w-full max-w-lg border border-border dark:border-border">
+        <div className="bg-card dark:bg-card rounded-lg shadow-lg p-8 mt-8 w-full max-w-lg border border-border dark:border-border">
           <h2 className="text-3xl font-bold mb-6 text-center text-card-foreground dark:text-card-foreground">
             Sign Up
           </h2>
@@ -121,7 +121,7 @@ const SignupPage: NextPage = () => {
             />
             <Input
               type="text"
-              placeholder="Enter Business Code if Business User (optional)"
+              placeholder="Business User Code (optional)"
               value={businessCode}
               onChange={(e) => setBusinessCode(e.target.value)}
               className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
