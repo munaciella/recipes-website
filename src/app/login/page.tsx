@@ -143,11 +143,11 @@ const LoginPage: NextPage = () => {
   };
 
   const handleSignUpRedirect = () => {
-    router.push('/signup'); // Adjust this path according to your routing setup
+    router.push('/signup');
   };
 
   return (
-    <section className="flex flex-col items-center p-4 max-w-4xl mx-auto bg-background mt-20 dark:bg-background">
+    <section className="flex flex-col items-center p-4 max-w-4xl mx-auto bg-background mt-4 dark:bg-background">
       <h1 className="text-4xl font-bold mb-8 mt-14 text-center">
         Login to VeloVegans
       </h1>
@@ -156,7 +156,7 @@ const LoginPage: NextPage = () => {
         <SkeletonCard />
       ) : (
         <>
-          <div className="bg-card dark:bg-card rounded-lg shadow-lg p-10 mt-8 w-full max-w-lg border border-border dark:border-border">
+          <div className="bg-card dark:bg-card rounded-lg shadow-lg p-8 mt-8 w-full max-w-lg border border-border dark:border-border">
             <h2 className="text-3xl font-bold mb-6 text-center text-card-foreground dark:text-card-foreground">
               Login
             </h2>
