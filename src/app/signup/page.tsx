@@ -87,13 +87,13 @@ const SignupPage: NextPage = () => {
   };
 
   return (
-    <section className="flex flex-col items-center p-4 max-w-4xl mx-auto bg-background mt-4 dark:bg-background">
-      <h1 className="text-4xl font-bold mb-8 mt-14 text-center">Sign Up for VeloVegans</h1>
+    <section className="flex flex-col items-center p-4 max-w-4xl mx-auto bg-background mt-8 dark:bg-background">
+      <h1 className="text-3xl lg:text-5xl md:text-3xl font-bold mb-8 mt-14 text-center">Sign Up for VeloVegans</h1>
 
       {loading ? (
         <SkeletonCard />
       ) : (
-        <div className="bg-card dark:bg-card rounded-lg shadow-lg p-8 mt-8 w-full max-w-lg border border-border dark:border-border">
+        <div className="bg-card dark:bg-background rounded-lg shadow-lg p-8 mt-8 w-full max-w-2xl border border-border dark:border-slate-700">
           <h2 className="text-3xl font-bold mb-6 text-center text-card-foreground dark:text-card-foreground">
             Sign Up
           </h2>
