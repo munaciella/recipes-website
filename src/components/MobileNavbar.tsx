@@ -1,15 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
-import { useState, FC, useEffect } from "react";
-import Link from "next/link";
-import { HiX } from "react-icons/hi";
-import { HiBars4 } from "react-icons/hi2";
-import { copy } from "@/copy";
-import { ModeToggle } from "./ModeToggle";
-import { useTheme } from "next-themes";
-import { FaSearch } from "react-icons/fa";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+'use client';
+import { useState, FC, useEffect } from 'react';
+import Link from 'next/link';
+import { HiX } from 'react-icons/hi';
+import { HiBars4 } from 'react-icons/hi2';
+import { copy } from '@/copy';
+import { ModeToggle } from './ModeToggle';
+import { useTheme } from 'next-themes';
+import { FaSearch } from 'react-icons/fa';
+import { Input } from './ui/input';
+import { Button } from './ui/button';
+import { useSupabaseAuth } from '@/context/AuthContext';
+import { supabase } from '@/lib/supabaseClient';
+import { toast } from './ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 const { nav } = copy.common;
 
@@ -17,6 +21,19 @@ export const MobileNavbar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const { theme, resolvedTheme } = useTheme();
   const [logoSrc, setLogoSrc] = useState(nav.logo.src);
+  const { session, setSession } = useSupabaseAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      setSession(null);
+      toast.success('Successfully logged out');
+      router.push('/');
+    } else {
+      toast.error(`Error: ${error.message}`);
+    }
+  };
 
   useEffect(() => {
     if (theme === 'dark' || resolvedTheme === 'dark') {
@@ -36,9 +53,9 @@ export const MobileNavbar: FC = () => {
       lastScrollTop = currentScrollTop;
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -47,7 +64,7 @@ export const MobileNavbar: FC = () => {
   };
 
   return (
-    <nav className="fixed w-full top-0 z-50 shadow-sm py-2 px-4 grid grid-cols-3 items-center bg-slate-50 dark:bg-black border-b border-slate-100 dark:border-slate-700 md:hidden transition-all">
+    <nav className="fixed w-full top-0 z-50 shadow-sm py-2 px-4 grid grid-cols-3 items-center bg-slate-50 dark:bg-background border-b border-slate-100 dark:border-slate-700 md:hidden transition-all">
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         className="text-primary-background px-2 mr-3"
@@ -86,35 +103,52 @@ export const MobileNavbar: FC = () => {
           </div>
           <ul className="list-none w-full">
             <li className="px-4 py-2 w-full hover:underline">
-              <Link href="/about" onClick={handleMenuClick}>{nav.about}</Link>
-              <div className="pt-2">
-                <hr className="bg-gray-800 w-full" />
-              </div>
+              <Link href="/recipes" onClick={handleMenuClick}>
+                {nav.recipes}
+              </Link>
+            </li>
+            <li className="pt-2">
+              <hr className="bg-gray-800 w-full" />
             </li>
             <li className="px-4 py-2 w-full hover:underline">
-              <Link href="/recipes" onClick={handleMenuClick}>{nav.recipes}</Link>
-              <div className="pt-2">
-                <hr className="bg-gray-800 w-full" />
-              </div>
+              <Link href="/about" onClick={handleMenuClick}>
+                {nav.about}
+              </Link>
+            </li>
+            <li className="pt-2">
+              <hr className="bg-gray-800 w-full" />
             </li>
             <li className="px-4 py-2 w-full hover:underline">
-              <Link href="/contact" onClick={handleMenuClick}>{nav.contact}</Link>
-              <div className="pt-2">
-                <hr className="bg-gray-800 w-full" />
-              </div>
+              <Link href="/contact" onClick={handleMenuClick}>
+                {nav.contact}
+              </Link>
             </li>
-            <li className="px-4 py-2 w-full hover:underline">
-              <Link href="/signup" onClick={handleMenuClick}>{nav.signup}</Link>
-              <div className="pt-2">
-                <hr className="bg-gray-800 w-full" />
-              </div>
+            <li className="pt-2">
+              <hr className="bg-gray-800 w-full" />
             </li>
-            <li className="px-4 py-2 w-full hover:underline">
-              <Link href="/login" onClick={handleMenuClick}>{nav.login}</Link>
-              <div className="pt-2">
-                <hr className="bg-gray-800 w-full" />
-              </div>
-            </li>
+            {!session ? (
+              <>
+                <li className="px-4 py-2 w-full hover:underline">
+                  <Link href="/login" onClick={handleMenuClick}>
+                    {nav.login}
+                  </Link>
+                </li>
+                <li className="pt-2">
+                  <hr className="bg-gray-800 w-full" />
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="px-4 py-2 w-full">
+                  <button onClick={handleLogout} className="hover:underline">
+                    Log Out
+                  </button>
+                </li>
+                <li className="pt-2">
+                  <hr className="bg-gray-800 w-full" />
+                </li>
+              </>
+            )}
           </ul>
         </div>
       )}

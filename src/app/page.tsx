@@ -1,12 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import type { NextPage } from "next/types";
+import Link from "next/link";
 import { copy } from "@/copy";
+import { Button } from "@/components/ui/button";
 
 const { description } = copy.home;
 
 const Homepage: NextPage = () => (
-  <main className="w-full lg:mx-6 m-4 max-w-6xl px-6 sm:px-4 mt-8">
+  <main className="w-full lg:mx-6 m-4 max-w-6xl px-6 sm:px-4 mt-14 md:mt-8">
     <div className="flex flex-col md:flex-row items-center md:items-start md:justify-between md:gap-x-8">
       <div className="max-w-3xl w-full">
         <div className="mx-auto max-w-prose">
@@ -20,6 +22,16 @@ const Homepage: NextPage = () => (
           <p className="mt-6 text-lg text-left leading-8 text-secondary-500 sm:text-xl lg:text-2xl">
             {description.paragraph}
           </p>
+          <div className="mt-8 flex flex-col space-y-4">
+            <Link href="/login" passHref>
+              <Button className="w-full md:w-auto">Get Started</Button>
+            </Link>
+            <Link href="/recipes" passHref>
+              <Button variant="outline" className="w-full md:w-auto">
+                Browse Recipes
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
       <div className="pt-2 md:pt-0">

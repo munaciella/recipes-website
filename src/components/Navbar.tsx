@@ -63,18 +63,18 @@ export const Navbar: FC = () => {
         <ol className="flex justify-center items-center space-x-2 list-none">
           <li>
             <Link
-              href="/about"
-              className={`${tabs.about ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}
-            >
-              {nav.about}
-            </Link>
-          </li>
-          <li>
-            <Link
               href="/recipes"
               className={`${tabs.recipes ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}
             >
               {nav.recipes}
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/about"
+              className={`${tabs.about ? 'border-primary dark:border-primary text-primary dark:text-primary' : 'border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary'} inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between`}
+            >
+              {nav.about}
             </Link>
           </li>
           <li>
