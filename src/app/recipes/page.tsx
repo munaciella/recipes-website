@@ -1,81 +1,108 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
-import React, { useState, useEffect } from "react";
-import { NextPage } from "next/types";
-import { SkeletonCard } from "@/components/ui/SkeletonCard";
-import { Button } from "@/components/ui/button";
-import { useSupabaseAuth } from "@/context/AuthContext";
-
-interface Recipe {
-  _id: string;
-  title: string;
-  image: { src: string; alt: string };
-  ingredients: string[];
-  instructions: string[];
-  cookingTime: string;
-}
+'use client';
+import { NextPage } from 'next';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabaseClient';
+import { useRouter } from 'next/navigation';
+import { SkeletonCard } from '@/components/ui/SkeletonCard';
+import { Button } from '@/components/ui/button';
+import { useSupabaseAuth } from '@/context/AuthContext';
+import { Recipe } from '@/types/recipe';
+import NotFound from 'next/error';
 
 const RecipesPage: NextPage = () => {
-  const { userDetails, session, loading } = useSupabaseAuth();
-
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [loadingRecipes, setLoadingRecipes] = useState(true);
+  const [data, setData] = useState<Recipe[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { session, userDetails } = useSupabaseAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    // Placeholder for fetching recipes logic
-    setTimeout(() => {
-      setLoadingRecipes(false);
-      setRecipes([
-        {
-          _id: "1",
-          title: "Vegan Pancakes",
-          image: { src: "/images/pancakes.jpg", alt: "Vegan Pancakes" },
-          ingredients: ["Flour", "Almond milk", "Baking powder", "Maple syrup"],
-          instructions: ["Mix ingredients", "Cook on skillet", "Serve hot"],
-          cookingTime: "20 mins",
-        },
-      ]);
-    }, 2000);
+    const fetchData = async () => {
+      setLoading(true);
+      const { data: myData, error } = await supabase
+        .from('recipes')
+        .select('*');
+      if (error) {
+        console.error('Error fetching recipes:', error);
+        setError('Failed to fetch data. Please try again later.');
+      } else {
+        setData(myData as Recipe[]);
+        setError(null);
+      }
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
 
-  if (loading) {
-    return <SkeletonCard />;
+  const handleRecipeClick = (recipe_id: string) => {
+    router.push(`/recipe/${recipe_id}`);
+  };
+
+  if (!loading && error) {
+    return <NotFound statusCode={404} />;
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground">
-      <h1 className="text-3xl font-bold mb-8">Recipes</h1>
+    <section className="flex flex-col items-center p-4 mt-20">
+      <h1 className="text-4xl font-bold text-center">
+        Browse Our Delicious Recipes
+      </h1>
 
-      {loadingRecipes ? (
-        <SkeletonCard />
-      ) : (
-        <>
-          {session && userDetails.role && (
-            userDetails.role === "business" ? (
-              <Button className="self-end mb-4">Add a Recipe</Button>
-            ) : (
-              <Button className="self-end mb-4">Suggest a Recipe</Button>
-            )
-          )}
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {recipes.map((recipe) => (
-              <div key={recipe._id} className="bg-card dark:bg-card p-4 rounded-lg shadow-lg">
-                <img
-                  src={recipe.image.src}
-                  alt={recipe.image.alt}
-                  className="w-full h-48 object-cover rounded-t-lg"
-                />
-                <div className="p-4">
-                  <h2 className="text-xl font-bold mb-2">{recipe.title}</h2>
-                  <p className="text-sm text-muted">Cooking Time: {recipe.cookingTime}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </>
+      {loading && (
+        <div className="grid grid-cols-1 justify-items-center m-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-16 mt-14">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <SkeletonCard key={index} />
+          ))}
+        </div>
       )}
-    </div>
+
+      {/* <div className="flex flex-col w-full max-w-4xl mt-6">
+        {session &&
+          userDetails?.role &&
+          (userDetails.role === 'business' ? (
+            <Button className="self-end mb-4">Add a Recipe</Button>
+          ) : (
+            <Button className="self-end mb-4">Suggest a Recipe</Button>
+          ))} */}
+
+      <div className="grid grid-cols-1 justify-items-center m-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-14 mt-10">
+        {!loading &&
+          !error &&
+          data.map((item) => (
+            <div
+              key={item.recipe_id}
+              className="w-full rounded-lg overflow-hidden shadow-lg mt-8 p-2 cursor-pointer border dark:bg-background hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-200"
+              onClick={() => handleRecipeClick(item.recipe_id.toString())}
+            >
+              <img
+                src={item.image_url}
+                alt={item.title}
+                className="w-full h-96 object-cover rounded-lg"
+              />
+              <div className="flex flex-col items-center p-4">
+                <h2 className="text-2xl font-semibold mb-2">{item.title}</h2>
+                <p className="text-lg mb-2">
+                  <span className="font-semibold">Category:</span>{' '}
+                  {item.category}
+                </p>
+
+                <p className="text-md mb-2">
+                  <span className="font-semibold">Cooking Time:</span>{' '}
+                  {item.cooking_time}
+                </p>
+
+                <p className="text-md mb-2">
+                  <span className="font-semibold">Difficulty:</span>{' '}
+                  {item.difficulty}
+                </p>
+              </div>
+            </div>
+          ))}
+      </div>
+      {/* </div> */}
+    </section>
   );
 };
 
