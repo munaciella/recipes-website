@@ -45,8 +45,18 @@ const RecipesPage: NextPage = () => {
   }
 
   return (
-    <section className="flex flex-col items-center p-4 mt-20">
-      <h1 className="text-4xl font-bold text-center">
+    <section className="flex flex-col items-center p-4 mt-12">
+      <div className="w-full max-w-8xl flex justify-center md:justify-end lg:justify-end xl:justify-end mb-8">
+        {session && userDetails?.role && (
+          userDetails.role === 'business' ? (
+            <Button>Add a Recipe</Button>
+          ) : (
+            <Button>Suggest a Recipe</Button>
+          )
+        )}
+      </div>
+
+      <h1 className="text-4xl font-bold text-center mb-6">
         Browse Our Delicious Recipes
       </h1>
 
@@ -58,14 +68,6 @@ const RecipesPage: NextPage = () => {
         </div>
       )}
 
-      {/* <div className="flex flex-col w-full max-w-4xl mt-6">
-        {session &&
-          userDetails?.role &&
-          (userDetails.role === 'business' ? (
-            <Button className="self-end mb-4">Add a Recipe</Button>
-          ) : (
-            <Button className="self-end mb-4">Suggest a Recipe</Button>
-          ))} */}
 
       <div className="grid grid-cols-1 justify-items-center m-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-14 mt-10">
         {!loading &&
@@ -101,7 +103,6 @@ const RecipesPage: NextPage = () => {
             </div>
           ))}
       </div>
-      {/* </div> */}
     </section>
   );
 };
