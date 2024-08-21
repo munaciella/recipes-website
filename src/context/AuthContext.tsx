@@ -71,17 +71,32 @@ export const SupabaseAuthProvider = ({ children }: { children: ReactNode }) => {
           .eq('user_uuid', user.id)
           .single();
 
-        if (error) {
-          console.error('Error fetching user details:', error);
-        } else {
-          setUserDetails(data as UserDetails);
+          if (error && error.code === 'PGRST116') {
+            const { error: insertError } = await supabase
+              .from('users')
+              .insert({
+                user_uuid: user.id,
+                name: user.user_metadata.full_name || null,
+                email: user.email,
+                role: 'user', // Default role
+                created_at: new Date().toISOString(),
+                business_code: null
+              });
+  
+            if (insertError) {
+              console.error('Error inserting user:', insertError.message);
+            }
+          } else if (error) {
+            console.error('Error fetching user details:', error.message);
+          } else {
+            setUserDetails(data as UserDetails);
+          }
+        } catch (error) {
+          console.error('Unexpected error:', error);
         }
-      } catch (error) {
-        console.error('Unexpected error:', error);
       }
-    }
-    setLoading(false);
-  };
+      setLoading(false);
+    };
 
   const storeIntendedURL = (url: string) => {
     localStorage.setItem('intendedURL', url);
