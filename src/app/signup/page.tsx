@@ -27,19 +27,19 @@ const SignupPage: NextPage = () => {
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-
+  
     if (!validateEmail(email)) {
       toast.error('Please enter a valid email address.');
       setLoading(false);
       return;
     }
-
+  
     if (!validateName(name)) {
       toast.error('Name should only contain letters.');
       setLoading(false);
       return;
     }
-
+  
     if (!validatePassword(password)) {
       toast.error(
         'Password must be at least 8 characters long, include at least one uppercase letter, one number, one special character, and no spaces.'
@@ -47,32 +47,43 @@ const SignupPage: NextPage = () => {
       setLoading(false);
       return;
     }
-
+  
     try {
-      const { data, error } = await supabase.auth.signUp({
+      // Sign up user in Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
       });
-
-      if (error) throw error;
-
-      const user = data.user;
+  
+      if (authError) throw authError;
+  
+      // Wait for the user to be created in Auth
+      const user = authData.user;
+  
+      if (!user) {
+        throw new Error('User creation failed. Please try again.');
+      }
+  
+      // Insert user details into your custom 'users' table
       const role = businessCode === '170282' ? 'business' : 'user';
-
-      const { error: insertError } = await supabase.from('users').insert([
-        {
-          user_uuid: user?.id,
-          email,
-          name,
-          role,
-          business_code: businessCode ? parseInt(businessCode, 10) : null,
-        },
-      ]);
-
+  
+      const { error: insertError } = await supabase
+        .from('users')
+        .insert([
+          {
+            user_uuid: user.id,
+            email: user.email,
+            name,
+            role,
+            business_code: businessCode ? parseInt(businessCode, 10) : null,
+          },
+        ]);
+  
       if (insertError) throw insertError;
-
-      setSession(data.session);
-
+  
+      // Set session and handle redirection
+      setSession(authData.session);
+  
       toast.success('Successfully signed up and logged in');
       setTimeout(() => router.push('/'), 2000);
     } catch (error: unknown) {
