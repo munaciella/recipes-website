@@ -9,25 +9,29 @@ import { Button } from '@/components/ui/button';
 import { useSupabaseAuth } from '@/context/AuthContext';
 import { Recipe } from '@/types/recipe';
 import NotFound from 'next/error';
+import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
+import { toast } from '@/components/ui/use-toast';
 
 const RecipesPage: NextPage = () => {
   const [data, setData] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [userVotes, setUserVotes] = useState<Map<number, string>>(new Map());
   const { session, userDetails } = useSupabaseAuth();
   const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const { data: myData, error } = await supabase
+      const { data: recipes, error } = await supabase
         .from('recipes')
         .select('*');
+      
       if (error) {
         console.error('Error fetching recipes:', error);
         setError('Failed to fetch data. Please try again later.');
       } else {
-        setData(myData as Recipe[]);
+        setData(recipes as Recipe[]);
         setError(null);
       }
       setLoading(false);
@@ -36,7 +40,68 @@ const RecipesPage: NextPage = () => {
     fetchData();
   }, []);
 
-  const handleRecipeClick = (recipe_id: string) => {
+  useEffect(() => {
+    const fetchUserVotes = async () => {
+      if (session) {
+        const { data: votes, error } = await supabase
+          .from('votes')
+          .select('recipe_id, vote_type')
+          .eq('user_id', userDetails?.user_id);
+        
+        if (error) {
+          console.error('Error fetching user votes:', error);
+        } else {
+          const votesMap = new Map<number, string>();
+          votes?.forEach(vote => votesMap.set(vote.recipe_id, vote.vote_type));
+          setUserVotes(votesMap);
+        }
+      }
+    };
+
+    fetchUserVotes();
+  }, [session, userDetails]);
+
+  const handleVote = async (recipe_id: number, vote_type: 'upvote' | 'downvote') => {
+    if (!session) {
+      toast.error('You need to be logged in to vote.');
+      return;
+    }
+
+    const existingVote = userVotes.get(recipe_id);
+
+    if (existingVote === vote_type) {
+      toast.error('You have already voted this way on this recipe.');
+      return;
+    }
+
+    try {
+      if (existingVote) {
+        await supabase
+          .from('votes')
+          .delete()
+          .match({ user_id: userDetails?.user_id, recipe_id });
+      }
+
+      await supabase
+        .from('votes')
+        .upsert([{ user_id: userDetails?.user_id, recipe_id, vote_type }]);
+
+      const newVotes = new Map(userVotes);
+      if (vote_type) {
+        newVotes.set(recipe_id, vote_type);
+      } else {
+        newVotes.delete(recipe_id);
+      }
+      setUserVotes(newVotes);
+
+      toast.success(`Successfully ${vote_type === 'upvote' ? 'upvoted' : 'downvoted'} the recipe.`);
+    } catch (error) {
+      console.error('Error handling vote:', error);
+      toast.error('An error occurred while voting.');
+    }
+  };
+
+  const handleRecipeClick = (recipe_id: number) => {
     router.push(`/recipe/${recipe_id}`);
   };
 
@@ -68,15 +133,14 @@ const RecipesPage: NextPage = () => {
         </div>
       )}
 
-
       <div className="grid grid-cols-1 justify-items-center m-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-14 mt-10">
         {!loading &&
           !error &&
           data.map((item) => (
             <div
               key={item.recipe_id}
-              className="w-full rounded-lg overflow-hidden shadow-lg mt-8 p-2 cursor-pointer border dark:bg-background hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-200"
-              onClick={() => handleRecipeClick(item.recipe_id.toString())}
+              className="w-full rounded-lg overflow-hidden shadow-lg mt-8 p-2 cursor-pointer border dark:border-slate-600 dark:bg-background hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-100"
+              onClick={() => handleRecipeClick(item.recipe_id)}
             >
               <img
                 src={item.image_url}
@@ -89,16 +153,33 @@ const RecipesPage: NextPage = () => {
                   <span className="font-semibold">Category:</span>{' '}
                   {item.category}
                 </p>
-
                 <p className="text-md mb-2">
                   <span className="font-semibold">Cooking Time:</span>{' '}
                   {item.cooking_time}
                 </p>
-
                 <p className="text-md mb-2">
                   <span className="font-semibold">Difficulty:</span>{' '}
                   {item.difficulty}
                 </p>
+
+                {session && (
+                  <div className="flex gap-4 mt-4">
+                    <button
+                      onClick={() => handleVote(item.recipe_id, 'upvote')}
+                      className={`text-2xl ${userVotes.get(item.recipe_id) === 'upvote' ? 'text-green-500' : 'text-gray-500'}`}
+                      aria-label="Upvote"
+                    >
+                      <FaThumbsUp />
+                    </button>
+                    <button
+                      onClick={() => handleVote(item.recipe_id, 'downvote')}
+                      className={`text-2xl ${userVotes.get(item.recipe_id) === 'downvote' ? 'text-red-500' : 'text-gray-500'}`}
+                      aria-label="Downvote"
+                    >
+                      <FaThumbsDown />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           ))}
