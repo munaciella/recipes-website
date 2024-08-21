@@ -158,7 +158,6 @@ const LoginPage: NextPage = () => {
     setLoading(true);
   
     try {
-      // Initiate Google sign-in
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
       });
@@ -169,7 +168,6 @@ const LoginPage: NextPage = () => {
         return;
       }
   
-      // Wait for the session to be available
       setTimeout(async () => {
         try {
           const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
@@ -181,19 +179,17 @@ const LoginPage: NextPage = () => {
           if (session) {
             const user = session.user;
   
-            // Check if user already exists in the users table
             const { data: existingUser, error: fetchError } = await supabase
               .from('users')
               .select('*')
               .eq('email', user.email)
               .single();
   
-            if (fetchError && fetchError.code !== 'PGRST116') { // PGRST116 means no rows found
+            if (fetchError && fetchError.code !== 'PGRST116') { 
               throw new Error(`Error fetching user: ${fetchError.message}`);
             }
   
             if (!existingUser) {
-              // Insert new user
               const { error: insertError } = await supabase
                 .from('users')
                 .insert([
@@ -201,9 +197,9 @@ const LoginPage: NextPage = () => {
                     user_uuid: user.id,
                     name: user.user_metadata.full_name || user.email,
                     email: user.email,
-                    role: 'user', // default role
+                    role: 'user',
                     created_at: new Date().toISOString(),
-                    business_code: null, // or some default value
+                    business_code: null,
                   },
                 ]);
   

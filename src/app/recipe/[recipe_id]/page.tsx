@@ -43,14 +43,14 @@ const RecipeDetailPage: NextPage = () => {
 
   return (
     <section className="flex flex-col items-center p-4 mt-20">
-      <h1 className="text-2xl font-bold text-center mb-6">Recipe Details</h1>
+      <h1 className="text-3xl font-bold text-center mb-6">Recipe Details</h1>
 
       {loading ? (
         <RecipeDetailSkeleton />
       ) : error || !recipe ? (
         <NotFound statusCode={404} />
       ) : (
-        <div className="w-full max-w-2xl rounded-lg overflow-hidden shadow-lg p-4">
+        <div className="w-full max-w-2xl border dark:border-slate-600 rounded-lg overflow-hidden shadow-lg p-4 mt-3">
           <div className="w-full h-full relative">
             <img
               src={recipe.image_url}
