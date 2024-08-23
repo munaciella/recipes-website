@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { useSupabaseAuth } from '@/context/AuthContext';
 import { Recipe } from '@/types/recipe';
 import NotFound from 'next/error';
-import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
+import { FaThumbsUp, FaThumbsDown, FaRegComment } from 'react-icons/fa';
 import { toast } from '@/components/ui/use-toast';
 
 const RecipesPage: NextPage = () => {
@@ -17,6 +17,8 @@ const RecipesPage: NextPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userVotes, setUserVotes] = useState<Map<number, string>>(new Map());
+  const [votesCount, setVotesCount] = useState<Map<number, { upvotes: number, downvotes: number }>>(new Map());
+  const [commentsCount, setCommentsCount] = useState<Map<number, number>>(new Map());
   const { session, userDetails } = useSupabaseAuth();
   const router = useRouter();
 
@@ -60,6 +62,50 @@ const RecipesPage: NextPage = () => {
 
     fetchUserVotes();
   }, [session, userDetails]);
+
+  useEffect(() => {
+    const fetchVotesCount = async () => {
+      const { data: votes, error } = await supabase
+        .from('votes')
+        .select('recipe_id, vote_type');
+      
+      if (error) {
+        console.error('Error fetching votes count:', error);
+      } else {
+        const countMap = new Map<number, { upvotes: number, downvotes: number }>();
+        votes?.forEach(vote => {
+          const currentCount = countMap.get(vote.recipe_id) || { upvotes: 0, downvotes: 0 };
+          if (vote.vote_type === 'upvote') {
+            currentCount.upvotes += 1;
+          } else if (vote.vote_type === 'downvote') {
+            currentCount.downvotes += 1;
+          }
+          countMap.set(vote.recipe_id, currentCount);
+        });
+        setVotesCount(countMap);
+      }
+    };
+
+    const fetchCommentsCount = async () => {
+      const { data: comments, error } = await supabase
+        .from('comments')
+        .select('recipe_id');
+      
+      if (error) {
+        console.error('Error fetching comments count:', error);
+      } else {
+        const countMap = new Map<number, number>();
+        comments?.forEach(comment => {
+          const currentCount = countMap.get(comment.recipe_id) || 0;
+          countMap.set(comment.recipe_id, currentCount + 1);
+        });
+        setCommentsCount(countMap);
+      }
+    };
+
+    fetchVotesCount();
+    fetchCommentsCount();
+  }, []);
 
   const handleVote = async (recipe_id: number, vote_type: 'upvote' | 'downvote') => {
     if (!session) {
@@ -161,25 +207,41 @@ const RecipesPage: NextPage = () => {
                   <span className="font-semibold">Difficulty:</span>{' '}
                   {item.difficulty}
                 </p>
+              </div>
 
-                {session && (
-                  <div className="flex gap-4 mt-4">
-                    <button
-                      onClick={() => handleVote(item.recipe_id, 'upvote')}
-                      className={`text-2xl ${userVotes.get(item.recipe_id) === 'upvote' ? 'text-green-500' : 'text-gray-500'}`}
-                      aria-label="Upvote"
-                    >
-                      <FaThumbsUp />
-                    </button>
-                    <button
-                      onClick={() => handleVote(item.recipe_id, 'downvote')}
-                      className={`text-2xl ${userVotes.get(item.recipe_id) === 'downvote' ? 'text-red-500' : 'text-gray-500'}`}
-                      aria-label="Downvote"
-                    >
-                      <FaThumbsDown />
-                    </button>
-                  </div>
-                )}
+              <div className="flex justify-center gap-4 p-0 mb-2">
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => handleVote(item.recipe_id, 'upvote')}
+                    className={`text-xl ${userVotes.get(item.recipe_id) === 'upvote' ? 'text-green-500' : 'text-slate-600 dark:text-slate-500'}`}
+                    aria-label="Upvote"
+                  >
+                    <FaThumbsUp />
+                  </button>
+                  <span>{votesCount.get(item.recipe_id)?.upvotes || 0}</span>
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => handleVote(item.recipe_id, 'downvote')}
+                    className={`text-xl ${userVotes.get(item.recipe_id) === 'downvote' ? 'text-red-500' : 'text-slate-600 dark:text-slate-500'}`}
+                    aria-label="Downvote"
+                  >
+                    <FaThumbsDown />
+                  </button>
+                  <span>{votesCount.get(item.recipe_id)?.downvotes || 0}</span>
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => toast.error('You need to be logged in to comment.')}
+                    className="text-xl text-slate-600 dark:text-slate-500"
+                    aria-label="Comment"
+                  >
+                    <FaRegComment />
+                  </button>
+                  <span>{commentsCount.get(item.recipe_id) || 0}</span>
+                </div>
               </div>
             </div>
           ))}

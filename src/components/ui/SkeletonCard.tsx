@@ -30,3 +30,16 @@ export function RecipeDetailSkeleton() {
       </div>
   );
 }
+
+export function CommentSkeleton() {
+  return (
+    <div className="flex flex-col space-y-4 p-4">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <div key={index} className="space-y-2">
+          <Skeleton className="h-6 w-1/3" /> {/* Nickname */}
+          <Skeleton className="h-4 w-full" /> {/* Comment text */}
+        </div>
+      ))}
+    </div>
+  );
+}
