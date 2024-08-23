@@ -83,7 +83,7 @@ const LoginPage: NextPage = () => {
 
           setTimeout(() => {
             toast.success('Successfully logged in');
-          }, 3000);
+          }, 2000);
 
           checkIfBusinessUser(session);
         } else if (event === 'SIGNED_OUT') {
