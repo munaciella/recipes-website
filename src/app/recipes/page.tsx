@@ -112,14 +112,14 @@ const RecipesPage: NextPage = () => {
       toast.error('You need to be logged in to vote.');
       return;
     }
-
+  
     const existingVote = userVotes.get(recipe_id);
-
+  
     if (existingVote === vote_type) {
       toast.error('You have already voted this way on this recipe.');
       return;
     }
-
+  
     try {
       if (existingVote) {
         await supabase
@@ -127,19 +127,35 @@ const RecipesPage: NextPage = () => {
           .delete()
           .match({ user_id: userDetails?.user_id, recipe_id });
       }
-
+  
       await supabase
         .from('votes')
         .upsert([{ user_id: userDetails?.user_id, recipe_id, vote_type }]);
-
-      const newVotes = new Map(userVotes);
-      if (vote_type) {
-        newVotes.set(recipe_id, vote_type);
-      } else {
-        newVotes.delete(recipe_id);
+  
+      // Update userVotes state
+      const newUserVotes = new Map(userVotes);
+      newUserVotes.set(recipe_id, vote_type);
+      setUserVotes(newUserVotes);
+  
+      // Update votesCount state
+      const newVotesCount = new Map(votesCount);
+      const currentCount = newVotesCount.get(recipe_id) || { upvotes: 0, downvotes: 0 };
+  
+      if (existingVote === 'upvote') {
+        currentCount.upvotes -= 1;
+      } else if (existingVote === 'downvote') {
+        currentCount.downvotes -= 1;
       }
-      setUserVotes(newVotes);
-
+  
+      if (vote_type === 'upvote') {
+        currentCount.upvotes += 1;
+      } else if (vote_type === 'downvote') {
+        currentCount.downvotes += 1;
+      }
+  
+      newVotesCount.set(recipe_id, currentCount);
+      setVotesCount(newVotesCount);
+  
       toast.success(`Successfully ${vote_type === 'upvote' ? 'upvoted' : 'downvoted'} the recipe.`);
     } catch (error) {
       console.error('Error handling vote:', error);
@@ -179,37 +195,43 @@ const RecipesPage: NextPage = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 justify-items-center m-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-14 mt-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 justify-items-center m-6 gap-14 mt-10 w-full max-w-8xl">
         {!loading &&
           !error &&
           data.map((item) => (
             <div
               key={item.recipe_id}
-              className="w-full rounded-lg overflow-hidden shadow-lg mt-8 p-2 cursor-pointer border dark:border-slate-600 dark:bg-background hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-100"
-              onClick={() => handleRecipeClick(item.recipe_id)}
+              className="w-full flex flex-col items-center"
             >
-              <img
-                src={item.image_url}
-                alt={item.title}
-                className="w-full h-96 object-cover rounded-lg"
-              />
-              <div className="flex flex-col items-center p-4">
-                <h2 className="text-2xl font-semibold mb-2">{item.title}</h2>
-                <p className="text-lg mb-2">
-                  <span className="font-semibold">Category:</span>{' '}
-                  {item.category}
-                </p>
-                <p className="text-md mb-2">
-                  <span className="font-semibold">Cooking Time:</span>{' '}
-                  {item.cooking_time}
-                </p>
-                <p className="text-md mb-2">
-                  <span className="font-semibold">Difficulty:</span>{' '}
-                  {item.difficulty}
-                </p>
+              <div
+                className="w-full max-w-xs md:max-w-sm lg:max-w-xs xl:max-w-sm rounded-lg overflow-hidden shadow-lg p-2 mt-2 cursor-pointer border dark:border-slate-600 dark:bg-background hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-100"
+                onClick={() => handleRecipeClick(item.recipe_id)}
+              >
+                <img
+                  src={item.image_url}
+                  alt={item.title}
+                  className="w-full h-96 object-cover rounded-lg"
+                />
+                <div className="flex flex-col items-center p-4">
+                  <h2 className="text-2xl font-semibold mb-2 text-center">
+                    {item.title}
+                  </h2>
+                  <p className="text-lg mb-2 text-center">
+                    <span className="font-semibold">Category:</span>{' '}
+                    {item.category}
+                  </p>
+                  <p className="text-md mb-2 text-center">
+                    <span className="font-semibold">Cooking Time:</span>{' '}
+                    {item.cooking_time}
+                  </p>
+                  <p className="text-md mb-2 text-center">
+                    <span className="font-semibold">Difficulty:</span>{' '}
+                    {item.difficulty}
+                  </p>
+                </div>
               </div>
 
-              <div className="flex justify-center gap-4 p-0 mb-2">
+              <div className="flex justify-center gap-4 p-0 mt-4">
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => handleVote(item.recipe_id, 'upvote')}
@@ -234,7 +256,7 @@ const RecipesPage: NextPage = () => {
 
                 <div className="flex items-center gap-1">
                   <button
-                    onClick={() => toast.error('You need to be logged in to comment.')}
+                    onClick={() => handleRecipeClick(item.recipe_id)}
                     className="text-xl text-slate-600 dark:text-slate-500"
                     aria-label="Comment"
                   >
@@ -251,3 +273,4 @@ const RecipesPage: NextPage = () => {
 };
 
 export default RecipesPage;
+
