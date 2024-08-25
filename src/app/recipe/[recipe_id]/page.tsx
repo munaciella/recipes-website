@@ -253,14 +253,14 @@ const RecipeDetailPage: NextPage = () => {
   }
 
   return (
-    <section className="flex flex-col items-start p-4 mt-14">
-      <h1 className="text-3xl font-bold mb-6">Recipe Details</h1>
+    <section className="flex flex-col p-4 mt-12">
+      <h1 className="text-3xl font-bold mb-6 text-center">Recipe Details</h1>
   
       {loading ? (
         <RecipeDetailSkeleton />
       ) : recipe ? (
         <>
-          <div className="w-full max-w-2xl border dark:border-slate-600 rounded-lg overflow-hidden shadow-lg p-4">
+          <div className="w-full max-w-2xl border dark:border-slate-600 rounded-lg overflow-hidden shadow-lg p-4 mt-6">
             <div className="w-full h-full relative">
               <img
                 src={recipe.image_url}
@@ -268,27 +268,24 @@ const RecipeDetailPage: NextPage = () => {
                 className="w-full h-96 object-cover rounded-lg"
               />
             </div>
-            <div className="flex flex-col p-4">
-              <h1 className="text-2xl font-bold mb-4">{recipe.title}</h1>
+            <div className="flex flex-col p-4 text-center">
+              <h1 className="text-2xl font-bold mb-2">{recipe.title}</h1>
               <p className="text-lg mb-2">
-                <span className="font-semibold">Category:</span>{' '}
-                {recipe.category}
+                <span className="font-semibold">Category:</span> {recipe.category}
               </p>
               <p className="text-md mb-2">
-                <span className="font-semibold">Cooking Time:</span>{' '}
-                {recipe.cooking_time}
+                <span className="font-semibold">Cooking Time:</span> {recipe.cooking_time}
               </p>
-              <p className="text-md mb-2">
-                <span className="font-semibold">Difficulty:</span>{' '}
-                {recipe.difficulty}
+              <p className="text-md -mb-2">
+                <span className="font-semibold">Difficulty:</span> {recipe.difficulty}
               </p>
+            </div>
+            <div className="flex flex-col p-4">
               <p className="text-md mb-2">
-                <span className="font-semibold">Ingredients:</span>{' '}
-                {recipe.ingredients}
+                <span className="font-semibold">Ingredients:</span> {recipe.ingredients}
               </p>
-              <p className="text-md mb-2">
-                <span className="font-semibold">Instructions:</span>{' '}
-                {recipe.instructions}
+              <p className="text-md mb-0">
+                <span className="font-semibold">Instructions:</span> {recipe.instructions}
               </p>
             </div>
           </div>
