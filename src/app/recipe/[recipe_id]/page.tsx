@@ -8,7 +8,7 @@ import {
   FaTrash,
   FaRegComment,
 } from 'react-icons/fa';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { Recipe } from '@/types/recipe';
@@ -41,6 +41,7 @@ const RecipeDetailPage: NextPage = () => {
   const [upvotes, setUpvotes] = useState<number>(0);
   const [downvotes, setDownvotes] = useState<number>(0);
   const { session, userDetails } = useSupabaseAuth();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -246,11 +247,56 @@ const RecipeDetailPage: NextPage = () => {
     }
   };
 
-  if (error && !recipe) return <NotFound statusCode={404} />;
+  const handleShare = async () => {
+      const shareUrl = window.location.href;
+      const title = recipe?.title || 'Check out this recipe!';
+      const encodedUrl = encodeURIComponent(shareUrl);
+      const encodedTitle = encodeURIComponent(title);
 
-  function handleShare(event: MouseEvent<HTMLButtonElement>): void {
-    throw new Error('Function not implemented.');
-  }
+      if (navigator.share) {
+          // Use the Web Share API if supported
+          try {
+              await navigator.share({
+                  title: title,
+                  text: `Check out this recipe: ${title}`,
+                  url: shareUrl,
+              });
+              toast.success('Recipe shared successfully!');
+          } catch (error) {
+              console.error('Error sharing:', error);
+              toast.error('An error occurred while sharing.');
+          }
+      } else {
+          // Fallback if Web Share API is not supported
+          const shareLinks: Record<string, string | (() => void)> = {
+              whatsapp: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
+              twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
+              facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+              instagram: () => {
+                  navigator.clipboard.writeText(shareUrl).then(() => {
+                      toast.success('Link copied to clipboard! You can now paste it in Instagram.');
+                  }).catch((error) => {
+                      console.error('Failed to copy text: ', error);
+                      toast.error('Failed to copy link. Please copy it manually.');
+                  });
+              }
+          };
+
+          // Prompt user to choose a platform
+          const platform = prompt('Choose a platform to share on: (whatsapp, twitter, facebook, instagram)');
+          if (platform && platform in shareLinks) {
+              if (platform === 'instagram') {
+                  (shareLinks[platform] as () => void)(); // Handle Instagram separately
+              } else {
+                  window.open(shareLinks[platform] as string, '_blank');
+              }
+          } else {
+              toast.error('Unsupported platform or no platform chosen.');
+          }
+      }
+  };
+
+  if (error && !recipe) return <NotFound statusCode={404} />;
 
   return (
     <section className="flex flex-col p-4 mt-12">
