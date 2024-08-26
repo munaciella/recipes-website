@@ -23,7 +23,6 @@ import { toast } from '@/components/ui/use-toast';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { MouseEvent } from 'react';
 import { BsSend } from 'react-icons/bs';
 
 const RecipeDetailPage: NextPage = () => {
@@ -254,7 +253,6 @@ const RecipeDetailPage: NextPage = () => {
       const encodedTitle = encodeURIComponent(title);
 
       if (navigator.share) {
-          // Use the Web Share API if supported
           try {
               await navigator.share({
                   title: title,
@@ -267,7 +265,6 @@ const RecipeDetailPage: NextPage = () => {
               toast.error('An error occurred while sharing.');
           }
       } else {
-          // Fallback if Web Share API is not supported
           const shareLinks: Record<string, string | (() => void)> = {
               whatsapp: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
               twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
@@ -282,11 +279,10 @@ const RecipeDetailPage: NextPage = () => {
               }
           };
 
-          // Prompt user to choose a platform
           const platform = prompt('Choose a platform to share on: (whatsapp, twitter, facebook, instagram)');
           if (platform && platform in shareLinks) {
               if (platform === 'instagram') {
-                  (shareLinks[platform] as () => void)(); // Handle Instagram separately
+                  (shareLinks[platform] as () => void)();
               } else {
                   window.open(shareLinks[platform] as string, '_blank');
               }
@@ -300,7 +296,7 @@ const RecipeDetailPage: NextPage = () => {
 
   return (
     <section className="flex flex-col p-4 mt-12">
-      <h1 className="text-3xl font-bold mb-6 text-center">Recipe Details</h1>
+      <h1 className="text-4xl font-bold mb-6 text-center">Recipe Details</h1>
   
       {loading ? (
         <RecipeDetailSkeleton />

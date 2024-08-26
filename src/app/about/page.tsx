@@ -8,8 +8,8 @@ const { details } = copy.about;
 
 const AboutPage: NextPage = () => {
   return (
-    <div className="container mx-auto px-4 py-8 mt-4">
-      <h1 className="text-4xl font-bold mb-8 text-center text-primary-500 mt-14">
+    <div className="container mx-auto px-4 py-8 mt-2">
+      <h1 className="text-4xl font-bold mb-8 text-center text-primary-500 mt-8">
         {details.heading}
       </h1>
       <p className="text-lg mb-6 text-primary-500 text-center mt-14 leading-relaxed">

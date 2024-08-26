@@ -132,12 +132,10 @@ const RecipesPage: NextPage = () => {
         .from('votes')
         .upsert([{ user_id: userDetails?.user_id, recipe_id, vote_type }]);
   
-      // Update userVotes state
       const newUserVotes = new Map(userVotes);
       newUserVotes.set(recipe_id, vote_type);
       setUserVotes(newUserVotes);
   
-      // Update votesCount state
       const newVotesCount = new Map(votesCount);
       const currentCount = newVotesCount.get(recipe_id) || { upvotes: 0, downvotes: 0 };
   
