@@ -39,6 +39,7 @@ const RecipeDetailPage: NextPage = () => {
   const [nickname, setNickname] = useState<string>('');
   const [upvotes, setUpvotes] = useState<number>(0);
   const [downvotes, setDownvotes] = useState<number>(0);
+  const [shareCount, setShareCount] = useState<number>(0);
   const { session, userDetails } = useSupabaseAuth();
   const router = useRouter();
 
@@ -58,6 +59,7 @@ const RecipeDetailPage: NextPage = () => {
         setError('Failed to fetch recipe. Please try again later.');
       } else {
         setRecipe(data as Recipe);
+        setShareCount(data.share_count || 0);
         setError(null);
       }
       setLoading(false);
@@ -246,51 +248,69 @@ const RecipeDetailPage: NextPage = () => {
     }
   };
 
-  const handleShare = async () => {
-      const shareUrl = window.location.href;
-      const title = recipe?.title || 'Check out this recipe!';
-      const encodedUrl = encodeURIComponent(shareUrl);
-      const encodedTitle = encodeURIComponent(title);
+const incrementShareCount = async () => {
+  const newShareCount = shareCount + 1;
+  setShareCount(newShareCount);
 
-      if (navigator.share) {
-          try {
-              await navigator.share({
-                  title: title,
-                  text: `Check out this recipe: ${title}`,
-                  url: shareUrl,
-              });
-              toast.success('Recipe shared successfully!');
-          } catch (error) {
-              console.error('Error sharing:', error);
-              toast.error('An error occurred while sharing.');
-          }
-      } else {
-          const shareLinks: Record<string, string | (() => void)> = {
-              whatsapp: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
-              twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
-              facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-              instagram: () => {
-                  navigator.clipboard.writeText(shareUrl).then(() => {
-                      toast.success('Link copied to clipboard! You can now paste it in Instagram.');
-                  }).catch((error) => {
-                      console.error('Failed to copy text: ', error);
-                      toast.error('Failed to copy link. Please copy it manually.');
-                  });
-              }
-          };
+  const { error } = await supabase
+    .from('recipes')
+    .update({ share_count: newShareCount })
+    .eq('recipe_id', recipe_id);
 
-          const platform = prompt('Choose a platform to share on: (whatsapp, twitter, facebook, instagram)');
-          if (platform && platform in shareLinks) {
-              if (platform === 'instagram') {
-                  (shareLinks[platform] as () => void)();
-              } else {
-                  window.open(shareLinks[platform] as string, '_blank');
-              }
-          } else {
-              toast.error('Unsupported platform or no platform chosen.');
-          }
+  if (error) {
+    console.error('Error updating share count:', error);
+    toast.error('Failed to update share count.');
+  }
+};
+
+const handleShare = async () => {
+  const shareUrl = window.location.href;
+  const title = recipe?.title || 'Check out this recipe!';
+  const encodedUrl = encodeURIComponent(shareUrl);
+  const encodedTitle = encodeURIComponent(title);
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: title,
+        text: `Check out this recipe: ${title}`,
+        url: shareUrl,
+      });
+      toast.success('Recipe shared successfully!');
+      await incrementShareCount();  // Increment and persist share count
+    } catch (error) {
+      console.error('Error sharing:', error);
+      toast.error('An error occurred while sharing.');
+    }
+  } else {
+    const shareLinks: Record<string, string | (() => void)> = {
+      whatsapp: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
+      twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+      instagram: () => {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          toast.success('Link copied to clipboard! You can now paste it in Instagram.');
+          incrementShareCount();  // Increment and persist share count
+        }).catch((error) => {
+          console.error('Failed to copy text: ', error);
+          toast.error('Failed to copy link. Please copy it manually.');
+        });
       }
-  };
+    };
+
+    const platform = prompt('Choose a platform to share on: (whatsapp, twitter, facebook, instagram)');
+    if (platform && platform in shareLinks) {
+      if (platform === 'instagram') {
+        (shareLinks[platform] as () => void)();
+      } else {
+        window.open(shareLinks[platform] as string, '_blank');
+        incrementShareCount();  // Increment and persist share count
+      }
+    } else {
+      toast.error('Unsupported platform or no platform chosen.');
+    }
+  }
+};
 
   if (error && !recipe) return <NotFound statusCode={404} />;
 
@@ -363,6 +383,7 @@ const RecipeDetailPage: NextPage = () => {
               aria-label="Share"
             >
               <BsSend className="text-xl" />
+              <span className="text-xl">{shareCount}</span>
             </button>
           </div>
         </>
