@@ -41,17 +41,17 @@ export const Footer: FC<{
           alt="Francesco's Image"
         />
       </div>
-      <h4 className="text-secondary-900">
+      <h4 className="text-secondary-900 mt-2">
         &copy; {new Date().getFullYear()} {companyName} {footer.msg}
       </h4>
-      <div className="lg:w-[10%] flex justify-between items-center mb-0 md:mb-0 order-first md:order-last">
+      <div className="flex justify-between items-center mb-1 md:mb-0 order-first md:order-last space-x-2">
         {footerLinks.map(({ href, name, icon }, idx) => (
           <div key={href + idx}>
             <Link
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block text-2xl mr-2 text-secondary-800 hover:text-secondary-900"
+              className="inline-block text-2xl mr-2 text-foreground dark:text-slate-50 hover:text-slate-400 dark:hover:text-slate-400"
             >
               {icon}
               <span className="sr-only">{name}</span>
