@@ -202,7 +202,7 @@ const RecipesPage: NextPage = () => {
               className="w-full flex flex-col items-center"
             >
               <div
-                className="w-full max-w-xs md:max-w-sm lg:max-w-xs xl:max-w-sm rounded-lg overflow-hidden shadow-lg p-2 mt-2 cursor-pointer border dark:border-slate-600 dark:bg-background hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-100"
+                className="w-full max-w-xs md:max-w-sm lg:max-w-xs xl:max-w-sm rounded-lg overflow-hidden shadow-lg hover:shadow-xl p-2 mt-2 cursor-pointer border dark:border-slate-600 dark:bg-background hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-100"
                 onClick={() => handleRecipeClick(item.recipe_id)}
               >
                 <img
