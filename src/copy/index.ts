@@ -32,7 +32,7 @@ export const copy = {
       paragraph: "Saving the animals and our planet one meal at a time.",
       img: {
         alt: "velovegans logo",
-        src: "/assets/vector-illustration.png",
+        src: "/assets/cruelty-free-vegan.png",
       },
     },
   },
