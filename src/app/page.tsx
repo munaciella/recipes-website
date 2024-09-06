@@ -47,7 +47,7 @@ const Homepage: NextPage = () => {
       <div className="flex flex-col md:flex-row items-center md:items-start md:justify-between md:gap-x-8">
         <div className="max-w-3xl w-full">
           <div className="mx-auto max-w-prose">
-            <h1 className="mt-6 md:mt-28 lg:mt-16 block text-left text-4xl font-bold leading-8 tracking-tight sm:text-4xl lg:text-5xl">
+            <h1 className="lg:mt-16 md:mt-10 mt-4 block text-left text-4xl font-bold leading-8 tracking-tight sm:text-4xl lg:text-5xl">
               {description.heading.top}
               <br />
               <span className="text-secondary-600">
@@ -71,14 +71,13 @@ const Homepage: NextPage = () => {
         </div>
         <div className="pt-2 md:pt-0">
           <img
-            className="h-auto max-w-full md:max-w-[40rem] lg:max-w-[50rem] md:h-72 lg:h-96 lg:-mt-16 md:mt-12 -mt-10"
+            className="h-auto max-w-full md:max-w-[40rem] lg:max-w-[50rem] md:h-72 lg:h-96 lg:mt-2 md:mt-0 mt-4"
             src={description.img.src}
             alt={description.img.alt}
           />
         </div>
       </div>
 
-      {/* News Section */}
       <section className="mt-20">
         <h2 className="text-3xl font-bold text-center mb-8">Check Out the Latest News on Plant-Based Diets, Environment & Sustainability</h2>
         {loading && page === 1 && (
