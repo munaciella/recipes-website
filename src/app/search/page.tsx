@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SkeletonCard } from '@/components/ui/SkeletonCard';
 import { Recipe } from '@/types';
 
-const SearchResults = () => {
+const SearchContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [searchResults, setSearchResults] = useState<Recipe[]>([]);
@@ -90,6 +90,14 @@ const SearchResults = () => {
         </ul>
       )}
     </section>
+  );
+};
+
+const SearchResults = () => {
+  return (
+    <Suspense fallback={<SkeletonCard />}>
+      <SearchContent />
+    </Suspense>
   );
 };
 
