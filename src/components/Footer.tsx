@@ -30,33 +30,35 @@ export const Footer: FC<{
   companyName: string;
 }> = ({ companyName }) => {
   return (
-    <footer className="w-full flex flex-col md:flex-row justify-between items-center py-3 md:py-6 px-4 mt-20 md:mb-0 bg-white shadow-md border-t border-gray-200 dark:border-gray-800 dark:bg-background">
-      <div className="relative bottom-0 left-0 ml-2 flex items-center py-0">
-        <span className="text-secondary-900">
+    <footer className="w-full flex flex-col md:flex-row justify-between items-center py-6 md:py-10 px-8 mt-20 bg-gradient-to-r from-slate-50 via-white to-slate-100 shadow-lg dark:bg-gradient-to-r dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-t border-slate-300 dark:border-slate-700">
+
+      <div className="flex items-center space-x-2">
+        <span className="text-gray-700 dark:text-gray-200 font-semibold text-lg">
           Made with <span className="text-red-500">♡</span> by
         </span>
         <img
-          className="w-5 ml-2"
+          className="w-5 h-7"
           src="/assets/FranIcon.png"
           alt="Francesco's Image"
         />
       </div>
-      <h4 className="text-secondary-900 mt-2">
+
+      <h4 className="text-gray-700 dark:text-gray-400 text-md md:text-md mt-4 md:mt-0 font-semibold">
         &copy; {new Date().getFullYear()} {companyName} {footer.msg}
       </h4>
-      <div className="flex justify-between items-center mb-1 md:mb-0 order-first md:order-last space-x-2">
+
+      <div className="flex space-x-4 mt-4 md:mt-0">
         {footerLinks.map(({ href, name, icon }, idx) => (
-          <div key={href + idx}>
-            <Link
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block text-2xl mr-2 text-foreground dark:text-slate-50 hover:text-slate-400 dark:hover:text-slate-400"
-            >
-              {icon}
-              <span className="sr-only">{name}</span>
-            </Link>
-          </div>
+          <Link
+            key={href + idx}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-slate-500 dark:text-gray-300 hover:text-slate-900 dark:hover:text-slate-500 transition-colors duration-200 text-2xl"
+          >
+            {icon}
+            <span className="sr-only">{name}</span>
+          </Link>
         ))}
       </div>
     </footer>
