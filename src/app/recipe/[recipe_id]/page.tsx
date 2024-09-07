@@ -322,7 +322,7 @@ const handleShare = async () => {
         <RecipeDetailSkeleton />
       ) : recipe ? (
         <>
-          <div className="w-full max-w-2xl border dark:border-slate-600 rounded-lg overflow-hidden shadow-lg p-4 mt-6">
+          <div className="w-full max-w-2xl border dark:border-slate-600 rounded-lg overflow-hidden shadow-lg p-4 mt-4">
             <div className="w-full h-full relative">
               <img
                 src={recipe.image_url}
