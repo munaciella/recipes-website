@@ -59,10 +59,10 @@ const Homepage: NextPage = () => {
             </p>
             <div className="mt-8 flex flex-col space-y-4">
               <Link href="/login" passHref>
-                <Button className="w-full md:w-auto px-8">Get Started</Button>
+                <Button className="w-full md:w-auto px-8 shadow-md">Get Started</Button>
               </Link>
               <Link href="/recipes" passHref>
-                <Button variant="outline" className="w-full md:w-auto px-14">
+                <Button variant="outline" className="w-full md:w-auto px-14 shadow-md border border-slate-300 dark:border-slate-400">
                   Browse Recipes
                 </Button>
               </Link>

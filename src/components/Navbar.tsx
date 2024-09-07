@@ -13,6 +13,7 @@ import { useSupabaseAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabaseClient';
 import { toast } from './ui/use-toast';
 import { useRouter } from 'next/navigation';
+import { Recipe } from '@/types/recipe';
 
 const { nav } = copy.common;
 
@@ -22,6 +23,8 @@ export const Navbar: FC = () => {
   const [logoSrc, setLogoSrc] = useState(nav.logo.src);
   const { session, setSession } = useSupabaseAuth();
   const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<Recipe[]>([]);
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -31,6 +34,39 @@ export const Navbar: FC = () => {
       router.push('/');
     } else {
       toast.error(`Error: ${error.message}`);
+    }
+  };
+
+  const handleSearch = async () => {
+    if (!searchQuery) {
+      toast.info('Please enter a search term');
+      return;
+    }
+  
+    try {
+      const { data, error } = await supabase
+        .from('recipes')
+        .select('*')
+        .or(
+          `title.ilike.%${searchQuery}%,ingredients.ilike.%${searchQuery}%,difficulty.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`
+        );
+        console.log('Search data:', data);
+  
+      if (error) {
+        toast.error(`Error: ${error.message}`);
+      } else if (data.length === 0) {
+        toast.info('No recipes found under the search term');
+      } else {
+        setSearchResults(data as Recipe[]);
+        toast.success('Search completed');
+        router.push(
+          `/search?results=${encodeURIComponent(JSON.stringify(data))}`
+        );
+      }
+    } catch (error) {
+      toast.error(
+        `Unexpected error: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   };
 
@@ -52,9 +88,14 @@ export const Navbar: FC = () => {
           <Input
             type="text"
             placeholder="Search..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="bg-slate-100 border-2 border-gray-300 rounded-lg py-1 px-1 shadow-md dark:bg-slate-800 dark:text-white"
           />
-          <Button className="primary ml-0.5 shadow-md text-primary-foreground dark:text-primary-foreground px-3">
+          <Button
+            onClick={handleSearch}
+            className="primary ml-0.5 shadow-md text-primary-foreground dark:text-primary-foreground px-3"
+          >
             <FaSearch />
           </Button>
         </div>
@@ -95,7 +136,6 @@ export const Navbar: FC = () => {
                   {nav.login}
                 </Link>
               </li>
-              
             </>
           ) : (
             <li>
