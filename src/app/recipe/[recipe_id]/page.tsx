@@ -249,156 +249,181 @@ const RecipeDetailPage: NextPage = () => {
     }
   };
 
-const incrementShareCount = async () => {
-  const newShareCount = shareCount + 1;
-  setShareCount(newShareCount);
+  const incrementShareCount = async () => {
+    const newShareCount = shareCount + 1;
+    setShareCount(newShareCount);
 
-  const { error } = await supabase
-    .from('recipes')
-    .update({ share_count: newShareCount })
-    .eq('recipe_id', recipe_id);
+    const { error } = await supabase
+      .from('recipes')
+      .update({ share_count: newShareCount })
+      .eq('recipe_id', recipe_id);
 
-  if (error) {
-    console.error('Error updating share count:', error);
-    toast.error('Failed to update share count.');
-  }
-};
-
-const handleShare = async () => {
-  const shareUrl = window.location.href;
-  const title = recipe?.title || 'Check out this recipe!';
-  const encodedUrl = encodeURIComponent(shareUrl);
-  const encodedTitle = encodeURIComponent(title);
-
-  if (navigator.share) {
-    try {
-      await navigator.share({
-        title: title,
-        text: `Check out this recipe: ${title}`,
-        url: shareUrl,
-      });
-      toast.success('Recipe shared successfully!');
-      await incrementShareCount();
-    } catch (error) {
-      console.error('Error sharing:', error);
-      toast.error('An error occurred while sharing.');
+    if (error) {
+      console.error('Error updating share count:', error);
+      toast.error('Failed to update share count.');
     }
-  } else {
-    const shareLinks: Record<string, string | (() => void)> = {
-      whatsapp: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
-      twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-      instagram: () => {
-        navigator.clipboard.writeText(shareUrl).then(() => {
-          toast.success('Link copied to clipboard! You can now paste it in Instagram.');
-          incrementShareCount();  // Increment and persist share count
-        }).catch((error) => {
-          console.error('Failed to copy text: ', error);
-          toast.error('Failed to copy link. Please copy it manually.');
-        });
-      }
-    };
+  };
 
-    const platform = prompt('Choose a platform to share on: (whatsapp, twitter, facebook, instagram)');
-    if (platform && platform in shareLinks) {
-      if (platform === 'instagram') {
-        (shareLinks[platform] as () => void)();
-      } else {
-        window.open(shareLinks[platform] as string, '_blank');
-        incrementShareCount();  // Increment and persist share count
+  const handleShare = async () => {
+    const shareUrl = window.location.href;
+    const title = recipe?.title || 'Check out this recipe!';
+    const encodedUrl = encodeURIComponent(shareUrl);
+    const encodedTitle = encodeURIComponent(title);
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: title,
+          text: `Check out this recipe: ${title}`,
+          url: shareUrl,
+        });
+        toast.success('Recipe shared successfully!');
+        await incrementShareCount();
+      } catch (error) {
+        console.error('Error sharing:', error);
+        toast.error('An error occurred while sharing.');
       }
     } else {
-      toast.error('Unsupported platform or no platform chosen.');
+      const shareLinks: Record<string, string | (() => void)> = {
+        whatsapp: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
+        twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
+        facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+        instagram: () => {
+          navigator.clipboard
+            .writeText(shareUrl)
+            .then(() => {
+              toast.success(
+                'Link copied to clipboard! You can now paste it in Instagram.'
+              );
+              incrementShareCount(); // Increment and persist share count
+            })
+            .catch((error) => {
+              console.error('Failed to copy text: ', error);
+              toast.error('Failed to copy link. Please copy it manually.');
+            });
+        },
+      };
+
+      const platform = prompt(
+        'Choose a platform to share on: (whatsapp, twitter, facebook, instagram)'
+      );
+      if (platform && platform in shareLinks) {
+        if (platform === 'instagram') {
+          (shareLinks[platform] as () => void)();
+        } else {
+          window.open(shareLinks[platform] as string, '_blank');
+          incrementShareCount(); // Increment and persist share count
+        }
+      } else {
+        toast.error('Unsupported platform or no platform chosen.');
+      }
     }
-  }
-};
+  };
 
-const saveRecipe = async () => {
-  if (!session) {
-    toast.error('You need to be logged in to save a recipe.');
-    return;
-  }
-
-  try {
-    // Check if the recipe is already saved by the user
-    const { data: existingEntry, error: checkError } = await supabase
-      .from('saved_recipes')
-      .select('*')
-      .eq('recipe_id', recipe_id)
-      .eq('user_id', userDetails.user_id)
-      .single();
-
-    if (checkError) {
-      throw checkError;
-    }
-
-    if (existingEntry) {
-      toast.info('Recipe is already saved.');
+  const saveRecipe = async () => {
+    if (!session) {
+      toast.error('You need to be logged in to save a recipe.');
       return;
     }
 
-    // If the recipe is not already saved, upsert it
-    const { error } = await supabase
-      .from('saved_recipes')
-      .upsert([
+    try {
+      const { data: existingEntry, error: checkError } = await supabase
+        .from('saved_recipes')
+        .select('*')
+        .eq('recipe_id', recipe_id)
+        .eq('user_id', userDetails.user_id)
+        .single();
+
+      if (checkError) {
+        throw checkError;
+      }
+
+      if (existingEntry) {
+        toast.info('Recipe is already saved.');
+        return;
+      }
+
+      const { error } = await supabase.from('saved_recipes').upsert([
         {
           recipe_id: recipe_id,
           user_id: userDetails.user_id,
         },
       ]);
 
-    if (error) {
-      throw error;
+      if (error) {
+        throw error;
+      }
+
+      toast.success('Recipe saved successfully!');
+    } catch (error) {
+      console.error('Error saving recipe:', error);
+      toast.error('Failed to save recipe.');
+    }
+  };
+
+  const addToTodoist = async (ingredients: string | string[]) => {
+    if (!session) {
+      toast.error('You need to be logged in to add ingredients to Todoist.');
+      return;
     }
 
-    toast.success('Recipe saved successfully!');
-  } catch (error) {
-    console.error('Error saving recipe:', error);
-    toast.error('Failed to save recipe.');
-  }
-};
+    const apiToken = process.env.NEXT_PUBLIC_TODOIST_API_TOKEN!;
+    const ingredientsArray =
+      typeof ingredients === 'string'
+        ? ingredients.split(',').map((item) => item.trim())
+        : ingredients;
 
+    try {
+      // Step 1: Fetch existing tasks from Todoist
+      const { data: existingTasks } = await axios.get(
+        'https://api.todoist.com/rest/v2/tasks',
+        {
+          headers: {
+            Authorization: `Bearer ${apiToken}`,
+          },
+        }
+      );
 
-const addToTodoist = async (ingredients: string[]) => {
-  if (!session) {
-    toast.error('You need to be logged in to add ingredients to Todoist.');
-    return;
-  }
+      const existingTaskContents = new Set(
+        existingTasks.map((task: any) => task.content.toLowerCase())
+      );
 
-  const apiToken = 'YOUR_TODOIST_API_TOKEN';
-  try {
-    const tasks = ingredients.map((ingredient) => ({
-      content: ingredient,
-    }));
-
-    await Promise.all(
-      tasks.map((task) =>
-        axios.post(
-          'https://api.todoist.com/rest/v2/tasks',
-          task,
-          {
-            headers: {
-              Authorization: `Bearer ${apiToken}`,
-              'Content-Type': 'application/json',
-            },
-          }
+      // Step 2: Filter out ingredients that already exist
+      const newTasks = ingredientsArray
+        .map((ingredient) => ingredient.trim())
+        .filter(
+          (ingredient) => !existingTaskContents.has(ingredient.toLowerCase())
         )
-      )
-    );
+        .map((ingredient) => ({ content: ingredient }));
 
-    toast.success('Ingredients added to Todoist!');
-  } catch (error) {
-    console.error('Error adding to Todoist:', error);
-    toast.error('Failed to add ingredients to Todoist.');
-  }
-};
+      // Step 3: Add only the new tasks
+      if (newTasks.length > 0) {
+        await Promise.all(
+          newTasks.map((task) =>
+            axios.post('https://api.todoist.com/rest/v2/tasks', task, {
+              headers: {
+                Authorization: `Bearer ${apiToken}`,
+                'Content-Type': 'application/json',
+              },
+            })
+          )
+        );
+        toast.success('Ingredients added to Todoist!');
+      } else {
+        toast.info('All ingredients are already in Todoist.');
+      }
+    } catch (error) {
+      console.error('Error adding to Todoist:', error);
+      toast.error('Failed to add ingredients to Todoist.');
+    }
+  };
 
   if (error && !recipe) return <NotFound statusCode={404} />;
 
   return (
     <section className="flex flex-col p-4 mt-12">
       <h1 className="text-4xl font-bold mb-6 text-center">Recipe Details</h1>
-  
+
       {loading ? (
         <RecipeDetailSkeleton />
       ) : recipe ? (
@@ -414,36 +439,41 @@ const addToTodoist = async (ingredients: string[]) => {
             <div className="flex flex-col p-4 text-center">
               <h1 className="text-2xl font-bold mb-2">{recipe.title}</h1>
               <p className="text-lg mb-2">
-                <span className="font-semibold">Category:</span> {recipe.category}
+                <span className="font-semibold">Category:</span>{' '}
+                {recipe.category}
               </p>
               <p className="text-md mb-2">
-                <span className="font-semibold">Cooking Time:</span> {recipe.cooking_time}
+                <span className="font-semibold">Cooking Time:</span>{' '}
+                {recipe.cooking_time}
               </p>
               <p className="text-md -mb-2">
-                <span className="font-semibold">Difficulty:</span> {recipe.difficulty}
+                <span className="font-semibold">Difficulty:</span>{' '}
+                {recipe.difficulty}
               </p>
             </div>
             <div className="flex flex-col p-4">
               <p className="text-md mb-2">
-                <span className="font-semibold">Ingredients:</span> {recipe.ingredients}
+                <span className="font-semibold">Ingredients:</span>{' '}
+                {recipe.ingredients}
               </p>
               <p className="text-md mb-0">
-                <span className="font-semibold">Instructions:</span> {recipe.instructions}
+                <span className="font-semibold">Instructions:</span>{' '}
+                {recipe.instructions}
               </p>
               <div className="flex gap-4 mt-4 items-center">
-            <Button onClick={saveRecipe} className="bg-green-500">
-              Save Recipe
-            </Button>
-            <Button
-              onClick={() => addToTodoist(recipe.ingredients)}
-              className="bg-foreground hover:bg-foreground/60"
-            >
-              Add Ingredients to Todoist
-            </Button>
-          </div>
+                <Button onClick={saveRecipe} className="bg-green-500">
+                  Save Recipe
+                </Button>
+                <Button
+                  onClick={() => addToTodoist(recipe.ingredients)}
+                  className="bg-foreground hover:bg-foreground/60"
+                >
+                  Add Ingredients to Todoist
+                </Button>
+              </div>
             </div>
           </div>
-  
+
           <div className="flex gap-4 mt-4 items-center">
             <button
               onClick={() => handleVote('upvote')}
@@ -462,7 +492,9 @@ const addToTodoist = async (ingredients: string[]) => {
               <span className="text-xl">{downvotes}</span>
             </button>
             <button
-              onClick={() => toast.error('You need to be logged in to comment.')}
+              onClick={() =>
+                toast.error('You need to be logged in to comment.')
+              }
               className="flex items-center gap-1 text-xl text-slate-600 dark:text-slate-500"
               aria-label="Comment"
             >
@@ -480,7 +512,7 @@ const addToTodoist = async (ingredients: string[]) => {
           </div>
         </>
       ) : null}
-  
+
       <div className="w-full max-w-2xl mt-8">
         <h2 className="text-xl font-semibold">Comments</h2>
         {session && (
@@ -507,7 +539,7 @@ const addToTodoist = async (ingredients: string[]) => {
             </Button>
           </form>
         )}
-  
+
         {commentsLoading ? (
           <>
             <CommentSkeleton />
@@ -553,7 +585,6 @@ const addToTodoist = async (ingredients: string[]) => {
       </div>
     </section>
   );
-  
 };
 
 export default RecipeDetailPage;
