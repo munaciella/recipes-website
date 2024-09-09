@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import * as React from 'react';
+import axios from 'axios';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import {
   FaThumbsUp,
@@ -277,7 +278,7 @@ const handleShare = async () => {
         url: shareUrl,
       });
       toast.success('Recipe shared successfully!');
-      await incrementShareCount();  // Increment and persist share count
+      await incrementShareCount();
     } catch (error) {
       console.error('Error sharing:', error);
       toast.error('An error occurred while sharing.');
@@ -309,6 +310,86 @@ const handleShare = async () => {
     } else {
       toast.error('Unsupported platform or no platform chosen.');
     }
+  }
+};
+
+const saveRecipe = async () => {
+  if (!session) {
+    toast.error('You need to be logged in to save a recipe.');
+    return;
+  }
+
+  try {
+    // Check if the recipe is already saved by the user
+    const { data: existingEntry, error: checkError } = await supabase
+      .from('saved_recipes')
+      .select('*')
+      .eq('recipe_id', recipe_id)
+      .eq('user_id', userDetails.user_id)
+      .single();
+
+    if (checkError) {
+      throw checkError;
+    }
+
+    if (existingEntry) {
+      toast.info('Recipe is already saved.');
+      return;
+    }
+
+    // If the recipe is not already saved, upsert it
+    const { error } = await supabase
+      .from('saved_recipes')
+      .upsert([
+        {
+          recipe_id: recipe_id,
+          user_id: userDetails.user_id,
+        },
+      ]);
+
+    if (error) {
+      throw error;
+    }
+
+    toast.success('Recipe saved successfully!');
+  } catch (error) {
+    console.error('Error saving recipe:', error);
+    toast.error('Failed to save recipe.');
+  }
+};
+
+
+const addToTodoist = async (ingredients: string[]) => {
+  if (!session) {
+    toast.error('You need to be logged in to add ingredients to Todoist.');
+    return;
+  }
+
+  const apiToken = 'YOUR_TODOIST_API_TOKEN';
+  try {
+    const tasks = ingredients.map((ingredient) => ({
+      content: ingredient,
+    }));
+
+    await Promise.all(
+      tasks.map((task) =>
+        axios.post(
+          'https://api.todoist.com/rest/v2/tasks',
+          task,
+          {
+            headers: {
+              Authorization: `Bearer ${apiToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+      )
+    );
+
+    toast.success('Ingredients added to Todoist!');
+  } catch (error) {
+    console.error('Error adding to Todoist:', error);
+    toast.error('Failed to add ingredients to Todoist.');
   }
 };
 
@@ -349,6 +430,17 @@ const handleShare = async () => {
               <p className="text-md mb-0">
                 <span className="font-semibold">Instructions:</span> {recipe.instructions}
               </p>
+              <div className="flex gap-4 mt-4 items-center">
+            <Button onClick={saveRecipe} className="bg-green-500">
+              Save Recipe
+            </Button>
+            <Button
+              onClick={() => addToTodoist(recipe.ingredients)}
+              className="bg-foreground hover:bg-foreground/60"
+            >
+              Add Ingredients to Todoist
+            </Button>
+          </div>
             </div>
           </div>
   

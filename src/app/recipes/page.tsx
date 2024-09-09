@@ -165,19 +165,29 @@ const RecipesPage: NextPage = () => {
     router.push(`/recipe/${recipe_id}`);
   };
 
+  const handleSavedRecipesClick = () => {
+    router.push('/saved-recipes');
+  };
+
   if (!loading && error) {
     return <NotFound statusCode={404} />;
   }
 
   return (
-    <section className="flex flex-col items-center p-4 mt-12">
-      <div className="w-full max-w-8xl flex justify-center md:justify-end lg:justify-end xl:justify-end mb-8">
+    <section className="flex flex-col items-center p-4 mt-8 md:mt-12">
+      <div className="w-full max-w-8xl flex flex-col md:flex-row justify-center md:justify-end mb-8 md:gap-2 lg:gap-2">
         {session && userDetails?.role && (
           userDetails.role === 'business' ? (
             <Button>Add a Recipe</Button>
           ) : (
             <Button>Suggest a Recipe</Button>
           )
+        )}
+        {session && (
+          <Button variant="outline"
+          onClick={handleSavedRecipesClick} className="mt-4 md:mt-0 border shadow-md border-slate-300 dark:border-slate-400">
+            Saved Recipes
+          </Button>
         )}
       </div>
 
