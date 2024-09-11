@@ -10,8 +10,9 @@ const { contactDescription } = copy.contact;
 const ContactPage: NextPage = () => {
   const rowsValue: string = "5";
   const rows: number = parseInt(rowsValue);
+
   return (
-    <div className="flex flex-col items-center mt-6 mb-14 mx-auto p-6 w-full">
+    <div className="flex flex-col items-center mt-12 lg:mt-16 md:mt-20 mb-14 mx-auto p-6 w-full">
       <form
         action="https://formspree.io/f/xwkgzngb"
         method="POST"
