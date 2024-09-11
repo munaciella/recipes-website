@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import { NextPage } from 'next';
 import { useState, useEffect } from 'react';
@@ -41,7 +42,7 @@ const SavedRecipesPage: NextPage = () => {
   }, [session, userDetails]);
 
   return (
-    <section className="flex flex-col p-4 mt-12">
+    <section className="flex flex-col p-4 mt-14 md:mt-20">
       <h1 className="text-4xl font-bold mb-6 text-center">Saved Recipes</h1>
 
       {loading ? (

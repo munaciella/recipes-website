@@ -236,8 +236,8 @@ const LoginPage: NextPage = () => {
   };
 
   return (
-    <section className="flex flex-col items-center p-4 max-w-4xl mx-auto bg-background mt-8 dark:bg-background">
-      <h1 className="text-3xl lg:text-5xl md:text-3xl font-bold mb-8 mt-14 text-center">
+    <section className="flex flex-col items-center p-4 max-w-4xl mx-auto bg-background mt-8 md:mt-20 dark:bg-background">
+      <h1 className="text-3xl lg:text-5xl md:text-3xl font-bold mb-8 mt-2 text-center">
         Login to VeloVegans
       </h1>
 

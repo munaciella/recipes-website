@@ -46,7 +46,7 @@ export const copy = {
     details: {
       heading: "About Us",
       paragraph:
-        "Welcome to our vegan recipes website, where we celebrate compassion, health, and sustainability. We believe that every meal is an opportunity to make a positive impact on the world. Our recipes are not only delicious but also cruelty-free, meaning they contain no animal products. We are passionate about promoting a lifestyle that respects all living beings. As animal lovers, we understand the importance of kindness and empathy towards our fellow creatures. That is why our recipes are created with love and consideration for animals everywhere. We are also deeply committed to environmental sustainability. Our ingredients are sourced responsibly, and we strive to minimize our carbon footprint in every aspect of our operations. Thank you for joining us on this journey towards a healthier, more compassionate world. Together, we can make a difference, one delicious vegan meal at a time. To kickstart your journey towards saving animals and the planet, here are some useful links:",
+        "Welcome to our vegan recipes website, where we celebrate compassion, health and sustainability. Our delicious, cruelty-free recipes promote a healthier, kinder lifestyle. Join us in making a positive impact on the planet with every meal. Click below to learn more about veganism and sustainability and how you can get involved.",
       usefulLinks: [
         {
           name: "Cowspiracy",
