@@ -100,7 +100,7 @@ export const MobileNavbar: FC = () => {
   };
 
   return (
-    <nav className="fixed w-full top-0 z-50 shadow-sm py-2 px-4 grid grid-cols-3 items-center bg-slate-50 dark:bg-background border-b border-slate-100 dark:border-slate-700 md:hidden transition-all">
+    <nav className="fixed w-full top-0 z-50 shadow-sm py-2 px-4 grid grid-cols-3 items-center bg-slate-200 bg-opacity-70 dark:bg-black dark:bg-opacity-70 border-b border-slate-300 dark:border-slate-700 md:hidden transition-all backdrop-blur-md">
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         className="text-primary-background px-2 mr-3"
@@ -117,7 +117,7 @@ export const MobileNavbar: FC = () => {
       </button>
       <Link href="/" className="flex justify-center" onClick={handleMenuClick}>
         <img
-          className="scale-150 rounded-2xl w-[70%]"
+          className="scale-150 rounded-2xl w-[80%]"
           src={logoSrc}
           alt={nav.logo.alt}
         />

@@ -42,7 +42,7 @@ const SearchContent = () => {
   };
 
   return (
-    <section className="flex flex-col items-center p-4 max-w-3xl mx-auto mt-12">
+    <section className="flex flex-col items-center p-4 max-w-3xl mx-auto mt-10">
       <h1 className="text-3xl md:text-4xl font-bold mb-6 mt-0 md:mt-8 text-center">Search Results
       </h1>
 
