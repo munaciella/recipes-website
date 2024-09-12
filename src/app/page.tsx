@@ -43,7 +43,7 @@ const Homepage: NextPage = () => {
   };
 
   return (
-    <main className="w-full lg:mx-6 m-4 max-w-6xl px-6 sm:px-4 mt-10 md:mt-8">
+    <main className="w-full lg:mx-6 m-4 max-w-6xl px-6 sm:px-4 mt-16 md:mt-8">
       <div className="flex flex-col md:flex-row items-center md:items-start md:justify-between md:gap-x-8">
         <div className="max-w-3xl w-full">
           <div className="mx-auto max-w-prose">

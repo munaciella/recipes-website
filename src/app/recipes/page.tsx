@@ -174,7 +174,7 @@ const RecipesPage: NextPage = () => {
   }
 
   return (
-    <section className="flex flex-col items-center p-4 mt-8 md:mt-12">
+    <section className="flex flex-col items-center p-4 mt-14 md:mt-12">
       <div className="w-full max-w-8xl flex flex-col md:flex-row justify-center md:justify-end mb-8 md:gap-2 lg:gap-2">
         {session && userDetails?.role && (
           userDetails.role === 'business' ? (
