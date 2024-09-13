@@ -5,6 +5,7 @@ export interface Recipe {
     category: string;
     cooking_time: string;
     difficulty: string;
+    allergy_advice: string;
     ingredients: string[];
     instructions: string[];
     created_at: string;
