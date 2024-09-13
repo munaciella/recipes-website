@@ -220,7 +220,7 @@ const RecipesPage: NextPage = () => {
                   alt={item.title}
                   className="w-full h-96 object-cover rounded-lg"
                 />
-                <div className="flex flex-col items-center p-4">
+                <div className="flex flex-col items-center p-4 -mb-4">
                   <h2 className="text-2xl font-semibold mb-2 text-center">
                     {item.title}
                   </h2>
@@ -235,6 +235,10 @@ const RecipesPage: NextPage = () => {
                   <p className="text-md mb-2 text-center">
                     <span className="font-semibold">Difficulty:</span>{' '}
                     {item.difficulty}
+                  </p>
+                  <p className="text-md mb-2 text-center">
+                    <span className="font-semibold">Allergy Advice:</span>{' '}
+                    {item.allergy_advice}
                   </p>
                 </div>
               </div>

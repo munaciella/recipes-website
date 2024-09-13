@@ -61,20 +61,24 @@ const SavedRecipesPage: NextPage = () => {
                 className="w-full h-96 object-cover rounded-lg"
               />
             </div>
-            <div className="flex flex-col p-4 text-center">
+            <div className="flex flex-col p-4 text-center -mb-3">
               <h1 className="text-2xl font-bold mb-2">{recipe.title}</h1>
               <p className="text-lg mb-2">
                 <span className="font-semibold">Category:</span>{' '}
                 {recipe.category}
               </p>
-              <p className="text-md mb-2">
+              <p className="text-lg mb-2">
                 <span className="font-semibold">Cooking Time:</span>{' '}
                 {recipe.cooking_time}
               </p>
-              <p className="text-md -mb-2">
+              <p className="text-lg -mb-2">
                 <span className="font-semibold">Difficulty:</span>{' '}
                 {recipe.difficulty}
               </p>
+              <p className="text-lg -mb-2 mt-4">
+                <span className="font-semibold">Allergy Advice:</span>{' '}
+                {recipe.allergy_advice}
+                </p>
             </div>
           </div>
         ))
