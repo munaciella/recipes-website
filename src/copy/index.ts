@@ -80,6 +80,22 @@ export const copy = {
             alt: "Forks Over Knives",
           }
         },
+        {
+          name: "The Game Changers",
+          href: "https://www.thegamechangersmovie.com/",
+          img: {
+            src: "/assets/gamechangers.png",
+            alt: "The Game Changers",
+          }
+        },
+        {
+          name: "Peta UK",
+          href: "https://www.peta.org.uk/",
+          img: {
+            src: "/assets/petauk.png",
+            alt: "Peta UK",
+          }
+        },
       ]
     },
   },
