@@ -236,86 +236,51 @@ const LoginPage: NextPage = () => {
   };
 
   return (
-    <section className="flex flex-col items-center p-4 max-w-4xl mx-auto bg-background mt-8 md:mt-20 dark:bg-background">
-      <h1 className="text-3xl lg:text-5xl md:text-3xl font-bold mb-8 mt-2 text-center">
-        Login to VeloVegans
-      </h1>
+    <section className="min-h-screen flex flex-col items-center justify-center bg-background dark:bg-background">
+  <div className="w-full max-w-md bg-card rounded-lg shadow-lg p-8 space-y-6 border border-border dark:border-slate-700">
+    <h1 className="text-3xl font-bold text-center mb-6 text-card-foreground dark:text-white">Login to VeloVegans</h1>
+    <form onSubmit={handleLogin} className="space-y-4">
+      <Input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
+      />
+      <Input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
+      />
+      <Button type="submit" className="w-full py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90">
+        Continue with Email
+      </Button>
+    </form>
+    <Button
+      type="button"
+      onClick={handleGoogleSignIn}
+      className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex justify-center items-center"
+    >
+      <img src="/google-icon.svg" alt="Google" className="w-6 h-6 mr-2" />
+      Continue with Google
+    </Button>
+    <p className="text-center text-card-foreground dark:text-white mt-4">
+      Don't have an account?{' '}
+      <button onClick={handleSignUpRedirect} className="text-primary hover:underline">
+        Sign Up
+      </button>
+    </p>
+    <p className="text-center mt-4">
+  Forgot your password?{' '}
+  <a href="/reset-password" className="text-primary hover:underline">
+    Reset it here
+  </a>
+</p>
+  </div>
+</section>
 
-      {loading ? (
-        <SkeletonCard />
-      ) : (
-        <>
-          <div className="bg-card dark:bg-background rounded-lg shadow-lg p-8 mt-8 w-full max-w-2xl border border-border dark:border-slate-700">
-            <h2 className="text-3xl font-bold mb-6 text-center text-card-foreground dark:text-white">
-              Login
-            </h2>
-            <form onSubmit={handleLogin} className="space-y-4">
-              <Input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
-              />
-              <Input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
-              />
-              <Button
-                type="submit"
-                className="w-full py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 dark:bg-primary dark:text-primary-foreground"
-              >
-                Login
-              </Button>
-            </form>
-            <Button
-              type="button"
-              onClick={handleGoogleSignIn}
-              className="w-full py-3 bg-blue-600 text-white dark:text-black rounded-lg mt-4 hover:bg-blue-700"
-            >
-              Sign In with Google
-            </Button>
-            <div className="mt-4 text-center">
-              <p className="text-card-foreground dark:text-white">
-                Don't have an account?{' '}
-                <button
-                  onClick={handleSignUpRedirect}
-                  className="text-primary dark:text-primary underline hover:text-primary/90 dark:hover:text-primary"
-                >
-                  Sign Up
-                </button>
-              </p>
-            </div>
-          </div>
-
-          {isBusinessUser && requiresBusinessCode && (
-            <div className="mt-8">
-              <h2 className="text-2xl font-bold mb-4 text-center">
-                Business Code Required
-              </h2>
-              <form onSubmit={handleBusinessCodeSubmit} className="space-y-4">
-                <Input
-                  type="text"
-                  placeholder="Business Code"
-                  value={businessCode}
-                  onChange={(e) => setBusinessCode(e.target.value)}
-                  className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
-                />
-                <Button
-                  type="submit"
-                  className="w-full py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 dark:bg-primary dark:text-primary-foreground"
-                >
-                  Submit
-                </Button>
-              </form>
-            </div>
-          )}
-        </>
-      )}
-    </section>
   );
 };
 
