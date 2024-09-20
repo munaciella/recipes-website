@@ -17,9 +17,8 @@ const LoginPage: NextPage = () => {
   const [businessCode, setBusinessCode] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [isBusinessUser, setIsBusinessUser] = useState<boolean>(false);
-  const [requiresBusinessCode, setRequiresBusinessCode] =
+  const [showBusinessCodeInput, setShowBusinessCodeInput] =
     useState<boolean>(false);
-
   const { setSession, getStoredIntendedURL, clearStoredIntendedURL } =
     useSupabaseAuth();
   const router = useRouter();
@@ -53,8 +52,7 @@ const LoginPage: NextPage = () => {
           if (userRole === 'business') {
             setIsBusinessUser(true);
             if (!userBusinessCode) {
-              setRequiresBusinessCode(true);
-              toast.info('Please enter your business code to continue.');
+              setShowBusinessCodeInput(true);
             } else {
               handleSuccessfulLogin();
             }
@@ -83,7 +81,7 @@ const LoginPage: NextPage = () => {
 
           setTimeout(() => {
             toast.success('Successfully logged in');
-          }, 2000);
+          }, 1500);
 
           checkIfBusinessUser(session);
         } else if (event === 'SIGNED_OUT') {
@@ -125,7 +123,7 @@ const LoginPage: NextPage = () => {
       toast.success('Business code accepted. Redirecting...');
       setTimeout(() => {
         handleSuccessfulLogin();
-      }, 2000);
+      }, 1500);
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(`Error updating business code: ${error.message}`);
@@ -156,39 +154,40 @@ const LoginPage: NextPage = () => {
 
   const handleGoogleSignIn = async () => {
     setLoading(true);
-  
+
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
       });
-  
+
       if (error) {
         toast.error(`Error: ${error.message}`);
         setLoading(false);
         return;
       }
-  
+
       setTimeout(async () => {
         try {
-          const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+          const { data: sessionData, error: sessionError } =
+            await supabase.auth.getSession();
           if (sessionError) {
             throw new Error(`Error fetching session: ${sessionError.message}`);
           }
-  
+
           const session = sessionData.session;
           if (session) {
             const user = session.user;
-  
+
             const { data: existingUser, error: fetchError } = await supabase
               .from('users')
               .select('*')
               .eq('email', user.email)
               .single();
-  
-            if (fetchError && fetchError.code !== 'PGRST116') { 
+
+            if (fetchError && fetchError.code !== 'PGRST116') {
               throw new Error(`Error fetching user: ${fetchError.message}`);
             }
-  
+
             if (!existingUser) {
               const { error: insertError } = await supabase
                 .from('users')
@@ -202,12 +201,12 @@ const LoginPage: NextPage = () => {
                     business_code: null,
                   },
                 ]);
-  
+
               if (insertError) {
                 throw new Error(`Error inserting user: ${insertError.message}`);
               }
             }
-  
+
             setSession(session);
             toast.success('Successfully signed in');
             checkIfBusinessUser(session);
@@ -235,52 +234,82 @@ const LoginPage: NextPage = () => {
     router.push('/signup');
   };
 
+  if (loading) {
+    return <SkeletonCard />;
+  }
+
   return (
     <section className="min-h-screen flex flex-col items-center justify-center bg-background dark:bg-background">
-  <div className="w-full max-w-md bg-card rounded-lg shadow-lg p-8 space-y-6 border border-border dark:border-slate-700">
-    <h1 className="text-3xl font-bold text-center mb-6 text-card-foreground dark:text-white">Login to VeloVegans</h1>
-    <form onSubmit={handleLogin} className="space-y-4">
-      <Input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
-      />
-      <Input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
-      />
-      <Button type="submit" className="w-full py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90">
-        Continue with Email
-      </Button>
-    </form>
-    <Button
-      type="button"
-      onClick={handleGoogleSignIn}
-      className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex justify-center items-center"
-    >
-      <img src="/google-icon.svg" alt="Google" className="w-6 h-6 mr-2" />
-      Continue with Google
-    </Button>
-    <p className="text-center text-card-foreground dark:text-white mt-4">
-      Don't have an account?{' '}
-      <button onClick={handleSignUpRedirect} className="text-primary hover:underline">
-        Sign Up
-      </button>
-    </p>
-    <p className="text-center mt-4">
-  Forgot your password?{' '}
-  <a href="/reset-password" className="text-primary hover:underline">
-    Reset it here
-  </a>
-</p>
-  </div>
-</section>
-
+      <div className="w-full max-w-md bg-card rounded-lg shadow-lg p-8 space-y-6 border border-border dark:border-slate-700">
+        <h1 className="text-3xl font-bold text-center mb-6 text-card-foreground dark:text-white">
+          Login to VeloVegans
+        </h1>
+        {isBusinessUser && showBusinessCodeInput ? (
+          <div className="space-y-4">
+            <Input
+              type="text"
+              placeholder="Business Code"
+              value={businessCode}
+              onChange={(e) => setBusinessCode(e.target.value)}
+              className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
+            />
+            <Button
+              type="button"
+              onClick={handleBusinessCodeSubmit}
+              className="w-full py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90"
+            >
+              Submit Business Code
+            </Button>
+          </div>
+        ) : (
+          <form onSubmit={handleLogin} className="space-y-4">
+            <Input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
+            />
+            <Input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
+            />
+            <Button
+              type="submit"
+              className="w-full py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90"
+            >
+              Continue with Email
+            </Button>
+          </form>
+        )}
+        <Button
+          type="button"
+          onClick={handleGoogleSignIn}
+          className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex justify-center items-center"
+        >
+          <img src="/google-icon.svg" alt="Google" className="w-6 h-6 mr-2" />
+          Continue with Google
+        </Button>
+        <p className="text-center text-card-foreground dark:text-white mt-4">
+          Don't have an account?{' '}
+          <button
+            onClick={handleSignUpRedirect}
+            className="text-primary hover:underline"
+          >
+            Sign Up
+          </button>
+        </p>
+        <p className="text-center mt-4">
+          Forgot your password?{' '}
+          <a href="/reset-password" className="text-primary hover:underline">
+            Reset it here
+          </a>
+        </p>
+      </div>
+    </section>
   );
 };
 
