@@ -290,7 +290,7 @@ const LoginPage: NextPage = () => {
           onClick={handleGoogleSignIn}
           className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex justify-center items-center"
         >
-          <img src="/google-icon.svg" alt="Google" className="w-6 h-6 mr-2" />
+          <img src="/assets/google-icon.png" alt="Google Logo" className="w-6 h-6 mr-2" />
           Continue with Google
         </Button>
         <p className="text-center text-card-foreground dark:text-white mt-4">
