@@ -97,17 +97,95 @@ const SignupPage: NextPage = () => {
     }
   };
 
+  const handleGoogleSignUp = async () => {
+    setLoading(true);
+
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+      });
+
+      if (error) {
+        toast.error(`Error: ${error.message}`);
+        setLoading(false);
+        return;
+      }
+
+      setTimeout(async () => {
+        try {
+          const { data: sessionData, error: sessionError } =
+            await supabase.auth.getSession();
+          if (sessionError) {
+            throw new Error(`Error fetching session: ${sessionError.message}`);
+          }
+
+          const session = sessionData.session;
+          if (session) {
+            const user = session.user;
+
+            const { data: existingUser, error: fetchError } = await supabase
+              .from('users')
+              .select('*')
+              .eq('email', user.email)
+              .single();
+
+            if (fetchError && fetchError.code !== 'PGRST116') {
+              throw new Error(`Error fetching user: ${fetchError.message}`);
+            }
+
+            if (!existingUser) {
+              const { error: insertError } = await supabase
+                .from('users')
+                .insert([
+                  {
+                    user_uuid: user.id,
+                    name: user.user_metadata.full_name || user.email,
+                    email: user.email,
+                    role: 'user',
+                    created_at: new Date().toISOString(),
+                    business_code: null,
+                  },
+                ]);
+
+              if (insertError) {
+                throw new Error(`Error inserting user: ${insertError.message}`);
+              }
+            }
+
+            setSession(session);
+            toast.success('Successfully signed in');
+          }
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            toast.error(`An error occurred: ${error.message}`);
+            console.error('Error during Google sign-in:', error);
+          } else {
+            toast.error('An unknown error occurred');
+            console.error('Unknown error during Google sign-in:', error);
+          }
+        } finally {
+          setLoading(false);
+        }
+      }, 3000);
+    } catch (error) {
+      toast.error('An error occurred during Google sign-in');
+      console.error('Error during Google sign-in:', error);
+      setLoading(false);
+    }
+  };
+
+  const handleLogInRedirect = () => {
+    router.push('/login');
+  };
+
   return (
-    <section className="flex flex-col items-center p-4 max-w-4xl mx-auto bg-background mt-8 md:mt-20 dark:bg-background">
-      <h1 className="text-3xl lg:text-5xl md:text-3xl font-bold mb-8 mt-2 text-center">Sign Up for VeloVegans</h1>
+    <section className="min-h-screen flex flex-col items-center justify-center bg-background dark:bg-background">
+      <div className="w-full max-w-md bg-card rounded-lg shadow-lg p-8 space-y-6 border border-border dark:border-slate-700">
+      <h1 className="text-3xl font-bold mb-8 mt-6 text-center text-card-foreground dark:text-white">Sign Up for VeloVegans</h1>
 
       {loading ? (
         <SkeletonCard />
       ) : (
-        <div className="bg-card dark:bg-background rounded-lg shadow-lg p-8 mt-8 w-full max-w-2xl border border-border dark:border-slate-700">
-          <h2 className="text-3xl font-bold mb-6 text-center text-card-foreground dark:text-card-foreground">
-            Sign Up
-          </h2>
           <form onSubmit={handleSignUp} className="space-y-4">
             <Input
               type="text"
@@ -141,11 +219,28 @@ const SignupPage: NextPage = () => {
               type="submit"
               className="w-full py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 dark:bg-primary dark:text-primary-foreground"
             >
-              Sign Up
+              Sign Up with Email
             </Button>
           </form>
-        </div>
       )}
+      <Button
+          type="button"
+          onClick={handleGoogleSignUp}
+          className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex justify-center items-center"
+        >
+          <img src="/assets/google-icon.png" alt="Google Logo" className="w-6 h-6 mr-2" />
+          Sign Up with Google
+        </Button>
+        <p className="text-center text-card-foreground dark:text-white mt-4">
+          Already a user?{' '}
+          <button
+            onClick={handleLogInRedirect}
+            className="text-primary hover:underline"
+          >
+            Log In here
+          </button>
+          </p>
+      </div>
     </section>
   );
 };
