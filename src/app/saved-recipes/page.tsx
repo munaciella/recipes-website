@@ -23,7 +23,7 @@ const SavedRecipesPage: NextPage = () => {
       try {
         const { data, error } = await supabase
           .from('saved_recipes')
-          .select('recipe_id, recipes(*)')
+          .select('recipes(*)')
           .eq('user_id', userDetails.user_id);
 
         if (error) {
