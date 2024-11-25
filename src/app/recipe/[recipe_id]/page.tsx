@@ -87,49 +87,57 @@ const RecipeDetailPage: NextPage = () => {
     const fetchVotes = async () => {
       if (!recipe_id) return;
 
-      const { data, error } = await supabase
-        .from('votes')
-        .select('vote_type')
-        .eq('recipe_id', recipe_id);
+      try {
+        const { data, error } = await supabase
+          .from('votes')
+          .select('vote_type')
+          .eq('recipe_id', recipe_id);
 
-      if (error) {
-        console.error('Error fetching votes:', error);
-      } else {
-        const upvoteCount = data.filter(
-          (vote) => vote.vote_type === 'upvote'
-        ).length;
-        const downvoteCount = data.filter(
-          (vote) => vote.vote_type === 'downvote'
-        ).length;
+        if (error) {
+          console.error('Error fetching votes:', error);
+        } else {
+          const upvoteCount = data.filter(
+            (vote) => vote.vote_type === 'upvote'
+          ).length;
+          const downvoteCount = data.filter(
+            (vote) => vote.vote_type === 'downvote'
+          ).length;
 
-        setUpvotes(upvoteCount);
-        setDownvotes(downvoteCount);
+          setUpvotes(upvoteCount);
+          setDownvotes(downvoteCount);
+        }
+      } catch (err) {
+        console.error('Unexpected error in fetchVotes:', err);
       }
     };
 
     const fetchUserVote = async () => {
       if (session && userDetails?.user_id) {
-        const { data, error } = await supabase
-          .from('votes')
-          .select('vote_type')
-          .eq('user_id', userDetails.user_id)
-          .eq('recipe_id', recipe_id)
-          .single();
+        try {
+          const { data, error } = await supabase
+            .from('votes')
+            .select('vote_type')
+            .eq('user_id', userDetails.user_id)
+            .eq('recipe_id', recipe_id)
+            .maybeSingle();
 
-        if (error && error.code !== 'PGRST116') {
-          console.error('Error fetching user vote:', error);
-        } else {
-          setUserVote(data?.vote_type || null);
+          if (error && error.code !== 'PGRST116') {
+            console.error('Error fetching user vote:', error);
+          } else {
+            setUserVote(data?.vote_type || null);
+          }
+        } catch (err) {
+          console.error('Unexpected error in fetchUserVote:', err);
         }
       }
-    };
-
+    }
     fetchRecipe();
     fetchComments();
     fetchVotes();
     fetchUserVote();
   }, [recipe_id, session, userDetails]);
 
+  
   const handleVote = async (voteType: 'upvote' | 'downvote') => {
     if (!session) {
       toast.error('You need to be logged in to vote.');
@@ -320,6 +328,47 @@ const RecipeDetailPage: NextPage = () => {
     }
   };
 
+  // const saveRecipe = async () => {
+  //   if (!session) {
+  //     toast.error('You need to be logged in to save a recipe.');
+  //     return;
+  //   }
+
+  //   try {
+  //     const { data: existingEntry, error: checkError } = await supabase
+  //       .from('saved_recipes')
+  //       .select('*')
+  //       .eq('recipe_id', recipe_id)
+  //       .eq('user_id', userDetails.user_id)
+  //       .single();
+
+  //     if (checkError) {
+  //       throw checkError;
+  //     }
+
+  //     if (existingEntry) {
+  //       toast.info('Recipe is already saved.');
+  //       return;
+  //     }
+
+  //     const { error } = await supabase.from('saved_recipes').upsert([
+  //       {
+  //         recipe_id: recipe_id,
+  //         user_id: userDetails.user_id,
+  //       },
+  //     ]);
+
+  //     if (error) {
+  //       throw error;
+  //     }
+
+  //     toast.success('Recipe saved successfully!');
+  //   } catch (error) {
+  //     console.error('Error saving recipe:', error);
+  //     toast.error('Failed to save recipe.');
+  //   }
+  // };
+
   const saveRecipe = async () => {
     if (!session) {
       toast.error('You need to be logged in to save a recipe.');
@@ -332,10 +381,11 @@ const RecipeDetailPage: NextPage = () => {
         .select('*')
         .eq('recipe_id', recipe_id)
         .eq('user_id', userDetails.user_id)
-        .single();
+        .maybeSingle();
 
       if (checkError) {
-        throw checkError;
+        console.error('Error checking saved recipe:', checkError);
+        throw new Error('Failed to verify existing recipe.');
       }
 
       if (existingEntry) {
@@ -343,15 +393,14 @@ const RecipeDetailPage: NextPage = () => {
         return;
       }
 
-      const { error } = await supabase.from('saved_recipes').upsert([
-        {
-          recipe_id: recipe_id,
-          user_id: userDetails.user_id,
-        },
-      ]);
+      const { error } = await supabase.from('saved_recipes').insert({
+        recipe_id: recipe_id,
+        user_id: userDetails.user_id,
+      });
 
       if (error) {
-        throw error;
+        console.error('Error inserting recipe:', error);
+        throw new Error('Failed to save recipe.');
       }
 
       toast.success('Recipe saved successfully!');
@@ -453,7 +502,7 @@ const RecipeDetailPage: NextPage = () => {
               <p className="text-lg mb-2 mt-4">
                 <span className="font-semibold">Allergy Advice:</span>{' '}
                 {recipe.allergy_advice}
-                </p>
+              </p>
             </div>
             <div className="flex flex-col p-4 -mb-4">
               <p className="text-md mb-2 -mt-4">
