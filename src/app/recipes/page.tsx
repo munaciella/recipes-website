@@ -169,6 +169,10 @@ const RecipesPage: NextPage = () => {
     router.push('/saved-recipes');
   };
 
+  const handleAddRecipeClick = () => {
+    router.push('/add-recipe');
+  };
+
   if (!loading && error) {
     return <NotFound statusCode={404} />;
   }
@@ -178,7 +182,9 @@ const RecipesPage: NextPage = () => {
       <div className="w-full max-w-8xl flex flex-col md:flex-row justify-center md:justify-end mb-8 md:gap-2 lg:gap-2">
         {session && userDetails?.role && (
           userDetails.role === 'business' ? (
-            <Button>Add a Recipe</Button>
+            <Button
+            onClick={handleAddRecipeClick}
+            >Add a Recipe</Button>
           ) : (
             <Button>Suggest a Recipe</Button>
           )
