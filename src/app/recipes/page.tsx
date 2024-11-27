@@ -173,6 +173,10 @@ const RecipesPage: NextPage = () => {
     router.push('/add-recipe');
   };
 
+  const handleSuggestRecipeClick = () => {
+    router.push('/suggest-recipe');
+  };
+
   if (!loading && error) {
     return <NotFound statusCode={404} />;
   }
@@ -186,7 +190,9 @@ const RecipesPage: NextPage = () => {
             onClick={handleAddRecipeClick}
             >Add a Recipe</Button>
           ) : (
-            <Button>Suggest a Recipe</Button>
+            <Button
+            onClick={handleSuggestRecipeClick}
+            >Suggest a Recipe</Button>
           )
         )}
         {session && (

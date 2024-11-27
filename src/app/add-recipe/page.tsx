@@ -100,7 +100,7 @@ const AddRecipePage: NextPage = () => {
       setLoading(true);
   
       const formattedIngredients = ingredients
-        .split(',')  // Split by commas
+        .split(',')
         .map((ingredient) => ingredient.trim())  
         .join(', ');  
   
