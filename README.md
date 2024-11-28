@@ -49,8 +49,8 @@ Welcome to **VeloVegans**, your go-to platform for exploring the world of vegani
 
 ### 🖥️ Clone the Repository
 ```bash
-git clone https://github.com/munaciella/velovevegans.git
-cd velovevegans
+git clone [https://github.com/munaciella/velovevegans.git](https://github.com/munaciella/recipes-website)
+cd recips-website
 ```
 
 ### 📦 Install Dependencies
