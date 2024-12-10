@@ -1,12 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useEffect, useState } from "react";
 import Link from "next/link";
 import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter, FaThreads } from "react-icons/fa6";
 import { copy } from "@/copy";
+import { useTheme } from "next-themes";
 
-const { footer } = copy.common;
+const { footer, nav } = copy.common;
 
 const getIcon = (name: string): ReactElement => {
   switch (name) {
@@ -29,37 +30,94 @@ const footerLinks = footer.socials.map(({ href, name }) => ({
 export const Footer: FC<{
   companyName: string;
 }> = ({ companyName }) => {
-  return (
-    <footer className="w-full flex flex-col md:flex-row justify-between items-center py-6 md:py-10 px-8 mt-20 bg-gradient-to-r from-slate-50 via-white to-slate-100 shadow-lg dark:bg-gradient-to-r dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-t border-slate-300 dark:border-slate-700">
+  const { theme, resolvedTheme } = useTheme();
+  const [logoSrc, setLogoSrc] = useState(nav.logo.src);
 
-      <div className="flex items-center space-x-2">
-        <span className="text-gray-700 dark:text-gray-200 font-semibold text-lg">
-          Made with <span className="text-red-500">♡</span> by
-        </span>
-        <img
-          className="w-5 h-7"
-          src="/assets/FranIcon.png"
-          alt="Francesco's Image"
-        />
+  useEffect(() => {
+    if (theme === "dark" || resolvedTheme === "dark") {
+      setLogoSrc(nav.logo.darkSrc as typeof nav.logo.src);
+    } else {
+      setLogoSrc(nav.logo.src);
+    }
+  }, [theme, resolvedTheme]);
+
+  return (
+    <footer className="w-full flex flex-col space-y-8 py-6 px-12 mt-20 bg-gradient-to-r from-slate-50 via-white to-slate-100 shadow-lg dark:bg-gradient-to-r dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-t border-slate-300 dark:border-slate-700">
+
+      <div className="flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0">
+
+        <div className="flex flex-col items-center md:items-start space-y-4">
+          <Link href="/" className="flex flex-col md:items-start items-center space-x-2">
+            <img
+              className="w-[24%] scale-150"
+              src={logoSrc}
+              alt={nav.logo.alt}
+            />
+          </Link>
+          <h4 className="text-gray-700 dark:text-gray-400 md:text-md text-md font-semibold text-center md:text-left">
+            &copy; {new Date().getFullYear()} {companyName} {footer.msg}
+          </h4>
+        </div>
+
+        <div className="flex flex-col items-center md:items-end space-y-4">
+          <div className="flex flex-col items-center md:items-end space-y-2">
+            <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Follow us
+            </h4>
+            <div className="flex space-x-4">
+              {footerLinks.map(({ href, name, icon }, idx) => (
+                <Link
+                  key={href + idx}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-slate-500 dark:text-gray-300 hover:text-slate-900 dark:hover:text-slate-500 transition-colors duration-200 text-2xl"
+                >
+                  {icon}
+                  <span className="sr-only">{name}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-2 flex-nowrap space-y-2">
+            <span className="text-gray-700 dark:text-gray-200 font-semibold text-lg whitespace-nowrap">
+              Made with <span className="text-red-500">♡</span> by
+            </span>
+            <Link href="https://francesco-dev.vercel.app/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="">
+            <img
+              className="w-7 h-9"
+              src="/assets/FranIcon.png"
+              alt="Francesco's Image"
+            />
+            </Link>
+          </div>
+        </div>
       </div>
 
-      <h4 className="text-gray-700 dark:text-gray-400 text-md md:text-md mt-4 md:mt-0 font-semibold">
-        &copy; {new Date().getFullYear()} {companyName} {footer.msg}
-      </h4>
-
-      <div className="flex space-x-4 mt-4 md:mt-0">
-        {footerLinks.map(({ href, name, icon }, idx) => (
-          <Link
-            key={href + idx}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-slate-500 dark:text-gray-300 hover:text-slate-900 dark:hover:text-slate-500 transition-colors duration-200 text-2xl"
-          >
-            {icon}
-            <span className="sr-only">{name}</span>
+      <div className="flex flex-col sm:flex-row justify-between items-center text-center sm:text-left space-y-4 sm:space-y-0">
+        <div className="text-sm text-gray-600 dark:text-gray-400">
+          <Link href="/privacy-policy" className="hover:underline underline-offset-4">
+            Privacy Policy
+          </Link>{" "}
+          |{" "}
+          <Link href="/cookie-policy" className="hover:underline underline-offset-4">
+            Cookie Policy
           </Link>
-        ))}
+        </div>
+        <div className="text-sm text-gray-600 dark:text-gray-400">
+          <Link
+            href="https://francesco-dev.vercel.app/"
+            className="hover:underline underline-offset-4"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Developer Website
+          </Link>
+        </div>
       </div>
     </footer>
   );

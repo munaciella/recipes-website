@@ -79,10 +79,10 @@ export const Navbar: FC = () => {
   }, [theme, resolvedTheme]);
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 shadow-sm py-2 px-4 items-center justify-between flex-wrap border-b border-slate-300 bg-opacity-70 dark:border-slate-700 bg-slate-200 dark:bg-black dark:bg-opacity-85 hidden md:flex">
+    <nav className="fixed top-0 left-0 w-full z-50 shadow-sm py-2 px-4 items-center justify-between flex-wrap border-b border-slate-300 bg-opacity-70 dark:border-slate-700 bg-slate-100 dark:bg-black dark:bg-opacity-85 hidden md:flex backdrop-blur-sm">
       <div className="flex items-center">
         <Link href="/" className="text-2xl font-bold flex-shrink-0">
-          <img className="w-[22%] scale-150" src={logoSrc} alt={nav.logo.alt} />
+          <img className="w-[28%] scale-150" src={logoSrc} alt={nav.logo.alt} />
         </Link>
         <div className="relative flex items-center -ml-96">
           <Input

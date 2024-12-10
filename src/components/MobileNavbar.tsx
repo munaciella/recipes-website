@@ -100,7 +100,7 @@ export const MobileNavbar: FC = () => {
   };
 
   return (
-    <nav className="fixed w-full top-0 z-50 shadow-sm py-2 px-4 grid grid-cols-3 items-center bg-slate-200 bg-opacity-70 dark:bg-black dark:bg-opacity-70 border-b border-slate-300 dark:border-slate-700 md:hidden transition-all backdrop-blur-md">
+    <nav className="fixed w-full top-0 z-50 shadow-sm py-2 px-4 grid grid-cols-3 items-center bg-slate-100 bg-opacity-70 dark:bg-black dark:bg-opacity-70 border-b border-slate-300 dark:border-slate-700 md:hidden transition-all backdrop-blur-sm">
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         className="text-primary-background px-2 mr-3"

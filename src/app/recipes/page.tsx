@@ -182,7 +182,7 @@ const RecipesPage: NextPage = () => {
   }
 
   return (
-    <section className="flex flex-col items-center p-4 mt-14 md:mt-12">
+    <section className="flex flex-col items-center p-4 mt-16 md:mt-24 lg:mt-24">
       <div className="w-full max-w-8xl flex flex-col md:flex-row justify-center md:justify-end mb-8 md:gap-2 lg:gap-2">
         {session && userDetails?.role && (
           userDetails.role === 'business' ? (
@@ -215,7 +215,7 @@ const RecipesPage: NextPage = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 justify-items-center m-6 gap-16 mt-10 w-full max-w-8xl">
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 justify-items-center m-6 gap-16 mt-10 w-full max-w-8xl">
         {!loading &&
           !error &&
           data.map((item) => (
@@ -291,7 +291,87 @@ const RecipesPage: NextPage = () => {
               </div>
             </div>
           ))}
+      </div> */}
+
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 justify-items-center m-6 gap-16 mt-10 w-full max-w-8xl">
+  {!loading &&
+    !error &&
+    data.map((item) => (
+      <div
+        key={item.recipe_id}
+        className="w-full flex flex-col items-center"
+      >
+        <div
+          className="w-full max-w-xs md:max-w-sm lg:max-w-xs xl:max-w-sm rounded-lg overflow-hidden shadow-lg hover:shadow-xl p-2 mt-2 cursor-pointer border dark:border-slate-600 dark:bg-background hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-100 flex flex-col"
+          onClick={() => handleRecipeClick(item.recipe_id)}
+          style={{ height: '100%' }}
+        >
+          <img
+            src={item.image_url}
+            alt={item.title}
+            className="w-full h-96 object-cover rounded-lg"
+          />
+          <div className="flex flex-col items-center p-4 flex-grow">
+            <h2 className="text-2xl font-semibold mb-2 text-center">
+              {item.title}
+            </h2>
+            <p className="text-lg mb-2 text-center">
+              <span className="font-semibold">Category:</span>{' '}
+              {item.category}
+            </p>
+            <p className="text-md mb-2 text-center">
+              <span className="font-semibold">Cooking Time:</span>{' '}
+              {item.cooking_time}
+            </p>
+            <p className="text-md mb-2 text-center">
+              <span className="font-semibold">Difficulty:</span>{' '}
+              {item.difficulty}
+            </p>
+            <p className="text-md mb-2 text-center">
+              <span className="font-semibold">Allergy Advice:</span>{' '}
+              {item.allergy_advice}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex justify-center gap-4 p-0 mt-4">
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => handleVote(item.recipe_id, 'upvote')}
+              className={`text-xl ${userVotes.get(item.recipe_id) === 'upvote' ? 'text-green-500' : 'text-slate-600 dark:text-slate-500'}`}
+              aria-label="Upvote"
+            >
+              <FaThumbsUp />
+            </button>
+            <span>{votesCount.get(item.recipe_id)?.upvotes || 0}</span>
+          </div>
+
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => handleVote(item.recipe_id, 'downvote')}
+              className={`text-xl ${userVotes.get(item.recipe_id) === 'downvote' ? 'text-red-500' : 'text-slate-600 dark:text-slate-500'}`}
+              aria-label="Downvote"
+            >
+              <FaThumbsDown />
+            </button>
+            <span>{votesCount.get(item.recipe_id)?.downvotes || 0}</span>
+          </div>
+
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => handleRecipeClick(item.recipe_id)}
+              className="text-xl text-slate-600 dark:text-slate-500"
+              aria-label="Comment"
+            >
+              <FaRegComment />
+            </button>
+            <span>{commentsCount.get(item.recipe_id) || 0}</span>
+          </div>
+        </div>
       </div>
+    ))}
+</div>
+
     </section>
   );
 };
