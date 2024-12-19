@@ -78,7 +78,7 @@ export const SupabaseAuthProvider = ({ children }: { children: ReactNode }) => {
                 user_uuid: user.id,
                 name: user.user_metadata.full_name || null,
                 email: user.email,
-                role: 'user', // Default role
+                role: 'user',
                 created_at: new Date().toISOString(),
                 business_code: null
               });
