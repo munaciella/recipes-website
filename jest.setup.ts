@@ -1,5 +1,8 @@
 import "@testing-library/jest-dom";
 import "@testing-library/react";
+import dotenv from "dotenv";
+
+dotenv.config({ path: ".env.local" });
 
 declare module "expect" {
   interface AsymmetricMatchers {}
@@ -26,8 +29,8 @@ Object.defineProperty(window, "matchMedia", {
     matches: false,
     media: query,
     onchange: null,
-    addListener: jest.fn(), // Deprecated
-    removeListener: jest.fn(), // Deprecated
+    addListener: jest.fn(), 
+    removeListener: jest.fn(),
     addEventListener: jest.fn(),
     removeEventListener: jest.fn(),
     dispatchEvent: jest.fn(),
