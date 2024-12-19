@@ -49,7 +49,6 @@ const SignupPage: NextPage = () => {
     }
   
     try {
-      // Sign up user in Supabase Auth
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
@@ -57,14 +56,12 @@ const SignupPage: NextPage = () => {
   
       if (authError) throw authError;
   
-      // Wait for the user to be created in Auth
       const user = authData.user;
   
       if (!user) {
         throw new Error('User creation failed. Please try again.');
       }
   
-      // Insert user details into your custom 'users' table
       const role = businessCode === '170282' ? 'business' : 'user';
   
       const { error: insertError } = await supabase
@@ -81,7 +78,6 @@ const SignupPage: NextPage = () => {
   
       if (insertError) throw insertError;
   
-      // Set session and handle redirection
       setSession(authData.session);
   
       toast.success('Successfully signed up and logged in');
