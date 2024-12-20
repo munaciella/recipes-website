@@ -32,6 +32,7 @@ const RootLayout = ({
 
   <html lang="en" suppressHydrationWarning>
     <head>
+    <meta name="google-site-verification" content="wleGvhWkcAEJa0zbVs-ttTaRQO29D6xTu0RBNz1XADo" />
       <link
         rel="icon"
         type="image/png"
