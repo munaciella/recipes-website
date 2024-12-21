@@ -42,24 +42,45 @@ const RecipesPage: NextPage = () => {
     fetchData();
   }, []);
 
+  // useEffect(() => {
+  //   const fetchUserVotes = async () => {
+  //     if (session) {
+  //       const { data: votes, error } = await supabase
+  //         .from('votes')
+  //         .select('recipe_id, vote_type')
+  //         .eq('user_id', userDetails?.user_id);
+        
+  //       if (error) {
+  //         console.error('Error fetching user votes:', error);
+  //       } else {
+  //         const votesMap = new Map<number, string>();
+  //         votes?.forEach(vote => votesMap.set(vote.recipe_id, vote.vote_type));
+  //         setUserVotes(votesMap);
+  //       }
+  //     }
+  //   };
+
+  //   fetchUserVotes();
+  // }, [session, userDetails]);
+
   useEffect(() => {
     const fetchUserVotes = async () => {
-      if (session) {
-        const { data: votes, error } = await supabase
-          .from('votes')
-          .select('recipe_id, vote_type')
-          .eq('user_id', userDetails?.user_id);
-        
-        if (error) {
-          console.error('Error fetching user votes:', error);
-        } else {
-          const votesMap = new Map<number, string>();
-          votes?.forEach(vote => votesMap.set(vote.recipe_id, vote.vote_type));
-          setUserVotes(votesMap);
-        }
+      if (!session || !userDetails?.user_id) return;
+  
+      const { data: votes, error } = await supabase
+        .from('votes')
+        .select('recipe_id, vote_type')
+        .eq('user_id', userDetails.user_id);
+  
+      if (error) {
+        console.error('Error fetching user votes:', error);
+      } else {
+        const votesMap = new Map<number, string>();
+        votes?.forEach(vote => votesMap.set(vote.recipe_id, vote.vote_type));
+        setUserVotes(votesMap);
       }
     };
-
+  
     fetchUserVotes();
   }, [session, userDetails]);
 
