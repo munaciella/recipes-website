@@ -12,7 +12,9 @@
     "test": "jest",
     "test:unit": "jest --",
     "test:coverage": "jest --collectCoverage --",
-    "test:unit:watch": "jest --watch"
+    "test:unit:watch": "jest --watch",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "@formspree/react": "^2.5.1",
@@ -46,6 +48,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.19",
+    "cypress": "^13.17.0",
     "dotenv": "^16.4.7",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.3",
