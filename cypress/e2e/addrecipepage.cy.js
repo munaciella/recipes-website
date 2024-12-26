@@ -16,7 +16,6 @@ describe('Add Recipe Page', () => {
     });
   
     it('should validate inputs and show error messages for invalid data', () => {
-      // Submit the form without filling in required fields
       cy.get('button[type="submit"]').click();
     });
   
