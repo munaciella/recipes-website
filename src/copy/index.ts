@@ -39,7 +39,7 @@ export const copy = {
   contact: {
     contactDescription: {
       heading: "Get in Touch",
-      button: "Work with me",
+      button: "Submit Form",
     },
   },
   about: {
