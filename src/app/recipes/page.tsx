@@ -186,17 +186,17 @@ const RecipesPage: NextPage = () => {
     router.push(`/recipe/${recipe_id}`);
   };
 
-  const handleSavedRecipesClick = () => {
-    router.push('/saved-recipes');
-  };
+  // const handleSavedRecipesClick = () => {
+  //   router.push('/saved-recipes');
+  // };
 
-  const handleAddRecipeClick = () => {
-    router.push('/add-recipe');
-  };
+  // const handleAddRecipeClick = () => {
+  //   router.push('/add-recipe');
+  // };
 
-  const handleSuggestRecipeClick = () => {
-    router.push('/suggest-recipe');
-  };
+  // const handleSuggestRecipeClick = () => {
+  //   router.push('/suggest-recipe');
+  // };
 
   if (!loading && error) {
     return <NotFound statusCode={404} />;
@@ -204,7 +204,7 @@ const RecipesPage: NextPage = () => {
 
   return (
     <section className="flex flex-col items-center p-4 mt-16 md:mt-24 lg:mt-24">
-      <div className="w-full max-w-8xl flex flex-col md:flex-row justify-center md:justify-end mb-8 md:gap-2 lg:gap-2">
+      {/* <div className="w-full max-w-8xl flex flex-col md:flex-row justify-center md:justify-end mb-8 md:gap-2 lg:gap-2">
         {session && userDetails?.role && (
           userDetails.role === 'business' ? (
             <Button
@@ -222,7 +222,7 @@ const RecipesPage: NextPage = () => {
             Saved Recipes
           </Button>
         )}
-      </div>
+      </div> */}
 
       <h1 className="text-4xl font-bold text-center mb-6">
         Browse Our Delicious Recipes

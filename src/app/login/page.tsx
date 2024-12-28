@@ -3,6 +3,7 @@
 'use client';
 import React, { useState, useEffect, useCallback } from 'react';
 import { NextPage } from 'next';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -22,6 +23,11 @@ const LoginPage: NextPage = () => {
   const { setSession, getStoredIntendedURL, clearStoredIntendedURL } =
     useSupabaseAuth();
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   const handleSuccessfulLogin = useCallback(() => {
     setLoading(false);
@@ -270,13 +276,35 @@ const LoginPage: NextPage = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
             />
-            <Input
-              type="password"
+            {/* <Input
+              type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
-            />
+            /> */}
+            <div className="relative w-full">
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute inset-y-0 right-3 flex items-center"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? (
+                  <EyeSlashIcon className="h-5 w-5" />
+                ) : (
+                  <EyeIcon className="h-5 w-5" />
+                )}
+              </button>
+            </div>
+
             <Button
               type="submit"
               className="w-full py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90"
@@ -290,7 +318,11 @@ const LoginPage: NextPage = () => {
           onClick={handleGoogleSignIn}
           className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex justify-center items-center"
         >
-          <img src="/assets/google-icon.png" alt="Google Logo" className="w-6 h-6 mr-2" />
+          <img
+            src="/assets/google-icon.png"
+            alt="Google Logo"
+            className="w-6 h-6 mr-2"
+          />
           Continue with Google
         </Button>
         <p className="text-center text-card-foreground dark:text-white mt-4">

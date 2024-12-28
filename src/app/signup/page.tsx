@@ -9,6 +9,7 @@ import { SkeletonCard } from '@/components/ui/SkeletonCard';
 import { supabase } from '@/lib/supabaseClient';
 import { useSupabaseAuth } from '@/context/AuthContext';
 import { toast } from '@/components/ui/use-toast';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 
 const SignupPage: NextPage = () => {
   const [email, setEmail] = useState<string>('');
@@ -18,6 +19,11 @@ const SignupPage: NextPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const { setSession } = useSupabaseAuth();
+  const [showPassword, setShowPassword] = useState(false);
+  
+    const togglePasswordVisibility = () => {
+      setShowPassword((prev) => !prev);
+    };
 
   const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
   const validateName = (name: string) => /^[a-zA-Z\s]+$/.test(name);
@@ -197,13 +203,28 @@ const SignupPage: NextPage = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
             />
-            <Input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
-            />
+            <div className="relative w-full">
+  <Input
+    type={showPassword ? 'text' : 'password'}
+    placeholder="Password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
+  />
+  <button
+    type="button"
+    onClick={togglePasswordVisibility}
+    className="absolute inset-y-0 right-3 flex items-center"
+    aria-label={showPassword ? 'Hide password' : 'Show password'}
+  >
+    {showPassword ? (
+      <EyeSlashIcon className="h-5 w-5" />
+    ) : (
+      <EyeIcon className="h-5 w-5" />
+    )}
+  </button>
+</div>
+
             <Input
               type="text"
               placeholder="Business User Code (optional)"
