@@ -470,7 +470,7 @@ const RecipeDetailPage: NextPage = () => {
   if (error && !recipe) return <NotFound statusCode={404} />;
 
   return (
-    <section className="flex flex-col p-4 mt-12">
+    <section className="flex flex-col p-4 mt-20">
       <h1 className="text-4xl font-bold mb-6 text-center">Recipe Details</h1>
 
       {loading ? (

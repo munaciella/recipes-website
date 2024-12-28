@@ -67,7 +67,6 @@ const SuggestRecipePage: NextPage = () => {
     try {
       setLoading(true);
 
-      // Get the authenticated user's UUID
       const {
         data: { user },
         error: authError,
@@ -92,7 +91,6 @@ const SuggestRecipePage: NextPage = () => {
 
       const userId = userData.user_id;
 
-      // Insert the suggestion
       const { error } = await supabase.from('suggestions').insert([
         {
           recipe_name: capitalizeWords(recipe_name),
@@ -125,12 +123,11 @@ const SuggestRecipePage: NextPage = () => {
   if (loading) return <SkeletonCard />;
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center bg-background dark:bg-background w-full px-4 lg:px-0 lg:mt-0 md:px-0 md:mt-0 sm:px-0 sm:mt-0">
-      <h1 className="text-4xl font-bold text-center mb-6 xl:mt-28 text-card-foreground dark:text-white">
-        Suggest a Recipe
-      </h1>
-
-      <div className="w-full lg:w-[70%] xl:w-[60%] md:w-[60%] bg-card rounded-lg shadow-lg p-8 space-y-6 border border-border dark:border-slate-700 mt-4">
+    <section className="min-h-screen flex flex-col items-center justify-start bg-background dark:bg-background w-full px-4 lg:px-0 mt-24 sm:mt-28 md:mt-32">
+      <div className="w-full lg:w-[70%] xl:w-[60%] md:w-[60%] bg-card rounded-lg shadow-lg p-8 space-y-6 border border-border dark:border-slate-700">
+        <h1 className="text-4xl font-bold text-center mb-6 text-card-foreground dark:text-white mt-2">
+          Suggest a Recipe
+        </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             name="recipe_name"

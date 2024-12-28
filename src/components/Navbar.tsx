@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { copy } from '@/copy';
 import { useTabs } from '@/hooks';
 import { ModeToggle } from './ModeToggle';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaUserCircle } from 'react-icons/fa';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { useTheme } from 'next-themes';
@@ -138,13 +138,18 @@ export const Navbar: FC = () => {
               </li>
             </>
           ) : (
+            // <li>
+            //   <button
+            //     onClick={handleLogout}
+            //     className="inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary"
+            //   >
+            //     Log Out
+            //   </button>
+            // </li>
             <li>
-              <button
-                onClick={handleLogout}
-                className="inline-flex items-center border-b-2 text-lg font-medium p-2 sm:justify-between border-transparent hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary"
-              >
-                Log Out
-              </button>
+              <Link href="/user" aria-label="User Page">
+                <FaUserCircle className="text-3xl text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary" />
+              </Link>
             </li>
           )}
         </ol>
