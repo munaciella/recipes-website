@@ -15,6 +15,7 @@ import { toast } from '@/components/ui/use-toast';
 const LoginPage: NextPage = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [showPassword, setShowPassword] = useState(false);
   const [businessCode, setBusinessCode] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [isBusinessUser, setIsBusinessUser] = useState<boolean>(false);
@@ -23,7 +24,6 @@ const LoginPage: NextPage = () => {
   const { setSession, getStoredIntendedURL, clearStoredIntendedURL } =
     useSupabaseAuth();
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);

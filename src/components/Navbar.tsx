@@ -26,16 +26,16 @@ export const Navbar: FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Recipe[]>([]);
 
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (!error) {
-      setSession(null);
-      toast.success('Successfully logged out');
-      router.push('/');
-    } else {
-      toast.error(`Error: ${error.message}`);
-    }
-  };
+  // const handleLogout = async () => {
+  //   const { error } = await supabase.auth.signOut();
+  //   if (!error) {
+  //     setSession(null);
+  //     toast.success('Successfully logged out');
+  //     router.push('/');
+  //   } else {
+  //     toast.error(`Error: ${error.message}`);
+  //   }
+  // };
 
   const handleSearch = async () => {
     if (!searchQuery) {

@@ -7,7 +7,7 @@ import { HiBars4 } from 'react-icons/hi2';
 import { copy } from '@/copy';
 import { ModeToggle } from './ModeToggle';
 import { useTheme } from 'next-themes';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaUserCircle } from 'react-icons/fa';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { useSupabaseAuth } from '@/context/AuthContext';
@@ -43,7 +43,7 @@ export const MobileNavbar: FC = () => {
       toast.info('Please enter a search term');
       return;
     }
-  
+
     try {
       const { data, error } = await supabase
         .from('recipes')
@@ -51,8 +51,8 @@ export const MobileNavbar: FC = () => {
         .or(
           `title.ilike.%${searchQuery}%,ingredients.ilike.%${searchQuery}%,difficulty.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`
         );
-        console.log('Search data:', data);
-  
+      console.log('Search data:', data);
+
       if (error) {
         toast.error(`Error: ${error.message}`);
       } else if (data.length === 0) {
@@ -134,9 +134,10 @@ export const MobileNavbar: FC = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="border border-slate-300 rounded-lg py-1 px-2 shadow-md dark:bg-slate-800 dark:text-white w-full"
             />
-            <Button 
-            onClick={handleSearch}
-            className="primary ml-0.5 shadow-md text-slate-900 dark:text-white">
+            <Button
+              onClick={handleSearch}
+              className="primary ml-0.5 shadow-md text-slate-900 dark:text-white"
+            >
               <FaSearch />
             </Button>
           </div>
@@ -179,9 +180,12 @@ export const MobileNavbar: FC = () => {
             ) : (
               <>
                 <li className="px-4 py-2 w-full">
-                  <button onClick={handleLogout} className="hover:underline">
+                  {/* <button onClick={handleLogout} className="hover:underline">
                     Log Out
-                  </button>
+                  </button> */}
+                  <Link href="/user" aria-label="User Page">
+                <FaUserCircle className="text-3xl text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary" />
+              </Link>
                 </li>
                 <li className="pt-2">
                   <hr className="bg-gray-800 w-full" />

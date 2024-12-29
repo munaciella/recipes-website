@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
+'use client';
 import React, { useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/navigation';
@@ -14,18 +14,19 @@ import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 const SignupPage: NextPage = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState<string>('');
   const [businessCode, setBusinessCode] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const { setSession } = useSupabaseAuth();
-  const [showPassword, setShowPassword] = useState(false);
-  
-    const togglePasswordVisibility = () => {
-      setShowPassword((prev) => !prev);
-    };
 
-  const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const validateEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
   const validateName = (name: string) => /^[a-zA-Z\s]+$/.test(name);
   const validatePassword = (password: string) =>
     /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[^\s]{8,}$/.test(password);
@@ -33,19 +34,19 @@ const SignupPage: NextPage = () => {
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-  
+
     if (!validateEmail(email)) {
       toast.error('Please enter a valid email address.');
       setLoading(false);
       return;
     }
-  
+
     if (!validateName(name)) {
       toast.error('Name should only contain letters.');
       setLoading(false);
       return;
     }
-  
+
     if (!validatePassword(password)) {
       toast.error(
         'Password must be at least 8 characters long, include at least one uppercase letter, one number, one special character, and no spaces.'
@@ -53,39 +54,37 @@ const SignupPage: NextPage = () => {
       setLoading(false);
       return;
     }
-  
+
     try {
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
       });
-  
+
       if (authError) throw authError;
-  
+
       const user = authData.user;
-  
+
       if (!user) {
         throw new Error('User creation failed. Please try again.');
       }
-  
+
       const role = businessCode === '170282' ? 'business' : 'user';
-  
-      const { error: insertError } = await supabase
-        .from('users')
-        .insert([
-          {
-            user_uuid: user.id,
-            email: user.email,
-            name,
-            role,
-            business_code: businessCode ? parseInt(businessCode, 10) : null,
-          },
-        ]);
-  
+
+      const { error: insertError } = await supabase.from('users').insert([
+        {
+          user_uuid: user.id,
+          email: user.email,
+          name,
+          role,
+          business_code: businessCode ? parseInt(businessCode, 10) : null,
+        },
+      ]);
+
       if (insertError) throw insertError;
-  
+
       setSession(authData.session);
-  
+
       toast.success('Successfully signed up and logged in');
       setTimeout(() => router.push('/'), 2000);
     } catch (error: unknown) {
@@ -183,11 +182,13 @@ const SignupPage: NextPage = () => {
   return (
     <section className="min-h-screen flex flex-col items-center justify-center bg-background dark:bg-background">
       <div className="w-full max-w-md bg-card rounded-lg shadow-lg p-8 space-y-6 border border-border dark:border-slate-700">
-      <h1 className="text-3xl font-bold mb-8 mt-6 text-center text-card-foreground dark:text-white">Sign Up for VeloVegans</h1>
+        <h1 className="text-3xl font-bold mb-8 mt-6 text-center text-card-foreground dark:text-white">
+          Sign Up for VeloVegans
+        </h1>
 
-      {loading ? (
-        <SkeletonCard />
-      ) : (
+        {loading ? (
+          <SkeletonCard />
+        ) : (
           <form onSubmit={handleSignUp} className="space-y-4">
             <Input
               type="text"
@@ -204,26 +205,26 @@ const SignupPage: NextPage = () => {
               className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
             />
             <div className="relative w-full">
-  <Input
-    type={showPassword ? 'text' : 'password'}
-    placeholder="Password"
-    value={password}
-    onChange={(e) => setPassword(e.target.value)}
-    className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
-  />
-  <button
-    type="button"
-    onClick={togglePasswordVisibility}
-    className="absolute inset-y-0 right-3 flex items-center"
-    aria-label={showPassword ? 'Hide password' : 'Show password'}
-  >
-    {showPassword ? (
-      <EyeSlashIcon className="h-5 w-5" />
-    ) : (
-      <EyeIcon className="h-5 w-5" />
-    )}
-  </button>
-</div>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 border border-input rounded-lg bg-card dark:bg-input dark:border-border text-card-foreground"
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute inset-y-0 right-3 flex items-center"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? (
+                  <EyeSlashIcon className="h-5 w-5" />
+                ) : (
+                  <EyeIcon className="h-5 w-5" />
+                )}
+              </button>
+            </div>
 
             <Input
               type="text"
@@ -239,13 +240,17 @@ const SignupPage: NextPage = () => {
               Sign Up with Email
             </Button>
           </form>
-      )}
-      <Button
+        )}
+        <Button
           type="button"
           onClick={handleGoogleSignUp}
           className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex justify-center items-center"
         >
-          <img src="/assets/google-icon.png" alt="Google Logo" className="w-6 h-6 mr-2" />
+          <img
+            src="/assets/google-icon.png"
+            alt="Google Logo"
+            className="w-6 h-6 mr-2"
+          />
           Sign Up with Google
         </Button>
         <p className="text-center text-card-foreground dark:text-white mt-4">
@@ -256,7 +261,7 @@ const SignupPage: NextPage = () => {
           >
             Log In here
           </button>
-          </p>
+        </p>
       </div>
     </section>
   );
