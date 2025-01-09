@@ -1,6 +1,6 @@
 # 🌱 VeloVegans
 
-Welcome to **VeloVegans**, your go-to platform for exploring the world of veganism. From the latest news on vegan food and environmental updates to delicious recipes and lifestyle tips, VeLoveVegans offers everything you need to embrace and celebrate a plant-based lifestyle.
+Welcome to **VeloVegans**, your go-to platform for exploring the world of veganism. From the latest news on vegan food and environmental updates to delicious recipes and lifestyle tips, VeloVegans offers everything you need to embrace and celebrate a plant-based lifestyle.
 
 🌐 **Live Site:** [www.velovegans.co.uk](https://www.velovegans.co.uk)
 
