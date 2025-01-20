@@ -108,4 +108,5 @@ For any questions or suggestions, visit our [Contact Page](https://www.velovegan
 ---
 
 ### 💚 Thank You for Supporting VeloVegans!
+
 Together, let's make vegan living accessible, enjoyable, and impactful! 🌱
