@@ -1,9 +1,15 @@
 {
-    "redirects": [
-      {
-        "source": "https://www.velovegans.co.uk/:path*",
-        "destination": "https://velovegans.co.uk/:path*",
-        "permanent": true
-      }
-    ]
-  }
+  "redirects": [
+    {
+      "source": "/:path*", 
+      "has": [
+        {
+          "type": "host",
+          "value": "www.velovegans.co.uk"
+        }
+      ],
+      "destination": "https://velovegans.co.uk/:path*",
+      "permanent": true
+    }
+  ]
+}
